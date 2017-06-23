@@ -1,0 +1,1114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>无标题文档</title>
+  <script type="text/javascript" src="../javascripts/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="../javascripts/youtu.js"></script>
+  <style type="text/css">
+    ol, ul, li {
+      list-style: none;
+    }
+    body{
+
+
+    }
+    body{
+      font-size: 16px;
+      background-color: #fff;
+    }
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+      word-wrap: break-word;
+      margin: 0px;
+      padding: 0px;
+    }
+    a{
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:underline;
+    }
+    .top_title{
+      width:100%;
+      height:40px;
+      background-color:#428bca;
+
+    }
+    .btnClose{
+      float:right;
+      color:#FFF;
+      font-weight:bold;
+      line-height:40px;
+      margin-right:5px;
+      text-decoration:none;
+    }
+.prompt_box{
+  text-align: center;
+margin-top: 50px;
+  color: #aaa;
+
+}
+    .add_box{
+      width:100%;
+      height:160px;
+    }
+    .add_select{
+      width:180px;
+      height:25px;
+      margin-left:15px;
+    }
+    .add_title{
+      font-size:14px;
+      margin-left:30px;
+
+    }
+    .add_one_div{
+      width:100%;
+      float:left;
+      margin-top:5px;
+
+    }
+    .add_two_div{
+      width:100%;
+      float:left;
+      margin-top:15px;
+    }
+    .add_three_div{
+      width:100%;
+      float:left;
+      margin-top:15px;
+    }
+    .add_input{
+      width:500px;
+      height:22px;
+      margin-left:15px;
+    }
+
+    .add_button{
+      width: 280px;
+      height: 32px;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      background: #269bd7;
+      padding: 0 0 3px;
+      border: 0;
+      color:#FFF;
+      margin-left:150px;
+      margin-top:10px;
+    }
+    .kc_nsz h1 {
+      font-size: 16px;
+      color: #0096d6;
+      background: #e3f5fd;
+      padding: 2px 5px;
+    }
+    .select_kc_shuang {
+      margin: 10px auto;
+      height: 120px;
+      padding: 5px 10px 0 20px;
+      overflow-y: auto;
+      background: #F7F7F7;
+    }
+    .select_kc_shuang li {
+      width: 47%;
+      margin-right: 10px;
+      margin-top: 5px;
+      float: left;
+      border: 1px solid #efefef;
+      text-align: left;
+      height: 30px;
+      line-height: 30px;
+      background: #fff;
+      border-radius: 2px;
+    }
+    .select_kc_shuang li a {
+      height: 25px;
+      line-height: 25px;
+    }
+    .select_kc_shuang li:hover {
+      background: #0096d6;
+      color: #fff;
+      text-decoration:none;
+    }
+    .select_kc_shuang a:hover{
+      text-decoration:none;
+    }
+    span a.del3, span a.del3:visited {
+      float: right;
+      background: url(../images/del.png) no-repeat 0 0;
+      width: 20px;
+      height: 20px;
+      display: block;
+      font-size: 0;
+      background-position: 0 0px;
+    }
+    span a.del3:hover {
+      background-position: 0 -20px;
+      text-decoration:none;
+    }
+
+
+    .clearfix {
+      display: block;
+      clear: both;
+      height: 0;
+    }
+    .class_kc {
+      clear: both;
+      border-bottom: none;
+      padding: 2px 5px;
+      font-size: 16px;
+    }
+    .class_kc ul li {
+      padding: 7px 0;
+    }
+    .class_kc li label {
+      display: block;
+      width: 6%;
+      float: left;
+      font-weight: bold;
+      text-align: left;
+      color: #888;
+      padding-top: 7px;
+    }
+    .class_kc li span {
+      float: right;
+      width: 92%;
+      margin-right: 5px;
+    }
+    .class_kc li span a, .class_kc li span a:visited {
+      padding: 0px 7px;
+      margin: 2px 0;
+      display: inline-block;
+      color: #888;
+      border-radius: 2px;
+      border: 1px solid #efefef;
+      background: #fff;
+    }
+    .class_kc li span a.cur2, .class_kc li span a.cur2:visited {
+      background: #269bd7;
+      color: #fff;
+    }
+    *+html .class_kc li span.two_pai {
+      overflow-y: auto;
+      height: 145px; !important;
+
+
+    }
+    .class_kc li span.two_pai {
+      overflow-y: auto;
+
+
+      height: 125px;
+
+    }
+    .class_kc li span.two_pai a {
+      width: 300px;
+    }
+
+    .aui_buttons {
+      background-color: #F6F6F6;
+      border-top: 1px solid #EBEBEB;
+      border-bottom: 1px solid #CCC;
+      box-shadow: inset 0 -3px 5px rgba(204, 204, 204, 0.3), inset 0 1px 0 rgba(255, 255, 255, .8);
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+    }
+    .aui_buttons {
+      padding: 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .aui_buttons button:hover {
+      color: #032b3e;
+      border-color: #666;
+    }
+    .aui_buttons button {
+      width: 63px;
+      height: 27px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      background: #269bd7;
+      padding: 0 0 3px;
+      padding: 0\9;
+      border: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="top_title">
+  <div class="btnClose">
+    <a href="javascript:void(0);" id="btnClose" class="btnClose">关闭</a>
+
+  </div>
+
+</div>
+
+
+<div class="kc_nsz">
+
+  <!--<h1><span>&nbsp;</span>添加版本</h1>
+
+  <div class="add_box">
+  <div class="add_one_div">
+  <span class="add_title">学科</span>
+  <select class="add_select">
+   <option value ="艺术">艺术</option>
+    <option value ="语文">语文</option>
+    <option value="数学">数学</option>
+    <option value="英语">英语</option>
+    <option value="物理">物理</option>
+    <option value="化学">化学</option>
+    <option value="音乐">音乐</option>
+    <option value="美术">美术</option>
+    <option value="科学">科学</option>
+    <option value="品德">品德</option>
+    <option value="生物">生物</option>
+    <option value="地理">地理</option>
+    <option value="政治">政治</option>
+    <option value="历史">历史</option>
+    <option value="信息技术">信息技术</option>
+    <option value="通用技术">通用技术</option>
+
+
+  </select>
+  <span class="add_title">年级</span>
+  <select class="add_select">
+   <option value ="一年级">一年级</option>
+    <option value ="二年级">二年级</option>
+    <option value="三年级">三年级</option>
+     <option value="四年级">四年级</option>
+      <option value="五年级">五年级</option>
+      <option value="六年级">六年级</option>
+      <option value="七年级">七年级</option>
+      <option value="八年级">八年级</option>
+      <option value="九年级">九年级</option>
+  </select>
+  </div>
+
+  <div class="add_two_div">
+  <span class="add_title">学期</span>
+  <select class="add_select">
+   <option value ="上学期 ">上学期 </option>
+    <option value ="下学期">下学期</option>
+  </select>
+  </div>
+
+  <div class="add_three_div">
+  <span class="add_title">版本</span>
+  <input type="text"  class="add_input"/>
+
+  </div>
+
+  <button class="add_button"> 添加</button>
+
+
+
+
+  </div>-->
+
+
+
+
+
+  <h1>
+    <span>&nbsp;</span>当前版本
+  </h1>
+  <div class="clearfix"></div>
+  <div class="select_kc_shuang">
+    <ul id="edition_index">
+
+
+    </ul>
+<div class="prompt_box" style="display: none;">
+  请选择您的常用版本
+</div>
+
+    <div class="clearfix">
+    </div>
+
+  </div>
+  <h1><span>&nbsp;</span>增加版本</h1>
+  <div class="clearfix"></div>
+
+
+  <div class="class_kc">
+    <ul class="">
+      <li>
+        <label>学科:</label>
+                    <span id="difficulty" class="del_sc">
+
+
+
+ <a href="javascript:void(0);" id="subject0">
+   <input name="selectSubjectCodes" type="checkBox" value="0" onclick="input_checkbox('subject0')">
+   艺术
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject1">
+   <input name="selectSubjectCodes" type="checkBox" value="1"  onclick="input_checkbox('subject1')">
+   语文
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject2">
+   <input name="selectSubjectCodes" type="checkBox" value="2"  onclick="input_checkbox('subject2')">
+   数学
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject3">
+   <input name="selectSubjectCodes" type="checkBox" value="3" onclick="input_checkbox('subject3')">
+   英语
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject4">
+   <input name="selectSubjectCodes" type="checkBox" value="4" onclick="input_checkbox('subject4')">
+   物理
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject5">
+   <input name="selectSubjectCodes" type="checkBox" value="5" onclick="input_checkbox('subject5')">
+   化学
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject6">
+   <input name="selectSubjectCodes" type="checkBox" value="6" onclick="input_checkbox('subject6')">
+   音乐
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject7">
+   <input name="selectSubjectCodes" type="checkBox" value="7" onclick="input_checkbox('subject7')">
+   美术
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject8">
+   <input name="selectSubjectCodes" type="checkBox" value="8" onclick="input_checkbox('subject8')">
+   科学
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject9">
+   <input name="selectSubjectCodes" type="checkBox" value="9" onclick="input_checkbox('subject9')">
+   品德
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject10">
+   <input name="selectSubjectCodes" type="checkBox" value="10" onclick="input_checkbox('subject10')">
+   生物
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject11">
+   <input name="selectSubjectCodes" type="checkBox" value="11"  onclick="input_checkbox('subject11')">
+   地理
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject12">
+   <input name="selectSubjectCodes" type="checkBox" value="12" onclick="input_checkbox('subject12')">
+   政治
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject13">
+   <input name="selectSubjectCodes" type="checkBox" value="13" onclick="input_checkbox('subject13')">
+   历史
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject14">
+   <input name="selectSubjectCodes" type="checkBox" value="14" onclick="input_checkbox('subject14')">
+   信息技术
+ </a>
+
+
+
+ <a href="javascript:void(0);" id="subject15">
+   <input name="selectSubjectCodes" type="checkBox" value="15" onclick="input_checkbox('subject15')">
+   通用技术
+ </a>
+
+
+
+
+                    </span>
+        <div class="clearfix"></div>
+      </li>
+
+
+      <li>
+        <label>年级:</label>
+                    <span id="qtype_id">
+
+
+                    <a href="javascript:void(0);" id="grade0">
+                      <input name="selectGradeCodes" type="checkBox" value="0" onclick="input_checkbox('grade0')">
+                      一年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade1">
+                      <input name="selectGradeCodes" type="checkBox" value="1" onclick="input_checkbox('grade1')">
+                      二年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade2">
+                      <input name="selectGradeCodes" type="checkBox" value="2" onclick="input_checkbox('grade2')">
+                      三年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade3">
+                      <input name="selectGradeCodes" type="checkBox" value="3" onclick="input_checkbox('grade3')">
+                      四年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade4">
+                      <input name="selectGradeCodes" type="checkBox" value="4" onclick="input_checkbox('grade4')">
+                      五年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade5">
+                      <input name="selectGradeCodes" type="checkBox" value="5" onclick="input_checkbox('grade5')">
+                      六年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade6">
+                      <input name="selectGradeCodes" type="checkBox" value="6"  onclick="input_checkbox('grade6')">
+                      七年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade7">
+                      <input name="selectGradeCodes" type="checkBox" value="7" onclick="input_checkbox('grade7')">
+                      八年级</a>
+
+
+
+
+                    <a href="javascript:void(0);" id="grade8">
+                      <input name="selectGradeCodes" type="checkBox" value="8" onclick="input_checkbox('grade8')">
+                      九年级</a>
+
+
+
+                      <!-- 高中 -->
+
+					<a href="javascript:void(0);" id="grade9">
+                      <input name="selectStageCodes" type="checkBox" value="9" onclick="input_checkbox('grade9')">
+                      高中</a>
+
+                    </span>
+        <div class="clearfix"></div>
+      </li>
+
+      <li>
+        <label>学期:</label>
+                    <span id="semester_box">
+                    <a href="javascript:void(0);"  onclick="semester_list(1111)" id="1111" class="cur2">上学期</a>
+                     <a href="javascript:void(0);"  onclick="semester_list(2222)" id="2222">下学期</a>  </span>
+        <div class="clearfix"></div>
+      </li>
+
+
+
+
+      <li >
+        <label>版本:</label>
+        <!--  <span id="difficulty" ><a href="javascript:void(0)"><input id="selectAll" name="selectAll"  type="checkBox"  value="">全选</a></span> -->
+
+                    <span id="edition_box" class="two_pai">
+                    <!-- 小学  初中 -->
+
+                     </span>
+
+        <div class="clearfix"></div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="aui_buttons">
+    <button type="button" id="submit">确定</button>
+  </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+  function   input_checkbox(id){
+    if($("#"+id).prop("checked")==true){
+      $("#"+id).prop("checked",false);
+      $("#"+id).removeClass('cur2');
+      query_edition()
+
+    }else {
+      query_edition()
+      $("#"+id).prop("checked",true);
+      $("#"+id).addClass('cur2');
+    }
+
+  }
+
+  //ajax调用
+  youtu.ajax("/questions?"+ new Date().getTime(),"","get",function (data) {
+    if(data.success==0){
+      var jsondata=JSON.parse(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+
+      var Edition=jsondata.data.Editions;
+      var html = '';
+        if($("#edition_index li").size()==0){
+            $(".prompt_box").show();
+        }else {
+            $(".prompt_box").hide();
+        }
+      for(var i=0;i<Edition.length;i++){
+//          alert(Edition[i].grade);
+//          html+='<li id="'+Edition[i].id+'">';
+//          html+='<a  title="'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'" onclick="hour_list('+Edition[i].id+')">'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'</a>';
+//          html+='</li>';
+
+        html+='<li>';
+        html+='<span><a href="javascript:void(0);" class="del3" onclick="delete_list('+Edition[i].id+')"></a></span>';
+        html+='<a>&nbsp'+Edition[i].grade+'&nbsp'+Edition[i].semester+'&nbsp'+Edition[i].subject+'&nbsp'+Edition[i].edition+'</a>';
+        html+='</li>';
+
+      }
+      $("#edition_index").append(html);
+      if($("#edition_index li").size()==0){
+        $(".prompt_box").show();
+      }else {
+        $(".prompt_box").hide();
+      }
+
+    }else{
+      alert("请求失败");
+    }
+
+
+  });
+
+
+
+
+  $(document).ready(function() {
+
+    // parent.SetHeight($(".panel-primary").height());
+    $("#btnClose").click(function () {
+      //parent.$("#bg,#bgiframe").remove();
+      parent.remove_box();
+      //parent.location.reload();
+
+if($("#edition_index li").size()>0){
+  parent.location.reload();
+}else {
+  alert("尚未选择任何版本");
+  return
+}
+
+    });
+    /* $('input[type=checkbox]').click(function(){
+     // $(this).attr('disabled','disabled');
+     if($("input[name='test']:checked"))
+     {
+     alert("111111")
+     //   $("input[name='test']").attr('disabled','disabled');
+     }
+     else{
+     alert("22222");
+     }
+     });
+     $("#count").click(function(){
+     $('input').live('click',function(){
+     alert($('input:checked').length);
+     });
+     })
+     */
+    var class_submit = [];
+    var grade_submit = [];
+    var semester__submit = [];
+
+  })
+
+  //$("#difficulty a").on('click',function(){
+  // alert("22222");
+  //  $("#"+id).youcolor("cur2","#difficulty a");
+  //})
+
+  var abcd=[];
+  $("#submit").on('click',function(){
+
+    var edition_value =[];
+    $('input[name="selectBookIds"]:checked').each(function(){
+
+      edition_value.push($(this).val());
+
+    });
+
+//      if($("#"+id).prop("checked")==true){
+//alert("1");
+//        $("#"+id).prop("checked",false);
+//      }else {
+//        alert("2");
+//        $("#"+id).prop("checked",true);
+//      }
+
+
+
+   // $("#edition_box").html(edition_value)
+    if(edition_value.length==0){
+      alert("请选择版本");
+      return false
+    }
+
+//   var  data=JSON.stringify(
+//        id:edition_value
+//      )
+
+
+    $.ajax({
+      url: '/questions/update_edition?'+ new Date().getTime(),
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        id:abcd
+      }),
+      success: function(data){
+        if(data.success==0) {
+          $(".prompt_box").hide();
+          var jsondata = JSON.parse(JSON.stringify(data));
+          //alert(JSON.stringify(data));
+          var Edition=jsondata.data.Editions;
+       //   window.location.href = window.location.href;
+
+          youtu.ajax("/questions?"+ new Date().getTime(),"","get",function (data) {
+            if(data.success==0){
+              $("#edition_index").html("");
+              var jsondata=JSON.parse(JSON.stringify(data));
+              //alert(JSON.stringify(data));
+
+              var Edition=jsondata.data.Editions;
+              var html = '';
+
+              for(var i=0;i<Edition.length;i++){
+//          alert(Edition[i].grade);
+//          html+='<li id="'+Edition[i].id+'">';
+//          html+='<a  title="'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'" onclick="hour_list('+Edition[i].id+')">'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'</a>';
+//          html+='</li>';
+
+                html+='<li>';
+                html+='<span><a href="javascript:void(0);" class="del3" onclick="delete_list('+Edition[i].id+')"></a></span>';
+                html+='<a>&nbsp'+Edition[i].grade+'&nbsp'+Edition[i].semester+'&nbsp'+Edition[i].subject+'&nbsp'+Edition[i].edition+'</a>';
+                html+='</li>';
+
+              }
+
+              $("#edition_index").append(html);
+            }else{
+              alert("请求失败");
+            }
+
+
+          });
+
+
+
+          $("#edition_box").html("")
+          //学科
+//alert("22222");
+          var subject_value =[];
+          $('input[name="selectSubjectCodes"]:checked').each(function(){
+            subject_value.push($(this).val());
+
+          });
+
+          if(subject_value.length==0){
+
+            return
+          }
+          //alert(subject_value.length==0 ?'你还没有选择任何内容！':subject_value);
+
+//年级
+          var grade_value =[];
+          $('input[name="selectGradeCodes"]:checked').each(function(){
+            grade_value.push($(this).val());
+          });
+          if(subject_value.length==0){
+            alert("请选择年级");
+            return
+          }
+          // alert(grade_value.length==0 ?'你还没有选择任何内容！':grade_value);
+
+
+
+          //学期
+          var semester_value ="";
+          if($("#1111").attr('class')=="cur2"){
+            //semester_value.push("上学期");
+            semester_value ="上学期";
+          }
+          if($("#2222").attr('class')=="cur2"){
+            semester_value ="下学期";
+            // semester_value.push("下学期")
+
+          }
+//    alert(subject_value);
+//    alert(grade_value);
+//    alert(semester_value);
+//
+          $.ajax({
+            url: '/questions/query_edition?' + new Date().getTime(),
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+              subject: subject_value,
+              grade: grade_value,
+              semester: semester_value
+            }),
+            success: function (data) {
+              if (data.success == 0) {
+               /// alert("11111111");
+                var jsondata = JSON.parse(JSON.stringify(data));
+               // alert(JSON.stringify(data));
+                var Edition = jsondata.data.Editions;
+                var exsist = jsondata.data.exsist;
+                var all_array = jsondata.data.all_array;
+                var html = '';
+                for (var i = 0; i < Edition.length; i++) {
+
+                  html += '<a href="javascript:void(0);" id=' + Edition[i].id + '>';
+
+                  html += '<input id=' + Edition[i].id + ' name="selectBookIds" onclick="edition_list(' + Edition[i].id + ')" type="checkBox" value=' + Edition[i].id + '>';
+
+                  html += '&nbsp' + Edition[i].grade + '.' + Edition[i].semester + '.' + Edition[i].subject + '.' + Edition[i].edition;
+
+                  html += '</a>';
+
+                }
+                $("#edition_box").append(html);
+                var arr3 = [];
+                for (var s in exsist) {
+                  for (var x in all_array) {
+                    if (exsist[s] == all_array[x]) {
+                      arr3.push(exsist[s]);
+                    }
+                  }
+                }
+                for (var i = 0; i < arr3.length; i++) {
+
+                  $("#" + arr3[i]).addClass('cur2');
+
+                  $("#" + arr3[i]).find('input').prop("checked", "checked");
+                  $("#" + arr3[i]).find('input').attr("disabled", "disabled");
+                }
+              }
+              else {
+                alert("获取数据失败");
+                // alert("提交数据失败");
+
+              }
+            },
+            error: function () {
+              alert("获取数据失败");
+            }
+          })
+
+
+
+        }
+
+        else{
+          alert("获取数据失败");
+          // alert("提交数据失败");
+
+        }
+      },
+      error: function(){
+        alert("获取数据失败");
+      }
+
+    })
+
+  })
+
+
+  //  function hour_list2(){
+  //    //ajax调用
+  //    youtu.ajax("/questions","","get",function (data) {
+  //      if(data.success==0){
+  //        var jsondata=JSON.parse(JSON.stringify(data));
+  //        alert(JSON.stringify(data));
+  //
+  //        var Edition=jsondata.data.Editions;
+  //        var html = '';
+  //
+  //        for(var i=0;i<Edition.length;i++){
+  ////          alert(Edition[i].grade);
+  ////          html+='<li id="'+Edition[i].id+'">';
+  ////          html+='<a  title="'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'" onclick="hour_list('+Edition[i].id+')">'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'</a>';
+  ////          html+='</li>';
+  //
+  //          html+='<li>';
+  //          html+='<span><a href="javascript:void(0);" class="del3"></a></span>';
+  //          html+='<a>&nbsp'+Edition[i].grade+'&nbsp'+Edition[i].semester+'&nbsp'+Edition[i].subject+'&nbsp'+Edition[i].edition+'</a>';
+  //          html+='</li>';
+  //
+  //        }
+  //        $("#edition_index").append(html);
+  //      }else{
+  //        alert("请求失败");
+  //      }
+  //
+  //
+  //    });
+  //
+  //  }
+
+
+
+
+
+  function query_edition(){
+    abcd.length=0;
+    $("#edition_box").html("")
+    //学科
+
+    var subject_value =[];
+    $('input[name="selectSubjectCodes"]:checked').each(function(){
+      subject_value.push($(this).val());
+
+    });
+
+    if(subject_value.length==0){
+
+      return
+    }
+    //alert(subject_value.length==0 ?'你还没有选择任何内容！':subject_value);
+
+//年级
+    var grade_value =[];
+    $('input[name="selectGradeCodes"]:checked').each(function(){
+      grade_value.push($(this).val());
+    });
+    if(subject_value.length==0){
+      alert("请选择年级");
+      return
+    }
+    // alert(grade_value.length==0 ?'你还没有选择任何内容！':grade_value);
+
+
+
+    //学期
+    var semester_value ="";
+    if($("#1111").attr('class')=="cur2"){
+      //semester_value.push("上学期");
+      semester_value ="上学期";
+    }
+    if($("#2222").attr('class')=="cur2"){
+      semester_value ="下学期";
+      // semester_value.push("下学期")
+
+    }
+//  alert(subject_value);
+//  alert(grade_value);
+//  alert(semester_value);
+
+    $.ajax({
+      url: '/questions/query_edition?'+ new Date().getTime(),
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        subject:subject_value,
+        grade:grade_value,
+        semester:semester_value
+      }),
+      success: function(data){
+        if(data.success==0) {
+          var jsondata = JSON.parse(JSON.stringify(data));
+        //  alert(JSON.stringify(data));
+          var Edition=jsondata.data.Editions;
+          var exsist= jsondata.data.exsist;
+          var all_array= jsondata.data.all_array;
+          var html = '';
+          for(var i=0;i<Edition.length;i++){
+
+            html += '<a href="javascript:void(0);" id='+Edition[i].id+'>';
+
+            html += '<input id='+Edition[i].id+' name="selectBookIds" onclick="edition_list('+Edition[i].id+')" type="checkBox" value='+Edition[i].id+'>';
+
+            html +='&nbsp'+Edition[i].grade+'.'+Edition[i].semester+'.'+Edition[i].subject+'.'+Edition[i].edition;
+
+            html +='</a>';
+
+          }
+          $("#edition_box").append(html);
+          var arr3=[];
+          for(var s in exsist){
+            for(var x in all_array){
+              if(exsist[s]==all_array[x]){
+                arr3.push(exsist[s]);
+              }
+            }
+          }
+for (var i=0; i<arr3.length;i++){
+
+  $("#"+arr3[i]).addClass('cur2');
+
+  $("#"+arr3[i]).find('input').prop("checked","checked");
+  $("#"+arr3[i]).find('input').attr("disabled","disabled");
+}
+
+        }
+
+        else{
+          alert("获取数据失败");
+          // alert("提交数据失败");
+
+        }
+      },
+      error: function(){
+        alert("获取数据失败");
+      }
+
+    })
+
+
+  }
+
+  function delete_list(id){
+    var id=id;
+    //alert(id);
+    $.ajax({
+      url: '/questions/updatedel_edition?'+ new Date().getTime(),
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        id:id
+      }),
+      success: function(data){
+        if(data.success==0) {
+
+          window.location.href = window.location.href;
+        }
+
+        else{
+          alert("获取数据失败2");
+          // alert("提交数据失败");
+
+        }
+      },
+      error: function(){
+        alert("获取数据失败1");
+      }
+
+    })
+
+
+  }
+
+
+
+  function semester_list(id){
+
+    initDiv();
+    // $(this).css("background", "#588600");
+    $('#'+id).addClass('cur2');
+    query_edition()
+    //取消当前div的mouseout和mouseover事件
+    // $(this).unbind("mouseout");
+    //  $(this).unbind("mouseover");
+    function initDiv() {
+      $("#semester_box a").removeClass('cur2');
+      //$(list).mouseover(function () {
+      //     $(this).addClass(addclass);
+      //  })
+      //      .mouseout(function () {
+      //          $(this).removeClass(addclass);
+      //      })
+    }
+
+
+
+  }
+
+
+  function edition_list(id){
+    if($("#"+id).prop("checked")==true){
+      $("#"+id).prop("checked",false);
+      $("#"+id).removeClass('cur2');
+      alert(id);
+      var idx=id;
+      abcd.splice($.inArray(idx,arr),1);
+      abcd.go_duplicate();
+      alert(abcd)
+    }else {
+
+      $("#"+id).prop("checked",true);
+      $("#"+id).addClass('cur2');
+      abcd.push(id);
+      abcd.go_duplicate();
+      alert(abcd)
+    }
+
+  }
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

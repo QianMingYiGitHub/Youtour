@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var type = null; 
+        var user_id = null;
+        var corp_id = null;
+        var json_obj = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "type" ) {
+                    type = parseInt(paramObj[i]["value"]);
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                }
+            }
+
+            if(typeof(type)==null || typeof(type) == undefined || !user_id || !corp_id ) {
+                debug_trace("" + ((!type) ? "type" :"") + ((!user_id) ? " user_id" :"") + ((!corp_id) ? " corp_id" :"") + " 参数错误");
+            }
+        }
+
+        function get_homework_list() {
+
+            json_obj = null;
+
+            var req_json = {
+                corpId:corp_id,
+                userid:user_id,
+                type:type
+            };
+            
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_gethomework', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    }else if(data.success==1){
+                            window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI(data.desc));
+                    } else {
+                        debug_trace("json data success [" + data.success + "]");
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("json format error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get homework list failure. user_id[" + user_id + "], type[" + type +"]");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+              }
+            });
+
+            // format date_time
+            if( json_obj != null ) {
+
+                for( var i = 0; i < json_obj.data.homework.length; i++ ) {
+
+                    json_obj.data.homework[i].editTime = format_date_time(json_obj.data.homework[i].editTime);
+                }
+            }
+        };
+
+
+        get_homework_list();
+
+    </script>  
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+
+    <div id="element_list">
+ 
+        <div class="weui_panel">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <h4 class="weui_media_title">班主任老师_2016.01.01_家庭作业</h4>
+                    <p class="weui_media_desc">过期时间：2016.01.02</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta">
+                            <a id="select_parant_cancel" href="javascript:;">查看详细</a>
+                        </li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra">
+                            <a id="select_parant_cancel" href="javascript:;" >删除</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        //init list
+        function init_homework_list() {
+
+            var root = $("#element_list");
+            root.empty();
+
+            if( !json_obj || 0==json_obj.data.homework.length ) {
+
+                // var strHtml = '';
+                // strHtml += '<div id="cell" style="padding:40px;">';    
+                // strHtml += '    <div id="box" style="background-color:white;color:black;font-size:10pt;line-height:18px;margin:auto;max-width:800px;border-radius:5px;-webkit-box-shadow:2px 5px 12px#555;padding:20px;">';
+                // strHtml += '      <p style="text-align: center;">暂时没有数据</p>';
+                // strHtml += '    </div>';    
+                // strHtml += '</div>';                 
+                // strHtml += '';
+
+
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('暂时没有数据'));
+                return ;
+            }
+
+            for(var unionIdx = 0; unionIdx < json_obj.data.homework.length; unionIdx++) {
+
+                var id = json_obj.data.homework[unionIdx].id;
+                var sid = json_obj.data.homework[unionIdx].sid;
+                var strHtml = '';
+
+                strHtml += '<div class="weui_panel">';
+                strHtml += '    <div class="weui_panel_bd">';
+                strHtml += '        <div class="weui_media_box weui_media_text">';
+                strHtml += '            <h4 class="weui_media_title">' + decodeURI(decodeURI(json_obj.data.homework[unionIdx].title)) + '</h4>';
+                strHtml += '            <p class="weui_media_desc">' + json_obj.data.homework[unionIdx].editTime +'</p>';
+                strHtml += '            <ul class="weui_media_info">';
+                strHtml += '                <li class="weui_media_info_meta">';
+                if( sid && (type == 3 || type == 4)){
+                    strHtml += '                    <a href="javascript:view_detail(&quot;' + id + '&quot;' + ",&quot;" + sid + '&quot;);">查看详情</a>';
+                }else{
+                    strHtml += '                    <a href="javascript:view_detail(&quot;' + id + '&quot;);">查看详情</a>';
+                }
+                strHtml += '                </li>';
+                if( json_obj.data.homework[unionIdx].createPerson == user_id 
+                    && (type == 0 || type == 2 || type == 4) ) {
+                    
+                    strHtml += '            <li class="weui_media_info_meta weui_media_info_meta_extra">';
+                if( sid && (type == 3 || type == 4)){
+                    strHtml += '                <a id="select_parant_cancel" href="javascript:del_homework(&quot;' + id + '&quot;' + ",&quot;" + sid + '&quot;);">删除</a>';
+                }else{
+                    strHtml += '                <a id="select_parant_cancel" href="javascript:del_homework(&quot;' + id + '&quot;);">删除</a>';
+                }
+                    strHtml += '            </li>';
+                }
+                strHtml += '            </ul>';
+                strHtml += '        </div>';
+                strHtml += '    </div>';
+                strHtml += '</div>';
+
+                strHtml += '';
+
+                // console.log(strHtml);
+                root.append(strHtml);
+            }
+        };
+
+
+        function view_detail(homework_id, sid) {
+
+            if( 0 == type ) {
+                window.location = "./homework_edit.html?" + "&user_id=" + user_id + "&homework_id=" + homework_id + "&corp_id=" + corp_id;
+            } else {
+                if((type == 3 || type == 4)&&sid){
+                    window.location = "./homework_detail.html?" + "&user_id=" + user_id + "&type=" + type + "&homework_id=" + homework_id + "&corp_id=" + corp_id + "&sid=" + sid;
+                }else{
+                    window.location = "./homework_detail.html?" + "&user_id=" + user_id + "&type=" + type + "&homework_id=" + homework_id + "&corp_id=" + corp_id;
+                }
+            }
+
+        }
+
+        function del_homework(homework_id, sid) {
+            console.log(homework_id);
+
+            var req_json = {
+                corpId:corp_id,
+                id:homework_id,
+                userid:user_id,
+                state:type
+            }
+            if(type == 3 || type == 4){
+                req_json.sid = sid;
+            }
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/homework/delete', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        $.toast("删除成功");
+                    } else {
+                        debug_trace("json data success [" + data.success + "]");
+                        $.toast("删除失败，数据错误", "forbidden");
+                    }
+                } else {
+                    debug_trace("json format error");
+                    $.toast("删除失败，格式错误", "forbidden");
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get homework list failure. user_id[" + user_id + "], type[" + type +"]");
+                $.toast("删除失败，服务器连接错误", "forbidden");
+              }
+            });
+
+            get_homework_list();
+            init_homework_list();
+        }
+
+
+        $(document).ready(function(){
+            
+            //
+            switch(parseInt(type)) {
+                case 0 :
+                    $(document).attr("title","草稿");
+                    break;
+                case 1 :
+                    $(document).attr("title","已发布");
+                    break;
+                case 2 :
+                    $(document).attr("title","已关闭");
+                    break;
+                case 3 :
+                    $(document).attr("title","未阅");
+                    break;
+                case 4 :
+                    $(document).attr("title","已阅");
+                    break;
+                default :
+                    debug_trace("无效type[" + list_type + "]");
+                    break;
+            }
+
+            //
+            init_homework_list();
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,3153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>沃e学·互动课堂</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/default.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/laypage.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/edition_main.css"/>
+    <script type="text/javascript" src="javascripts/jquery-2.1.1-youtu.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascripts/kindeditor.js"></script>
+    <script type="text/javascript" src="javascripts/zh_CN.js"></script>
+    <script type="text/javascript" src="javascripts/laypage.js"></script>
+    <script type="text/javascript" src="javascripts/youtu.js"></script>
+    <script type="text/javascript" src="javascripts/jquery.form.js"></script>
+    <script type="text/javascript" src="javascripts/base64.js"></script>
+    <style type="text/css">
+
+        a{
+            color: #ffffff;
+            cursor:pointer;
+        }
+        body{
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+        }
+        h4{
+            margin-bottom:0;
+            margin-top:0;
+        }
+        a:visited {
+            color: #888;
+        }
+        a:link {
+            text-decoration: none;
+            color: #555;
+        }
+        a:hover{
+            text-decoration:blink;
+        }
+        .main_top_r a{
+            float: right;
+            color: #31b0d5;
+
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+        }
+
+        .col-md-3{
+            padding-left:0;
+            padding-right:0;
+        }
+        .col-md-10{
+            padding-left:0;
+            padding-right:0;
+        }
+
+        .col-md-9{
+            padding-left:0;
+            padding-right:0;
+        }
+        input[type=radio], input[type=checkbox] {
+            margin:none;
+            margin-top: 1px \9;
+            line-height: normal;
+        }
+
+
+        h2 {
+            font-size: 16px;
+            color: #888;
+            height: 30px;
+            overflow: hidden;
+            display: block;
+            word-break: keep-all;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+
+
+        #bg {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: .5;
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+        }
+
+        /*       #bgiframe {
+                   width: 100%;
+                   position: absolute;
+                   z-index: 1001;
+                   left: 0px;
+                   top: 0px;
+                   background: transparent;
+                   background-color: rgba(255, 255, 255, 0.00);
+                   overflow: hidden;
+               }
+
+                   #bgiframe iframe {
+                       width: 100%;
+                       background: transparent;
+                       background-color: rgba(255, 255, 255, 0.00);
+                   }
+                   */
+
+        #bgiframe {
+            /*  width: 500px;*/
+            position: absolute;
+            z-index: 1001;
+            /*left: 50%;
+            top: 20%;*/
+
+            background: transparent;
+            background-color: rgba(255, 255, 255, 0.00);
+
+            overflow: hidden;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+
+        #bgiframe iframe {
+            /* width: 500px;*/
+            background: transparent;
+            background-color: rgba(255, 255, 255, 0.00);
+        }
+
+
+        .sel {
+            background-color: #0096d6;
+            color: #fff;
+
+        }
+
+        .nav_chapter_box  li.sel {
+            background: #05b5d6;
+            color: #fff;
+        }
+        .sel a{
+            color: #fff;
+        }
+        .nav_chapter_box  li a.sel{
+            color: #fff;
+        }
+
+
+        .sel_list {
+            background-color: #999;
+            color: #fff;
+
+        }
+
+        i{
+            color:#F00;
+            margin-right:4px;
+        }
+        select{
+            width:120px;
+            height:30px;
+        }
+        .explain{
+
+            float:left;
+            margin-left:4px;
+
+        }
+        textarea{
+            float:left;
+        }
+        .title{
+            float: left;
+            width: 67px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .modal-header{
+            padding: 10px;
+        }
+        .questions_box{
+            width: 100%;
+            float: left;
+        }
+        .modal-header{
+            background-color: #03ACE3;
+            color: #fff;
+            height: 40px;
+            border-top-left-radius:4px;
+            border-top-right-radius:4px;
+        }
+        .modal-content{
+            border-bottom-left-radius:4px;
+            border-bottom-right-radius:4px;
+        }
+        .modal-title{
+            font-size: 16px;
+
+        }
+        .close{
+            color: #fff;
+            opacity: .9;
+            line-height: 0.6;
+        }
+        .modal-header .close{
+            margin-top: 2px;
+        }
+        .modal-footer{
+            padding: 8px 15px 8px 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="main_top">
+    <div class="main_top_nav">
+        <div class="main_top_logo">
+
+        </div>
+        <div class="main_top_r">
+            <div class="main_top_box">
+                <a href="javascript:;" id="logout_index">退出</a>
+            <span id="name_box"></span> <p>你好</p>
+                <a href="javascript:;" class="user">切换用户<i class="bottomdirection"></i></a>
+                </br>
+
+            </div>
+            <div class="wb_number">
+            <p>教室号</p><span id="wb_number"></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="login_con" id="login_con" style="display: none; ">
+    <div class="login_content">
+        <div class="close_2">
+            <a href="javascript:;">×</a>
+        </div>
+        <div id="blo_2" style=""><!-- 多角色选择 -->
+            <h2 style="color:#fff;">请选择</h2>
+            <ul class="jiaz_list">
+                <!--<a href="javascript:;" id="index_admin">首页</a>-->
+                <a href="javascript:;" id="class_admin">班级管理</a>
+                <a href="javascript:;" id="school_admin">学校管理</a>
+            </ul>
+        </div>
+    </div>
+    <!--end login_content-->
+    <div class="login_con_bg" style="min-height: 190px;"><span class="angle1"></span></div>
+    <!--end login_con_bg-->
+</div>
+
+
+
+
+<div class="main_content">
+    <div class="col-md-3 main_l">
+
+        <div class="nav_top_box">
+            <div class="catalog2" id="slideup_one">
+               <span id="switch_one">切换版本</span> <a href="javascript:;" onclick="bomb_box('questions/edit_edition_v',755,600)">选择</a>
+            </div>
+        </div>
+
+        <div class="nav_chapter_box">
+            <ul id="versionListId">
+                <p class="nav_chapter_prompt">点击右侧“选择”按钮增加您的常用版本！</p>
+            </ul>
+
+        </div>
+
+        <div class="nav_hour_box">
+            <div class="catalog" id="slideup_one">
+                <span id="switch_two">课程目录</span>
+            </div>
+            <div id="nav_hour_list">
+            </div>
+
+        </div>
+        <!--<div id="div_menu" style="float:left; width:100%; height:100px;" class='managementPanel'>-->
+
+        <div class="nav_top_box">
+            <div class="catalog3 ">
+                <span class="bookmark_show">书签</span>
+            </div>
+        </div>
+
+
+        <!--</div>-->
+
+    </div>
+
+    <div class="col-md-9 main_r">
+        <div class="main_query">
+            <!--<div class="form-group col-md-10">-->
+            <!--<input type="text" class="form-control" placeholder="请输入内容关键词">-->
+
+            <!--</div>-->
+            <!--<button type="button" class="btn btn-primary col-xs-1 query_button" >查询</button>-->
+            <!--</div>-->
+            <div class="nav_button">
+                <button type="button" class="btn btn-info"  data-toggle="modal"  id="add_button">录题</button>
+                <button type="button" class="btn btn-info"  data-toggle="modal" id="edit_button">编辑</button>
+                <button type="button" class="btn btn-info" id="delete_button">删除</button>
+            </div>
+<div class="border_box" style="display: none" id="border_box">
+
+</div>
+
+            <div class="main_list" id="biuuu_city_list">
+
+            </div>
+
+
+            <div id="biuuu_city"></div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="col-md-9 main_r_two" style="display: none;">
+        <div class="main_query">
+            <!--<div class="form-group col-md-10">-->
+            <!--<input type="text" class="form-control" placeholder="请输入内容关键词">-->
+
+            <!--</div>-->
+            <!--<button type="button" class="btn btn-primary col-xs-1 query_button" >查询</button>-->
+            <!--</div>-->
+
+            <div class="nav_button">
+                <button type="button" class="btn btn-info" id="delete_bookmark">删除</button>
+                <button type="button" class="btn btn-info" id="empty_bookmark">清空书签</button>
+                <!--<button type="button" class="btn btn-info" id="return_button" >关闭书签</button>-->
+            </div>
+            <div class="border_box" style="display: none" id="border_box_bookmark">
+
+            </div>
+
+            <div class="main_list" id="bookmark_list">
+
+            </div>
+
+
+            <div id="bookmark_city"></div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+    <div class="foot_center">
+        <p>@2017技术支持　沈阳优途软件有限公司　All Rights Reserved</p>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="myModalLabel">录题</h4>
+            </div>
+            <div class="modal-body" >
+
+                <div class="questions_top">
+                    <p class="explain">请在下方输入你要上传试题的内容：</p>
+                    <form id='uploadImage' enctype="multipart/form-data" method="post" action="/questions/uploadphoto"  class="cover_upload">
+                        <a href="javascript:;" class="a-upload" style="color: #fff;">
+                            <input type="file" id="uploadFile" name="media" />上传图片
+                            <!--<input type="button" id="btnUpload" value="确定" onclick="uploadImage()" />-->
+
+                        </a>
+                        <input type="submit" id="btnUpload" value="确定" onclick="return checkImage()" class="cover_button a-upload"/>
+
+                    </form>
+
+
+
+                </div>
+
+                <span class="title"><i>*</i>题干：</span><textarea id="add_content"></textarea>
+                <div class="row">
+                <div class="questions_box">
+                    <span class="title"><i>*</i>题型：</span>
+                    <select name="sel"  onchange="radiobutton(this.options[this.options.selectedIndex].value)">
+                        <option value="0" >单项选择题</option>
+                        <option value="1" >多项选择题</option>
+                        <option value="2" >判断题</option>
+                    </select>
+                    </span>
+                </div>
+
+                <div class="radio_box">
+
+                    <span class="title"><i>*</i>答案：</span>
+                    <div class="add_radio_box">
+                        <div id="InputsWrapper">
+                            <div class='add_radio_input'><input type='radio' name="add_radio_input" value="A"/>A</div>
+                            <div class='add_radio_input'><input type='radio' name="add_radio_input" value="B"/>B</div>
+                            <div class='add_radio_input'><input type='radio' name="add_radio_input" value="C"/>C</div>
+                            <div class='add_radio_input'><input type='radio' name="add_radio_input" value="D"/>D</div>
+
+                        </div>
+                        <button  id="add_radio_button" class="add_input_button btn btn-primary" style="color: #fff">添加</button>
+
+                        <button  id="remove_radio_button" class="remove_input_button btn btn-primary"  style="color: #fff">删除</button>
+                    </div>
+
+                    <div class="add_checkbox_box" style="display: none">
+                        <div id="add_Inputcheckbox" >
+                            <div class='add_checkbox_input'><input type="checkbox" name="add_checkbox_input" value="A"/>A</div>
+                            <div class='add_checkbox_input'><input type="checkbox" name="add_checkbox_input" value="B"/>B</div>
+                            <div class='add_checkbox_input'><input type="checkbox" name="add_checkbox_input" value="C"/>C</div>
+                            <div class='add_checkbox_input'><input type="checkbox" name="add_checkbox_input" value="D"/>D</div>
+                        </div>
+                        <button  id="add_checkbox_button" class="add_input_button btn btn-primary" style="color: #fff">添加</button>
+                        <button  id="remove_checkbox_button" class="remove_input_button btn btn-primary"  style="color: #fff">删除</button>
+
+                    </div>
+
+
+                    <div  class="add_judge_box" style="display: none">
+                        <div id="Inputsjudge">
+                            <div class='add_judge_input'><input type="radio" name="add_judge_input" value="true"/><img src="images/true.png"/></div>
+                            <div class='add_judge_input'><input type="radio" name="add_judge_input" value="false"/><img src="images/false.png"/></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="questions_box">
+                    <span class="title"><i style="color: #fff">*</i>知识点：</span>
+                    <select >
+
+                    </select>
+                    </span>
+                </div>
+                <div class="questions_box">
+                    <span class="title"><i>*</i>难易度：</span>
+                    <select  name="difficulty"  onchange="difficulty(this.options[this.options.selectedIndex].value)">
+                        <option value="容易">容易</option>
+                        <option value="较易">较易</option>
+                        <option value="一般">一般</option>
+                        <option value="较难">较难</option>
+                        <option value="困难">困难</option>
+                    </select>
+                    </span>
+                </div>
+
+            </div>
+                </div>
+            <div class="modal-footer" style="width: 100%">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="add_cancel_img">取消</button>
+                <button type="button" class="btn btn-primary"    id="add_submit">保存</button>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 750px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close edit_close" data-dismiss="modal" ><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑</h4>
+            </div>
+            <div class="modal-body" >
+                <div class="questions_top">
+                    <p class="explain">请在下方输入你要上传试题的内容：</p>
+                    <form id='uploadImage2' enctype="multipart/form-data" method="post" action="/questions/uploadphoto"  class="cover_upload">
+                        <a href="javascript:;" class="a-upload" style="color: #fff;">
+                            <input type="file" id="uploadFile" name="media" />上传图片
+                            <!--<input type="button" id="btnUpload" value="确定" onclick="uploadImage()" />-->
+
+                        </a>
+                        <input type="submit" id="btnUpload" value="确定" onclick="return checkImage2()" class="cover_button a-upload"/>
+
+                    </form>
+
+
+
+                </div>
+
+
+
+
+
+                <span class="title"><i>*</i>题干：</span><textarea id="edit_content"></textarea>
+                <div class="row">
+                <div class="questions_box">
+                    <span class="title"><i>*</i>题型：</span>
+                    <select name="sel" id="select_edit"  onchange="edit_radiobutton(this.options[this.options.selectedIndex].value)">
+                        <option value="0" >单项选择题</option>
+                        <option value="1" >多项选择题</option>
+                        <option value="2" >判断题</option>
+                    </select>
+                    </span>
+                </div>
+                <div class="radio_box">
+
+                    <span class="title"><i>*</i>答案：</span>
+                    <div class="edit_radio_box">
+                        <div id="edit_InputsWrapper">
+                            <div class='edit_radio_input' id="edit_radio_A"><input type='radio' name="edit_radio_input" value="A" />A</div>
+                            <div class='edit_radio_input' id="edit_radio_B"><input type='radio' name="edit_radio_input" value="B" />B</div>
+                            <div class='edit_radio_input' id="edit_radio_C"><input type='radio' name="edit_radio_input" value="C" />C</div>
+                            <div class='edit_radio_input' id="edit_radio_D"><input type='radio' name="edit_radio_input" value="D" />D</div>
+                        </div>
+                        <button  id="edit_radio_button" class="add_input_button btn btn-primary" style="color: #fff">添加</button>
+                        <button  id="edit_remove_radio" class="remove_input_button btn btn-primary"  style="color: #fff">删除</button>
+
+                    </div>
+                    <div class="edit_checkbox_box" style="display: none">
+                        <div id="edit_Inputcheckbox" >
+                            <div class='edit_checkbox_input' id="edit_checkbox_A"><input type="checkbox" name="edit_checkbox_input" value="A" />A</div>
+                            <div class='edit_checkbox_input' id="edit_checkbox_B"><input type="checkbox" name="edit_checkbox_input" value="B" />B</div>
+                            <div class='edit_checkbox_input' id="edit_checkbox_C"><input type="checkbox" name="edit_checkbox_input"value="C" />C</div>
+                            <div class='edit_checkbox_input' id="edit_checkbox_D"><input type="checkbox" name="edit_checkbox_input"value="D" />D</div>
+                        </div>
+                        <button  id="edit_checkbox_button" class="add_input_button btn btn-primary" style="color: #fff">添加</button>
+                        <button  id="edit_remove_checkbox" class="remove_input_button btn btn-primary"  style="color: #fff">删除</button>
+                    </div>
+
+                    <div class="edit_judge_box" style="display: none">
+                        <div id="Inputsjudge" >
+                            <div class='edit_judge_input' id="edit_judge_true"><input type="radio" name="edit_judge_input"  value="true"/><img src="images/true.png"/></div>
+                            <div class='edit_judge_input' id="edit_judge_false"><input type="radio" name="edit_judge_input" value="false"/><img src="images/false.png"/></div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="questions_box">
+                    <span class="title"><i style="color: #fff">*</i>知识点：</span>
+                    <select >
+
+                    </select>
+                    </span>
+                </div>
+                <div class="questions_box">
+                    <span class="title"><i>*</i>难易度：</span>
+                    <select id="select_edit_facility"  name="difficulty"  onchange="difficulty(this.options[this.options.selectedIndex].value)">
+                        <option value="容易">容易</option>
+                        <option value="较易">较易</option>
+                        <option value="一般">一般</option>
+                        <option value="较难">较难</option>
+                        <option value="困难">困难</option>
+                    </select>
+                    </span>
+                </div>
+
+            </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default edit_close" data-dismiss="modal" id="edit_cancel_img">取消</button>
+                <button type="button" class="btn btn-primary"   data-dismiss="modal" id="edit_submit">保存</button>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 系统提示 -->
+<div class="modal fade" id="dialog_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+            </div>
+            <div class="modal-body text-center modal_box_one">
+                加入书签成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="add_success_close">关闭</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- 删除 -->
+<div class="modal fade" id="delete_questions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+            </div>
+            <div class="modal-body text-center modal_box_one">
+                是否删除此题目？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete_questions_submit">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 删除书签 -->
+<div class="modal fade" id="delete_bookmark_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+            </div>
+            <div class="modal-body text-center">
+                是否将此题从书签中删除？
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete_bookmark_submit">确定 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 清空书签 -->
+<div class="modal fade" id="empty_bookmark_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">清空书签</h4>
+            </div>
+            <div class="modal-body text-center">
+                是否清空书签？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal" id="empty_bookmark_submit">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 正确答案 -->
+<div class="modal fade" id="correct_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 400px" id="correct_modal_height">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">正确答案</h4>
+            </div>
+            <div class="modal-body text-center" id="correct_ok" style="font-size: 24px">
+
+            </div>
+            <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+            <!--<button type="button" class="btn btn-primary" id="empty_bookmark_submit">确定</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body text-center modal_box_one" id="explain">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary button_width" data-dismiss="modal">确定</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="load_box" style="display: none">
+<img src="images/timg.gif"/>
+    <span>题库加载中.....</span>
+</div>
+
+
+<input type="hidden" id="class_id_box"/>
+<input type="hidden" id="type_box" value="0"/>
+<input type="hidden" id="image_url_box" />
+
+<input type="hidden" id="difficult_box" value="容易"/>
+
+
+<!----课时ID----->
+<input type="hidden" id="topic_box" />
+<!----题目ID----->
+<input type="hidden" id="answer_box" />
+<!---过滤容器截图标签，存放内容HTML--->
+<div id="body_html" style="display: none">
+
+
+    <input type="hidden" id="teacher_box"/>
+    <input type="hidden" id="headmaster_box"/>
+    <input type="hidden" id="admin_box"/>
+
+
+</div>
+<script>
+    var base64 = new Base64();
+    var username=$.intercept_url("username");
+    //username=base64.decode(username);
+    // alert(username);
+    var teacher=$.intercept_url("teacher");
+    teacher=base64.decode(teacher);
+    //alert(teacher);
+    var headmaster=$.intercept_url("headmaster");
+    headmaster=base64.decode(headmaster);
+    var admin=$.intercept_url("admin");
+    admin=base64.decode(admin);
+
+    $("#teacher_box").val(teacher)
+    $("#headmaster_box").val(headmaster);
+    $("#admin_box").val(admin);
+    $("#username_box").val(username);
+
+
+    var editor_add;
+    var editor_edit;
+    var e2;
+    KindEditor.ready(function(K) {
+
+        e2 = K.create('textarea[name="content"]', {
+            allowFileManager : true,
+            width : '100%',
+            height: '170px',
+            resizeType:0,
+            items:[
+            ],
+            fontSizeTable:[],
+           // pasteType:0,
+        })
+
+
+        editor_add = K.create('#add_content', {
+            allowFileManager : true,
+            allowImageUpload:true,//允许上传图片
+            allowFileManager:true, //允许对上传图片进行管理
+            width : '650px',
+            height: '250px',
+            items:[
+                'undo', 'redo', '|', 'cut', 'copy', 'paste', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+                '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough',
+            ],
+            resizeType:0,
+            fontSizeTable:[],
+           // pasteType:0,
+
+//            afterCreate : function() {
+//                K.ctrl(document.body, 'Z', function() {
+//                    alert('ctrl + Z');
+//                });
+//                K.ctrl(document.body, 13, function() {
+//                    alert('ctrl + enter');
+//                });
+//            }
+        })
+
+
+        editor_edit = K.create('#edit_content', {
+            allowFileManager : true,
+            allowImageUpload:true,//允许上传图片
+            allowFileManager:true, //允许对上传图片进行管理
+            width : '650px',
+            height: '250px',
+            items:[
+                'undo', 'redo', '|', 'cut', 'copy', 'paste', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent',
+                '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough',
+            ],
+            resizeType:0,
+            fontSizeTable:[],
+            //pasteType:0,
+
+//            afterCreate : function() {
+//                K.ctrl(document.body, 'V', function() {
+//                    alert('111111111111111111111');
+//                });
+//                K.ctrl(document.body, 86, function() {
+//                    alert('ctrl + enter');
+//                });
+//            },
+
+        })
+
+
+    });
+
+
+
+
+
+    $('#uploadImage').ajaxForm(function(result) {
+        var image_ur=result.data.image_url;
+        // alert(JSON.stringify(result.data.image_url));
+        $("#image_url_box").val(image_ur);
+        editor_add.insertHtml('<div style="width:100%; text-align: center;"><img style="max-width: 640px"  src="'+image_ur+'"></img></div>');
+    });
+
+    $('#uploadImage2').ajaxForm(function(result) {
+        var image_ur=result.data.image_url;
+        // alert(JSON.stringify(result.data.image_url));
+        $("#image_url_box").val(image_ur);
+        editor_edit.insertHtml('<div style="width:100%; text-align: center;"><img style="max-width: 640px"  src="'+image_ur+'"></img></div>');
+    });
+
+
+    function checkImage() {
+
+        var imgPath = $("#uploadFile").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return false;
+        }
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+        if (strExtension != 'jpg' && strExtension != 'gif'
+                && strExtension != 'png' && strExtension != 'bmp'&&strExtension != 'jpeg') {
+            alert("请选择图片文件");
+            return false;
+        }
+        var size = document.getElementById('uploadFile').files[0].size;
+        // alert(size);
+        if (size>200000) {
+            alert("选择图片大于2M");
+            return false;
+        }
+
+
+        return true;
+
+    }
+
+
+
+
+
+
+    function checkImage2() {
+
+        var imgPath = $("#uploadFile2").val();
+        if (imgPath == "") {
+            alert("请选择上传图片！");
+            return false;
+        }
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+        if (strExtension != 'jpg' && strExtension != 'gif'
+                && strExtension != 'png' && strExtension != 'bmp'&&strExtension != 'jpeg') {
+
+            alert("请选择图片文件");
+            return false;
+        }
+        var size = document.getElementById('uploadFile2').files[0].size;
+        // alert(size);
+        if (size>200000) {
+            alert("选择图片大于2M");
+            return false;
+        }
+        return true;
+
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+<script>
+    //全局变量
+
+    //可使用如下方法递归得到
+
+    //ajax调用
+    youtu.ajax("/questions?" + new Date().getTime(),"","get",function (data) {
+        if(data.success==0){
+            var jsondata=JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+
+            if(attributeCount(jsondata.data)==0){
+                bomb_box('questions/edit_edition_v',755,600);
+                $(".main_list").append('<div class="none_list">请选择版本目录</div>');
+
+            }
+            var Edition=jsondata.data.Editions;
+            var html = '';
+
+            for(var i=0;i<Edition.length;i++){
+
+                html+='<li id="'+Edition[i].id+'">';
+                html+='<a  title="'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'" onclick="hour_list('+Edition[i].id+')">'+Edition[i].grade+'&nbsp&nbsp'+Edition[i].semester+'&nbsp&nbsp'+Edition[i].subject+'&nbsp&nbsp'+Edition[i].edition+'</a>';
+                html+='</li>';
+
+            }
+            $("#versionListId").append(html);
+            $(".nav_chapter_box ul li:eq(0)").addClass('sel');
+
+            youtu.ajax('/questions/'+Edition[0].id+'/query_all?' + new Date().getTime(),"","get",function (data) {
+                if(data.success==0){
+                    $(".managementPanel").html("");
+                    var jsondata=JSON.parse(JSON.stringify(data));
+                    //  alert(JSON.stringify(jsondata));
+
+                    var chapter_classhour=jsondata.data.chapter_classhour;
+                    // alert(chapter_classhour);
+                    var showlist = $("<ul></ul>");
+                    showall(chapter_classhour, showlist);
+                    $("#nav_hour_list").append(showlist);
+                    $("#nav_hour_list ul li:eq(0)").addClass('sel_list')
+                    function showall(json_data, showlist) {
+
+                        for (var menu in json_data) {
+
+                            if (json_data[menu].classhour.length>0) {
+
+                                var li = $("<p class='nav_hour_title'></p>");
+
+
+                                $(li).append(json_data[menu].classhour_content).append("<ul></ul>").appendTo(showlist);
+                                $(li).attr('id',json_data[menu].chapter_m_id);
+                                $(li).attr('iddd',json_data[menu].chapter_m_id);
+                                // $(li).attr('onclick','content_list()');
+
+                                showall(json_data[menu].classhour, showlist);
+                            }
+
+                            else {
+                                $("<li onclick='content_list("+json_data[menu].classhour_id+")'></li>").append(json_data[menu].classhour_content).attr('classhour_id',json_data[menu].classhour_id).attr('iddd',json_data[menu].classhour_id).appendTo(showlist);
+
+                            }
+                        }
+                    }
+
+
+                    if($("#versionListId li").size()>0){
+
+                        $(".nav_chapter_prompt").hide();
+                    }
+
+                        //ajax调用
+                    $.ajax({
+                        url: "/questions/"+jsondata.data.First_id[0].First_id+"/query_questions?" + new Date().getTime(),
+                        type: 'get',
+                        dataType: 'json',
+                        contentType: "application/json",
+                        data: JSON.stringify({
+
+                        }),
+                        beforeSend: function () {
+                            $(".load_box").show();
+                        },
+                        success: function(data) {
+                            if (data.success == 0) {
+
+                                var jsondata = JSON.parse(JSON.stringify(data));
+                                var Questions = jsondata.data.Questions;
+                           // alert(JSON.stringify(jsondata.data.Questions));
+
+                                var nums = 3; //每页出现的数量
+                                var pages = Math.ceil(Questions.length / nums); //得到总页数
+
+                                var thisDate = function (curr) {
+                                    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                                    var str = '', last = curr * nums - 1;
+                                    last = last >= Questions.length ? (Questions.length - 1) : last;
+
+                                    for (var i = (curr * nums - nums); i <= last; i++) {
+
+                                        str += '<div class="content_list_box">';
+                                        str += ' <textarea name="content" style="visibility:hidden;">' + Questions[i].title_content + '</textarea>';
+                                        str += '<div class="content_c">' + Questions[i].title_content + '</div>'
+                                        str += '<div class="content_title_box">';
+                                        str += '<div class="content_title_l">';
+                                        str += '<input type="radio" state_delete="' + Questions[i].post_phone + '" id="' + Questions[i].id + '" name="content_list_radio"  onclick="topic_id(' + Questions[i].id + ')"/><p>题号：</p><span>[</span><span>' + Questions[i].id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Questions[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>' + Questions[i].facility_value + '</span><span>]</span>';
+                                        str += '</div>';
+                                        str += '<div class="content_title_r">';
+
+                                        str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;' + Questions[i].answer_ok + '&quot;)">正确答案</button>';
+                                        str += '<button class="btn btn-primary"  onclick="add_bookmark_buttton(&quot;' + Questions[i].id + '&quot;)">加入书签</button>';
+                                        str += '</div>';
+                                        str += '</div>';
+                                        str += '</div>';
+
+                                    }
+                                    return str;
+                                };
+
+                                //调用分页
+                                laypage({
+                                    cont: 'biuuu_city',
+                                    pages: pages,
+                                    jump: function (obj) {
+                                        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+                                    }
+                                })
+                                if (attributeCount(Questions) == 0) {
+                                    $("#biuuu_city_list").append('<div class="none_list">暂无对应内容</div>');
+
+                                }
+                                $(".load_box").hide();
+                            } else {
+                                $(".load_box").hide();
+                                alert("请求失败");
+                            }
+                        }
+
+                        });
+                }else{
+                    alert("请求失败");
+                }
+            });
+
+        }else{
+            alert("请求失败");
+        }
+
+
+    });
+
+
+
+
+
+
+    $(function () {
+
+
+        var name_box= $.intercept_url("name");
+        var wb_number= $.intercept_url("wb_number");
+        var username= $.intercept_url("username");
+        $("#wb_number").html(wb_number);
+//alert(decodeURI(username));
+
+$("#name_box").html(name_box);
+
+
+
+
+
+    });
+
+    //弹框调用
+    function bomb_box(src,width,height){
+
+        youtu.dialog(src,width,height)
+    }
+
+
+
+
+
+    function radiobutton(id) {
+        // alert(id);
+        $("#type_box").val(id)
+        var type_id=id;
+        if(type_id=="0"){
+            $(".add_radio_box").show();
+            $(".add_checkbox_box").hide();
+            $(".add_judge_box").hide();
+
+        }
+        else if(type_id=="1"){
+            $(".add_radio_box").hide();
+            $(".add_checkbox_box").show();
+            $(".add_judge_box").hide();
+        }
+        else if(type_id=="2"){
+            $(".add_radio_box").hide();
+            $(".add_checkbox_box").hide();
+            $(".add_judge_box").show();
+        }
+
+
+    }
+
+
+    function edit_radiobutton(id) {
+        // alert(id);
+        $("#type_box").val(id)
+        var type_id=id;
+        if(type_id=="0"){
+            $(".edit_radio_box").show();
+            $(".edit_checkbox_box").hide();
+            $(".edit_judge_box").hide();
+
+        }
+        else if(type_id=="1"){
+            $(".edit_radio_box").hide();
+            $(".edit_checkbox_box").show();
+            $(".edit_judge_box").hide();
+        }
+        else if(type_id=="2"){
+            $(".edit_radio_box").hide();
+            $(".edit_checkbox_box").hide();
+            $(".edit_judge_box").show();
+        }
+
+
+    }
+
+
+
+    //难易度
+    function difficulty(id) {
+        var difficult=$("#difficult_box").val(id);
+
+    }
+
+
+    function content_list(id){
+        $("#topic_box").val("");
+
+        $(".nav_hour_box li").removeClass('sel_list');
+        $("li[iddd='"+id+"']").addClass('sel_list');
+        var id=id;
+        $("#class_id_box").val(id);
+
+        //ajax调用
+        $.ajax({
+            url: "/questions/"+id+"/query_questions?" + new Date().getTime(),
+            type: 'get',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+
+            }),
+            beforeSend: function () {
+                $(".load_box").show();
+            },
+            success: function(data) {
+                if (data.success == 0) {
+
+                    var jsondata = JSON.parse(JSON.stringify(data));
+                    var Questions = jsondata.data.Questions;
+                   //alert(JSON.stringify(jsondata.data.Questions));
+                  // alert(jsondata.data.Questions[0].type);
+
+                    //alert(typestring);
+
+                    var nums = 3; //每页出现的数量
+                    var pages = Math.ceil(Questions.length / nums); //得到总页数
+
+                    var thisDate = function (curr) {
+                        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                        var str = '', last = curr * nums - 1;
+                        last = last >= Questions.length ? (Questions.length - 1) : last;
+
+                        for (var i = (curr * nums - nums); i <= last; i++) {
+
+                            str += '<div class="content_list_box">';
+                            str += ' <textarea name="content" style="visibility:hidden;">' + Questions[i].title_content + '</textarea>';
+                            str += '<div class="content_c">' + Questions[i].title_content + '</div>'
+                            str += '<div class="content_title_box">';
+                            str += '<div class="content_title_l">';
+                            str += '<input type="radio" state_delete="' + Questions[i].post_phone + '" id="' + Questions[i].id + '" name="content_list_radio"  onclick="topic_id(' + Questions[i].id + ')"/><p>题号：</p><span>[</span><span>' + Questions[i].id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Questions[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>' + Questions[i].facility_value + '</span><span>]</span>';
+                            str += '</div>';
+                            str += '<div class="content_title_r">';
+
+                            str += '<a onclick="bomb_box2(&quot;whiteboard&quot;,&quot;' + Questions[i].id + '&quot;,&quot;1&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"></a>';
+                            str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;' + Questions[i].answer_ok + '&quot;)">正确答案</button>';
+                            str += '<button class="btn btn-primary"  onclick="add_bookmark_buttton(&quot;' + Questions[i].id + '&quot;)">加入书签</button>';
+                            str += '</div>';
+                            str += '</div>';
+                            str += '</div>';
+
+
+                        }
+                        return str;
+                    };
+
+                    //调用分页
+                    laypage({
+                        cont: 'biuuu_city',
+                        pages: pages,
+                        jump: function (obj) {
+                            document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+                        }
+                    })
+                    $("#border_box").hide();
+                    if (attributeCount(Questions) == 0) {
+                        $("#biuuu_city_list").append('<div class="none_list">暂无对应内容</div>');
+$("#border_box" ).show();
+                    }
+
+                    $(".load_box").hide();
+                } else {
+                    $(".load_box").hide();
+                    alert("请求失败");
+                }
+            }
+
+        });
+//        youtu.ajax("/questions/"+id+"/query_questions?" + new Date().getTime(),"","get",function (data) {
+//            if(data.success==0){
+//                var jsondata=JSON.parse(JSON.stringify(data));
+//                var Questions=jsondata.data.Questions;
+//
+//               // alert(JSON.stringify(jsondata.data.Questions));
+//
+//                var nums = 3; //每页出现的数量
+//                var pages = Math.ceil(Questions.length/nums); //得到总页数
+//
+//                var thisDate = function(curr){
+//                    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+//                    var str = '', last = curr*nums - 1;
+//                    last = last >= Questions.length ? (Questions.length-1) : last;
+//
+//                    for(var i = (curr*nums - nums); i <= last; i++){
+//
+//                        str +='<div class="content_list_box">';
+//                        str +=' <textarea name="content" style="visibility:hidden;">'+Questions[i].title_content+'</textarea>';
+//                        str +='<div class="content_c">'+Questions[i].title_content+'</div>'
+//                        str +='<div class="content_title_box">';
+//                        str +='<div class="content_title_l">';
+//                        str +='<input type="checkbox" name="content_list_radio" id="'+Questions[i].id+'"  onclick="topic_id('+Questions[i].id+')"/><p>难易度：</p><span>[</span><span>'+Questions[i].facility_value+'</span><span>]</span>';
+//                        str +='</div>';
+//                        str +='<div class="content_title_r">';
+//                        str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Questions[i].id+'&quot;,&quot;1&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+//                        str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Questions[i].answer_ok+'&quot;)">正确答案</button>';
+//                        str +='</div>';
+//                        str +='</div>';
+//                        str +='</div>';
+//
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+//                    }
+//                    return str;
+//                };
+//
+//                //调用分页
+//                laypage({
+//                    cont: 'biuuu_city',
+//                    pages: pages,
+//                    jump: function(obj){
+//                        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+//                    }
+//                })
+//                if(attributeCount(Questions)==0){
+//                    $("#biuuu_city_list").append('<div class="none_list">还没有录入任何题目</div>');
+//
+//                }
+//                // $("#versionListId").append(html);
+//            }else{
+//                alert("请求失败");
+//            }
+//
+//        });
+
+    }
+
+    var problem_id=[];
+
+    var abc_add_radio=['I','H','G','F','E'];
+    var abc_add_checkbox=['I','H','G','F','E'];
+
+
+    var abc_edit_radio=['I','H','G','F','E','D','C','B','A'];
+    var abc_edit_checkbox=['I','H','G','F','E','D','C','B','A'];
+    $(document).ready(function() {
+        //初始化div，并注册事件
+
+//新增
+        //ajax调用
+        $("#add_button").on('click', function () {
+            editor_add.html("");
+            abc_add_radio.length=0;
+            $("input[type='radio']").removeAttr('checked');
+            $("#add_radio_E").remove();
+            $("#add_radio_F").remove();
+            $("#add_radio_G").remove();
+            $("#add_radio_H").remove();
+            $("#add_radio_I").remove();
+            abc_add_radio.push('I','H','G','F','E');
+
+            var add_radio_size=$(".add_radio_input").size();
+            if(add_radio_size==3){
+        $("#InputsWrapper").append('<div class="add_radio_input"><input type="radio" name="add_radio_input" value="D">D</div>')
+            }
+
+            abc_add_checkbox.length=0;
+            $("input[type='checkbox']").removeAttr('checked');
+            $("#add_checkbox_E").remove();
+            $("#add_checkbox_F").remove();
+            $("#add_checkbox_G").remove();
+            $("#add_checkbox_H").remove();
+            $("#add_checkbox_I").remove();
+            abc_add_checkbox.push('I','H','G','F','E');
+
+            var add_radio_size=$(".add_checkbox_input").size();
+            if(add_radio_size==3){
+                $("#add_Inputcheckbox").append('<div class="add_checkbox_input"><input type="checkbox" name="add_checkbox_input" value="D">D</div>')
+            }
+            var id=$("#class_id_box").val();
+            if(id==""||id.length==0){
+            alert("请选择版本目录");
+                return
+            }
+            $('#add_modal').modal('show');
+
+        });
+
+        $("#add_submit").on('click', function () {
+
+            var id=$("#class_id_box").val();
+
+            var title_content=editor_add.html();
+            //$("#body_html").append(title_content)
+            // alert($("#body_html").html())
+//          .each(function(){
+//                alert($(this).attr('src'));
+//                alert($(this).attr('src').substring(4,0));
+//                if($(this).attr('src').substring(4,0)=="data"){
+//                    alert("111");
+//                    $(this).attr('src','1111')
+//                }
+//            });
+//            $.each($("#body_html"), function (i, val) {
+//                            alert(val.value);//值：111,222,333,444
+//                $(val.value).attr('src')
+//            });
+
+
+
+
+
+
+
+
+            //alert(title_content);
+        // title_content.replace(/data/g, "");//$string代表用户提交的文本内容
+
+
+            if(title_content.length==0){
+                alert("请输入考题内容");
+                return
+            }else if(title_content.length>87672){
+                alert("截图图片过大或者过多，请用右上角上传图片功能");
+                return
+            }
+            var   type=$("#type_box").val();
+            var photo_url=$("#image_url_box").val();
+
+            if(type=="0"){
+                var text=[];
+                var text_list=[];
+                var s=$('input:radio[name="add_radio_input"]:checked').val();
+                if (s== null) {
+                    alert("什么也没选中");
+                    return
+                }
+                else {
+                    text.push(s);
+                }
+                $("input[name='add_radio_input']").each(function(i, val){
+                    text_list.push(val.value)
+                })
+
+
+            }
+            else if(type=="1"){
+                var text=[];
+                var text_list=[];
+                var arr = $('input[name="add_checkbox_input"]:checked');
+                if (arr== null) {
+                    alert("什么也没选中！");
+                    return
+                }else {
+                    for (i = 0; i < arr.length; i++) {
+                        if (arr[i].checked) {
+                            text.push(arr[i].value);
+                        }
+                    }
+                }
+                $("input[name='add_checkbox_input']").each(function(i, val){
+                    text_list.push(val.value);
+                })
+
+            }
+            else if(type=="2"){
+                var text=[];
+                var text_list=[];
+                var s=$('input:radio[name="add_judge_input"]:checked').val();
+                if (s== null) {
+                    alert("什么也没选中！");
+                    return
+                }
+                else {
+                    text.push(s);
+                }
+                $("input[name='add_judge_input']").each(function(i, val){
+                    text_list.push(val.value)
+                })
+            }
+            if(text.length=="0"){
+                alert("请填写答案");
+                return
+            }
+
+
+
+
+            var facility_value=$("#difficult_box").val();
+//      alert(text_list);
+//      alert(id);
+//     alert(title_content);
+//      alert(type);
+//   alert(photo_url);
+//   alert(text);
+//     alert(facility_value);
+//     alert(id);
+            $.ajax({
+                url: "/questions/"+id+"/add_questions?" + new Date().getTime(),
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    classhour_m_id: id,
+                    title_content:title_content,
+                    type:type,
+                    answer_ok: text,
+                    analysis: '',
+                    knowledge_point: 'DSADSA',
+                    facility_value: facility_value,
+                    score_value:"",
+                    photo_url: photo_url,
+                    answer_list:text_list
+                }),
+                success: function(data) {
+                    if (data.success == 0) {
+                        $("#add_modal").modal("hide");
+                        // alert(data.success);
+                        $("#border_box").hide();
+                        document.getElementById("uploadImage").reset();
+                        var jsondata = JSON.parse(JSON.stringify(data));
+
+                        //window.location.href=window.location.href;
+                        $("#topic_box").val("");
+                        $("#class_id_box").val(id);
+                        //ajax调用
+                        youtu.ajax("/questions/"+id+"/query_questions?" + new Date().getTime(),"","get",function (data) {
+                            if(data.success==0){
+                                var jsondata=JSON.parse(JSON.stringify(data));
+                                var Questions=jsondata.data.Questions;
+                               // alert(JSON.stringify(jsondata.data.Questions));
+                                var nums = 3; //每页出现的数量
+                                var pages = Math.ceil(Questions.length/nums); //得到总页数
+
+                                var thisDate = function(curr){
+                                    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                                    var str = '', last = curr*nums - 1;
+                                    last = last >= Questions.length ? (Questions.length-1) : last;
+
+                                    for(var i = (curr*nums - nums); i <= last; i++){
+
+                                        str +='<div class="content_list_box">';
+                                        str +=' <textarea name="content" style="visibility:hidden;">'+Questions[i].title_content+'</textarea>';
+                                        str +='<div class="content_c">'+Questions[i].title_content+'</div>'
+                                        str +='<div class="content_title_box">';
+                                        str +='<div class="content_title_l">';
+                                        str +='<input type="radio" state_delete="' + Questions[i].post_phone + '" name="content_list_radio" id="'+Questions[i].id+'"  onclick="topic_id('+Questions[i].id+')"/><p>题号：</p><span>[</span><span>' + Questions[i].id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Questions[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>'+Questions[i].facility_value+'</span><span>]</span>';
+                                        str +='</div>';
+                                        str +='<div class="content_title_r">';
+                                        str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Questions[i].id+'&quot;,&quot;1&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+                                        str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Questions[i].answer_ok+'&quot;)">正确答案</button>';
+                                        str += '<button class="btn btn-primary"  onclick="add_bookmark_buttton(&quot;' + Questions[i].id + '&quot;)">加入书签</button>';
+                                        str +='</div>';
+                                        str +='</div>';
+                                        str +='</div>';
+
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+                                    }
+                                    return str;
+                                };
+
+                                //调用分页
+                                laypage({
+                                    cont: 'biuuu_city',
+                                    pages: pages,
+                                    jump: function(obj){
+                                        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+                                    }
+                                })
+
+                                // $("#versionListId").append(html);
+                            }else{
+                                alert("请求失败");
+                            }
+
+
+                        });
+
+
+
+                    }
+                    else {
+                        alert("请求失败1111");
+                    }
+
+
+                },
+                error: function(){
+                    alert("获取数据失败");
+                }
+
+            });
+
+        })
+
+        $("#add_cancel_img").on('click',function(){
+            document.getElementById("uploadImage").reset();
+        })
+
+
+//    var answer_list = "a,b";
+//
+//
+//    if (answer_list == "a,b") {
+//      abc.push('D', 'C')
+//      alert("aaaaabbbb")
+//      alert(abc);
+//    }
+
+
+        var abc2 = new Array();
+
+        //  var MaxInputs       = 9; //maximum input boxes allowed
+        // var MinInputs =2;
+        var InputsWrapper   = $("#InputsWrapper");
+        var x = InputsWrapper.length;
+        var FieldCount=1;
+
+        $("#add_radio_button").click(function (){
+
+            var letter=abc_add_radio.pop();
+            // alert(letter);
+            var MaxInputs=$(".add_radio_input").size();
+            if(MaxInputs <= 8)
+            {
+                FieldCount++;
+                //add input box
+                $(InputsWrapper).append("<div class='add_radio_input' id='add_radio_"+letter+"'><input type='radio' name='add_radio_input'  value='"+letter+"'/>"+letter+"</div>");
+                x++;
+                // alert(abc_add_radio)
+            }
+            else{
+                alert("最多为9个选项");
+
+            }
+            return false;
+        });
+
+
+
+        $("#remove_radio_button").click(function (){
+            var minInput=$(".add_radio_input").size();
+            // alert($(".add_radio_input").size());
+            if(minInput > 2)
+            {
+                //
+                var removeletter=$(".add_radio_input").eq(-1).text();
+                //alert(removeletter);
+                abc_add_radio.push(removeletter);
+                //删除最后一个
+                $(".add_radio_input").eq(-1).remove();
+
+            }
+            else{
+                alert("最少为2个选项");
+
+            }
+            return false;
+        });
+
+
+
+
+
+
+
+
+        $("#add_checkbox_button").click(function (){
+
+            var letter=abc_add_checkbox.pop();
+            // alert(letter);
+            var MaxInputs=$(".add_checkbox_input").size();
+            if(MaxInputs <= 8)
+            {
+                FieldCount++;
+                //add input box
+                $("#add_Inputcheckbox").append("<div class='add_checkbox_input' id='add_checkbox_"+letter+"'><input type='checkbox' name='add_checkbox_input' id='field_"+ FieldCount +"' value='"+letter+"'/>"+letter+"</div>");
+                x++;
+                // alert(abc_add_checkbox)
+            }
+            else{
+                alert("最多为9个选项");
+            }
+            return false;
+        });
+
+
+
+
+
+
+
+        $("#remove_checkbox_button").click(function (){
+            var minInput=$(".add_checkbox_input").size();
+            // alert($(".add_checkbox_input").size());
+            if(minInput > 2)
+            {
+                //
+                var removeletter=$(".add_checkbox_input").eq(-1).text();
+                // alert(removeletter);
+                abc_add_checkbox.push(removeletter);
+                //删除最后一个
+                $(".add_checkbox_input").eq(-1).remove();
+
+            }
+            else{
+                alert("最少为2个选项");
+
+            }
+            return false;
+        });
+
+
+
+
+        $("#edit_button").on('click',function() {
+//        abc_edit_radio.length=0;
+//           abc_edit_radio.push('I','H','G','F','E','D','C','B','A');
+//          alert(abc_edit_radio);
+
+            var topic_checked_b = $('input[name="content_list_radio"]:checked');
+            for (i = 0; i < topic_checked_b.length; i++) {
+                var id = topic_checked_b[i].id;
+            }
+
+            var iival = $('input[name="content_list_radio"]:checked').val();
+            if ($("#topic_box").val() == "") {
+                alert("请选择题目");
+                return
+            } else if ($("input[name='content_list_radio']:checked").length >= 2) {
+                alert("不能多选");
+                return
+            }
+            else {
+/////var  id=$("#topic_box").val();
+//alert(id);
+//ajax调用
+                //alert($("#topic_box").val());
+             
+                youtu.ajax("/questions/" + id + "/check_questions?" + new Date().getTime(), "", "get", function (data) {
+
+                    if (data.success == 0) {
+                        document.getElementById("uploadImage2").reset();
+                        var jsondata = JSON.parse(JSON.stringify(data));
+
+                       //alert(JSON.stringify(jsondata.data.Questions));
+                        // alert(JSON.stringify(jsondata.data.Questions[0].title_content));
+                        editor_edit.insertHtml(jsondata.data.Questions[0].title_content);
+                        var type = jsondata.data.Questions[0].type;
+                        var facility_value = jsondata.data.Questions[0].facility_value;
+                        var answer_list = jsondata.data.Questions[0].answer_list;
+                        var answer_ok = jsondata.data.Questions[0].answer_ok;
+                        var answer_id = jsondata.data.Questions[0].id;
+                        $("#select_edit option[value='" + type + "']").attr("selected", "selected");
+                        $("#select_edit_facility option[value='" + facility_value + "']").attr("selected", "selected");
+                        $("#answer_box").val(answer_id);
+                        $("#type_box").val(type);
+                        if (type == "0") {
+                            $(".edit_radio_box").show();
+                            $(".edit_checkbox_box").hide();
+                            $(".edit_judge_box").hide();
+
+                            if (answer_list == "A,B,C") {
+                                $("#edit_radio_D").remove();
+                                //abc_edit_radio.push('D');
+                                abc_edit_radio.splice($.inArray('A', abc_edit_radio), 1)
+                                abc_edit_radio.splice($.inArray('B', abc_edit_radio), 1)
+                                abc_edit_radio.splice($.inArray('C', abc_edit_radio), 1)
+                                var string = 'edit_radio_' + answer_ok;
+                                $("#" + string).find('input').attr("checked", true);
+
+                            }
+                            else if (answer_list == "A,B") {
+                                $("#edit_radio_C").remove();
+                                $("#edit_radio_D").remove();
+                                //  abc_edit_radio.push('D','C');
+                                abc_edit_radio.splice($.inArray('A', abc_edit_radio), 1)
+                                abc_edit_radio.splice($.inArray('B', abc_edit_radio), 1)
+                                var string = 'edit_radio_' + answer_ok;
+                                $("#" + string).find('input').attr("checked", true);
+                            }
+                            else {
+                                $(".edit_radio_box").find('.edit_radio_input').remove();
+                                var radio_html = ""
+                                for (i = 0; i < answer_list.split(",").length; i++) {
+                                    var a = answer_list.split(",")[i];
+
+                                    abc_edit_radio.splice($.inArray(a, abc_edit_radio), 1);
+                                    radio_html += '<div class="edit_radio_input" id="edit_radio_' + a + '">';
+                                    radio_html += '<input type="radio" name="edit_radio_input" value="' + a + '" >';
+                                    radio_html += a;
+                                    radio_html += '</div>';
+                                }
+
+                                $("#edit_InputsWrapper").append(radio_html);
+                                for (i = 0; i < answer_ok.split(",").length; i++) {
+                                    var abc = answer_ok.split(",")[i];
+                                    var string = 'edit_radio_' + abc;
+
+                                    $("#" + string).find('input').attr("checked", true);
+                                }
+
+                            }
+
+                        }
+                        if (type == "1") {
+                            $(".edit_radio_box").hide();
+                            $(".edit_checkbox_box").show();
+                            $(".edit_judge_box").hide();
+                            if (answer_list == "A,B,C") {
+                                $("#edit_checkbox_D").remove();
+                                // abc_edit_checkbox.push('D');
+                                abc_edit_checkbox.splice($.inArray('A', abc_edit_checkbox), 1)
+                                abc_edit_checkbox.splice($.inArray('B', abc_edit_checkbox), 1)
+                                abc_edit_checkbox.splice($.inArray('C', abc_edit_checkbox), 1)
+                                for (i = 0; i < answer_ok.split(",").length; i++) {
+                                    var abc = answer_ok.split(",")[i];
+                                    var string = 'edit_checkbox_' + abc;
+
+                                    $("#" + string).find('input').attr("checked", true);
+                                }
+                            }
+                            else if (answer_list == "A,B") {
+                                $("#edit_checkbox_C").remove();
+                                $("#edit_checkbox_D").remove();
+                                // abc_edit_checkbox.push('D','C');
+                                abc_edit_checkbox.splice($.inArray('A', abc_edit_checkbox), 1)
+                                abc_edit_checkbox.splice($.inArray('B', abc_edit_checkbox), 1)
+                                var string = 'edit_checkbox_' + answer_ok;
+                                $("#" + string).find('input').attr("checked", true);
+                            }
+                            else {
+                                $(".edit_checkbox_box").find('.edit_checkbox_input').remove();
+                                var checkbox_html = ""
+
+                                for (i = 0; i < answer_list.split(",").length; i++) {
+                                    var a = answer_list.split(",")[i];
+                                    abc_edit_checkbox.splice($.inArray(a, abc_edit_checkbox), 1);
+                                    checkbox_html += '<div class="edit_checkbox_input" id="edit_checkbox_' + a + '">';
+                                    checkbox_html += '<input type="checkbox" name="edit_checkbox_input" value="' + a + '" >';
+                                    checkbox_html += a;
+                                    checkbox_html += '</div>';
+                                }
+
+                                $("#edit_Inputcheckbox").append(checkbox_html);
+
+                                for (i = 0; i < answer_ok.split(",").length; i++) {
+                                    var abc = answer_ok.split(",")[i];
+                                    var string = 'edit_checkbox_' + abc;
+
+                                    $("#" + string).find('input').attr("checked", true);
+                                }
+
+                            }
+
+
+                        }
+
+
+                        if (type == "2") {
+                            $(".edit_radio_box").hide();
+                            $(".edit_checkbox_box").hide();
+                            $(".edit_judge_box").show();
+
+                            var string = 'edit_judge_' + answer_ok;
+
+                            $("#" + string).find('input').attr("checked", true);
+                        }
+                        $('#edit_modal').modal('show');
+
+                    }
+                    else {
+                        alert("请求失败");
+                    }
+
+
+                });
+
+            }
+        });
+
+            $("#edit_cancel_img").on('click',function(){
+                document.getElementById("uploadImage2").reset();
+            })
+
+                var FieldCount=1;
+
+                $("#edit_radio_button").click(function (){
+                    if($(".edit_radio_input").size()==4){
+                        removeByValue(abc_edit_radio, "A");
+                        removeByValue(abc_edit_radio, "B");
+                        removeByValue(abc_edit_radio, "C");
+                        removeByValue(abc_edit_radio, "D");
+                    }else if($(".edit_radio_input").size()==3){
+                        removeByValue(abc_edit_radio, "A");
+                        removeByValue(abc_edit_radio, "B");
+                        removeByValue(abc_edit_radio, "C");
+                    }else if($(".edit_radio_input").size()==2){
+                        removeByValue(abc_edit_radio, "A");
+                        removeByValue(abc_edit_radio, "B");
+                    }
+
+                    var letter=abc_edit_radio.pop();
+                    // alert(letter);
+                    var MaxInputs=$(".edit_radio_input").size();
+                    if(MaxInputs <= 8)
+                    {
+                        FieldCount++;
+                        //add input box
+                        $("#edit_InputsWrapper").append("<div class='edit_radio_input' id='edit_radio_"+letter+"'><input type='radio' name='edit_radio_input'  value='"+letter+"'/>"+letter+"</div>");
+                        x++;
+                        //  alert(abc_edit_radio)
+                    }
+                    else{
+                        alert("最多添加5个");
+
+                    }
+                    return false;
+                });
+
+
+
+                $("#edit_remove_radio").click(function (){
+                    var minInput=$(".edit_radio_input").size();
+                    //alert($(".edit_radio_input").size());
+                    if(minInput > 2)
+                    {
+                        //
+                        var removeletter=$(".edit_radio_input").eq(-1).text();
+                        // alert(removeletter);
+
+                        abc_edit_radio.push(removeletter);
+                        //删除最后一个
+                        $(".edit_radio_input").eq(-1).remove();
+
+                    }
+                    else{
+                        alert("不能在删除了");
+
+                    }
+                    return false;
+                });
+
+
+
+
+
+                var FieldCount=1;
+
+                $("#edit_checkbox_button").click(function (){
+
+                    if($(".edit_checkbox_input").size()==4){
+                        removeByValue(abc_edit_checkbox, "A");
+                        removeByValue(abc_edit_checkbox, "B");
+                        removeByValue(abc_edit_checkbox, "C");
+                        removeByValue(abc_edit_checkbox, "D");
+
+                    }else if($(".edit_checkbox_input").size()==3){
+                        removeByValue(abc_edit_checkbox, "A");
+                        removeByValue(abc_edit_checkbox, "B");
+                        removeByValue(abc_edit_checkbox, "C");
+                    }else if($(".edit_checkbox_input").size()==2){
+                        removeByValue(abc_edit_checkbox, "A");
+                        removeByValue(abc_edit_checkbox, "B");
+                    }
+
+                    var letter=abc_edit_checkbox.pop();
+                    // alert(letter);
+                    var MaxInputs=$(".edit_checkbox_input").size();
+                    if(MaxInputs <= 8)
+                    {
+                        FieldCount++;
+                        //add input box
+                        $("#edit_Inputcheckbox").append("<div class='edit_checkbox_input' id='edit_checkbox_"+letter+"'><input type='checkbox' name='edit_checkbox_input' id='field_"+ FieldCount +"' value='"+letter+"'/>"+letter+"</div>");
+                        x++;
+                        // alert(abc_edit_checkbox)
+                    }
+                    else{
+                        alert("最多添加5个");
+
+                    }
+                    return false;
+                });
+
+
+
+
+                $("#edit_remove_checkbox").click(function (){
+                    var minInput=$(".edit_checkbox_input").size();
+                    // alert($(".edit_checkbox_input").size());
+                    if(minInput > 2)
+                    {
+                        //
+                        var removeletter=$(".edit_checkbox_input").eq(-1).text();
+                        //   alert(removeletter);
+
+                        abc_edit_checkbox.push(removeletter);
+                        //删除最后一个
+                        $(".edit_checkbox_input").eq(-1).remove();
+
+                    }
+                    else{
+                        alert("不能在删除了");
+
+                    }
+                    return false;
+
+
+        })
+
+
+        $("#edit_submit").on('click', function () {
+            var id=$("#topic_box").val();
+
+            var title_content=editor_edit.html();
+            if(title_content.length==0){
+                alert("请输入考题内容");
+                return
+            }else if(title_content.length>87672){
+                alert("截图图片过大或者过多，请用右上角上传图片功能");
+                return
+            }
+            var   type=$("#type_box").val();
+            var photo_url=$("#image_url_box").val();
+
+            if(type=="0"){
+               // alert("0"+type);
+                var text=[];
+                var text_list=[];
+
+                var s=$('input:radio[name="edit_radio_input"]:checked').val();
+               // alert(s)
+                if (s== null) {
+                    alert("什么也没选中！");
+                    return
+                }
+                else {
+                    text.push(s);
+                }
+
+                $("input[name='edit_radio_input']").each(function(i, val){
+                    text_list.push(val.value)
+                })
+
+
+            }
+            else if(type=="1"){
+
+               //alert("1"+type);
+                var text=[];
+                var text_list=[];
+                var arr = $('input[name="edit_checkbox_input"]:checked');
+                if (arr== null) {
+                    alert("什么也没选中！");
+                    return
+                }else {
+
+                    for (i = 0; i < arr.length; i++) {
+                        if (arr[i].checked) {
+                            text.push(arr[i].value);
+                        }
+                    }
+                }
+
+                $("input[name='edit_checkbox_input']").each(function(i, val){
+                    text_list.push(val.value);
+                })
+
+            }
+            else if(type=="2"){
+                var text=[];
+                var text_list=[];
+                var s=$('input:radio[name="edit_judge_input"]:checked').val();
+                if (s== null) {
+                    alert("什么也没选中！");
+                    return
+                }
+                else {
+                    text.push(s);
+                }
+                $("input[name='edit_judge_input']").each(function(i, val){
+                    text_list.push(val.value)
+                })
+            }
+            if(text.length=="0"){
+                alert("请填写答案");
+                return
+            }
+
+
+            var facility_value=$("#difficult_box").val();
+
+//    alert(id);
+//    alert(title_content);
+//    alert(type);
+//    alert(photo_url);
+//    alert(text);
+//    alert(text_list);
+//    alert(facility_value);
+//     alert(id);
+            $.ajax({
+                url: "/questions/"+id+"/modify_questions?" + new Date().getTime(),
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    classhour_m_id: id,
+                    title_content:title_content,
+                    type:type,
+                    answer_ok: text,
+                    analysis: '',
+                    knowledge_point: 'DSADSA',
+                    facility_value: facility_value,
+                    score_value:"",
+                    photo_url: photo_url,
+                    answer_list:text_list
+                }),
+                success: function(data) {
+                    if (data.success == 0) {
+                        editor_edit.html("");
+//                        abc_edit_radio.length=0;
+//                       //$("input[type='radio']").removeAttr('checked');
+//         $("#edit_radio_E").remove();
+//          $("#edit_radio_F").remove();
+//          $("#edit_radio_G").remove();
+//           $("#edit_radio_H").remove();
+//           $("#edit_radio_I").remove();
+//          abc_edit_radio.push('I','H','G','F','E');
+//
+//            var add_radio_size=$(".add_radio_input").size();
+//            if(add_radio_size==3){
+//                $("#InputsWrapper").append('<div class="add_radio_input"><input type="radio" name="add_radio_input" value="D">D</div>')
+//            }
+
+//
+//            abc_add_checkbox.length=0;
+//            $("input[type='checkbox']").removeAttr('checked');
+//            $("#add_checkbox_E").remove();
+//            $("#add_checkbox_F").remove();
+//            $("#add_checkbox_G").remove();
+//            $("#add_checkbox_H").remove();
+//            $("#add_checkbox_I").remove();
+//            abc_add_checkbox.push('I','H','G','F','E');
+//
+//            var add_radio_size=$(".add_checkbox_input").size();
+//            if(add_radio_size==3){
+//                $("#add_Inputcheckbox").append('<div class="add_checkbox_input"><input type="checkbox" name="add_checkbox_input" value="D">D</div>')
+//            }
+
+
+                        window.location.href = window.location.href;
+//                        var id=$("#class_id_box").val();
+//                        $("#topic_box").val("");
+//                        //$("#class_id_box").val(id);
+//                        //ajax调用
+//                        youtu.ajax("/questions/"+id+"/query_questions","","get",function (data) {
+//                            if(data.success==0){
+//                                var jsondata=JSON.parse(JSON.stringify(data));
+//                                var Questions=jsondata.data.Questions;
+//                                alert(JSON.stringify(jsondata.data.Questions));
+//
+//                                var nums = 3; //每页出现的数量
+//                                var pages = Math.ceil(Questions.length/nums); //得到总页数
+//
+//                                var thisDate = function(curr){
+//                                    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+//                                    var str = '', last = curr*nums - 1;
+//                                    last = last >= Questions.length ? (Questions.length-1) : last;
+//
+//                                    for(var i = (curr*nums - nums); i <= last; i++){
+//
+//                                        str +='<div class="content_list_box">';
+//                                        str +=' <textarea name="content" style="visibility:hidden;">'+Questions[i].title_content+'</textarea>';
+//                                        str +='<div class="content_c">'+Questions[i].title_content+'</div>'
+//                                        str +='<div class="content_title_box">';
+//                                        str +='<div class="content_title_l">';
+//                                        str +='<input type="checkbox" name="content_list_radio" id="'+Questions[i].id+'"  onclick="topic_id('+Questions[i].id+')"/><p>难易度：</p><span>[</span><span>'+Questions[i].facility_value+'</span><span>]</span>';
+//                                        str +='</div>';
+//                                        str +='<div class="content_title_r">';
+//
+//                                        str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Questions[i].answer_ok+'&quot;)">正确答案</button>';
+//                                        str +='</div>';
+//                                        str +='</div>';
+//                                        str +='</div>';
+//
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+////            str += '<li>'+ data[i] +'</li>';
+//                                    }
+//                                    return str;
+//                                };
+//
+//                                //调用分页
+//                                laypage({
+//                                    cont: 'biuuu_city',
+//                                    pages: pages,
+//                                    jump: function(obj){
+//                                        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+//                                    }
+//                                })
+//
+//                                // $("#versionListId").append(html);
+//                            }else{
+//                                alert("请求失败");
+//                            }
+//
+//
+//                        });
+                    }
+                    else {
+                        alert("请求失败1111");
+                    }
+
+
+                },
+                error: function(){
+                    alert("获取数据失败");
+                }
+
+            });
+
+
+
+
+
+        })
+        $(".edit_close").on('click',function(){
+            $('#edit_modal').modal('hide');
+            window.location.href = window.location.href;
+        })
+
+
+
+
+
+        $("#delete_button").on('click',function(){
+if($("#class_id_box").val()==""){
+    alert("请选择课时");
+    return
+} else  if($("#topic_box").val()==""){
+                alert("未选择任何题目");
+                return
+            }
+else if($("input[name='content_list_radio']:checked").length >= 2)
+            {
+                alert("不能多选");
+            }else {
+                $('#delete_questions').modal('show');
+            }
+        });
+
+        $("#delete_questions_submit").on('click',function(){
+           // alert($('input[name="content_list_radio"]:checked').attr('state_delete'));
+          if($('input[name="content_list_radio"]:checked').attr('state_delete')==1){
+ var topic_checked=$('input[name="content_list_radio"]:checked');
+            for(i=0;i<topic_checked.length;i++){
+                var id=topic_checked[i].id;
+            }
+                          youtu.ajax("/questions/" + id + "/delete_questions?" + new Date().getTime(), "", "delete", function (data) {
+                if (data.success == 0) {
+
+                    //window.location.href = window.location.href;
+                    var id=$("#class_id_box").val();
+                    $("#topic_box").val("");
+                    //$("#class_id_box").val(id);
+                    //ajax调用
+                    youtu.ajax("/questions/"+id+"/query_questions?" + new Date().getTime(),"","get",function (data) {
+
+                        if(data.success==0){
+                            var jsondata=JSON.parse(JSON.stringify(data));
+                            var Questions=jsondata.data.Questions;
+                            //alert(JSON.stringify(jsondata.data.Questions));
+
+                            var nums = 3; //每页出现的数量
+                            var pages = Math.ceil(Questions.length/nums); //得到总页数
+
+                            var thisDate = function(curr){
+                                //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                                var str = '', last = curr*nums - 1;
+                                last = last >= Questions.length ? (Questions.length-1) : last;
+
+                                for(var i = (curr*nums - nums); i <= last; i++){
+
+                                    str +='<div class="content_list_box">';
+                                    str +=' <textarea name="content" style="visibility:hidden;">'+Questions[i].title_content+'</textarea>';
+                                    str +='<div class="content_c">'+Questions[i].title_content+'</div>'
+                                    str +='<div class="content_title_box">';
+                                    str +='<div class="content_title_l">';
+                                    str +='<input type="radio" state_delete="' + Questions[i].post_phone + '" name="content_list_radio" id="'+Questions[i].id+'"  onclick="topic_id('+Questions[i].id+')"/><p>题号：</p><span>[</span><span>' + Questions[i].id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Questions[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>'+Questions[i].facility_value+'</span><span>]</span>';
+                                    str +='</div>';
+                                    str +='<div class="content_title_r">';
+                                    str += '<a onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Questions[i].id+'&quot;,&quot;1&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"></a>';
+                                    str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Questions[i].answer_ok+'&quot;)">正确答案</button>';
+                                    str += '<button class="btn btn-primary"  onclick="add_bookmark_buttton(&quot;' + Questions[i].id + '&quot;)">加入书签</button>';
+                                    str +='</div>';
+                                    str +='</div>';
+                                    str +='</div>';
+
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+//            str += '<li>'+ data[i] +'</li>';
+                                }
+                                return str;
+                            };
+
+                            //调用分页
+                            laypage({
+                                cont: 'biuuu_city',
+                                pages: pages,
+                                jump: function(obj){
+                                    document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);
+                                }
+                            });
+                            if(attributeCount(Questions)==0){
+                                $("#border_box").show();
+                                $("#biuuu_city_list").append('<div class="none_list">暂无对应内容</div>');
+
+                            }else {
+                                $("#border_box").hide();
+                            }
+                            // $("#versionListId").append(html);
+                        }else{
+                            alert("请求失败");
+                        }
+
+
+                    });
+                }
+
+
+
+             else {
+                    alert("请求失败");
+                }
+
+            });
+
+           }else{
+              alert("系统题库无法删除");
+          }
+        })
+
+        $("#add_bookmark").on('click',function(){
+            var topic_checked=$('input[name="content_list_radio"]:checked');
+            if($("input[name='content_list_radio']:checked").length == 0)
+            {
+                alert("请选择题目");
+                return
+            }
+
+            for(i=0;i<topic_checked.length;i++){
+                var id=topic_checked[i].id;
+                //alert(topic_checked[i].id);
+                problem_id.push(id);
+            }
+            //alert(problem_id);
+            $.ajax({
+                url: "/questions/add_bookmark?" + new Date().getTime(),
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id:problem_id
+                }),
+                success: function(data) {
+                    if (data.success == 0) {
+                        //alert(data.success);
+                        $("#topic_box").val("");
+                        $('#dialog_success').modal('show');
+                    }
+                    else {
+                        alert("请求失败1111");
+                    }
+
+                },
+                error: function(){
+                    alert("获取数据失败");
+                }
+
+            });
+        });
+
+$("#add_success_close").on('click',function(){
+
+    $('input[name="content_list_radio"]').removeAttr('checked');
+
+
+})
+
+
+
+
+
+        $("#delete_bookmark").on('click',function(){
+
+
+            if($("input[name='content_list_radio']:checked").length == 0)
+            {
+                alert("请选择题目");
+            }else {
+                $('#delete_bookmark_modal').modal('show');
+
+            }
+
+        })
+
+        $("#delete_bookmark_submit").on('click',function(){
+            var topic_checked=$('input[name="content_list_radio"]:checked');
+            for(i=0;i<topic_checked.length;i++){
+                var id=topic_checked[i].id;
+                problem_id.push(id);
+            }
+
+            $.ajax({
+                url: "/questions/delete_bookmark?"+new Date().getTime(),
+                type: 'delete',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id:problem_id
+                }),
+                success: function(data) {
+                    if (data.success == 0) {
+                        //alert(data.success);
+                       // window.location.href = window.location.href;
+
+                        youtu.ajax("/questions/get_bookmark_list?"+new Date().getTime(),"","get",function (data) {
+                            if(data.success==0){
+
+                                var jsondata=JSON.parse(JSON.stringify(data));
+
+                                var Book_mark=jsondata.data.Book_mark;
+                               // alert(JSON.stringify(Book_mark));
+                                //  alert(JSON.stringify(jsondata.data.Questions));
+
+                                var nums = 3; //每页出现的数量
+                                var pages = Math.ceil(Book_mark.length/nums); //得到总页数
+
+                                var thisDate = function(curr){
+                                    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                                    var str = '', last = curr*nums - 1;
+                                    last = last >= Book_mark.length ? (Book_mark.length-1) : last;
+
+                                    for(var i = (curr*nums - nums); i <= last; i++){
+
+                                        str +='<div class="content_list_box">';
+                                        str +=' <textarea name="content" style="visibility:hidden;">'+Book_mark[i].title_content+'</textarea>';
+                                        str +='<div class="content_c">'+Book_mark[i].title_content+'</div>'
+                                        str +='<div class="content_title_box">';
+                                        str +='<div class="content_title_l">';
+                                        str +='<input type="radio" id="'+Book_mark[i].id+'" name="content_list_radio"  onclick="topic_id('+Book_mark[i].id+')"/><p>题号：</p><span>[</span><span>' +  Book_mark[i].question_id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Book_mark[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>'+Book_mark[i].facility_value+'</span><span>]</span><p>出处：</p><span>[</span><span>'+Book_mark[i].node_name+'</span><span>]</span>';
+                                        str +='</div>';
+                                        str +='<div class="content_title_r">';
+                                        str +='<p style="display: none"></p>';
+                                        str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Book_mark[i].id+'&quot;,&quot;0&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+                                        //str += '<button class="btn btn-primary"  onclick="bomb_box(&quot;'+Book_mark[i].id+'&quot;)">白板</button>';
+                                        str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Book_mark[i].answer_ok+'&quot;)">正确答案</button>';
+                                        str +='</div>';
+                                        str +='</div>';
+                                        str +='</div>';
+
+                                    }
+                                    return str;
+                                };
+
+                                //调用分页
+                                laypage({
+                                    cont: 'bookmark_city',
+                                    pages: pages,
+                                    jump: function(obj){
+                                        document.getElementById('bookmark_list').innerHTML = thisDate(obj.curr);
+                                    }
+                                });
+                                if(attributeCount(Book_mark)==0){
+                                    $("#bookmark_list").append('<div class="none_list">暂无对应内容</div>');
+                                }
+                            }else{
+                                alert("请求失败");
+                            }
+                        });
+
+                    }
+                    else {
+                        alert("请求失败");
+                    }
+
+                },
+                error: function(){
+                    alert("获取数据失败");
+                }
+
+            });
+        })
+
+//        $("#return_button").on('click',function(){
+//
+//            $(".main_r").show();
+//            $(".main_r_two").hide();
+//            $(".nav_chapter_box").slideDown() ;
+//            $("#nav_hour_list").slideDown() ;
+//        })
+
+
+
+
+
+//    $("#add_bookmark").on('click',function(){
+//        var id=$("#topic_box").val();
+//        // alert(id);
+//        //ajax调用
+//        //add_bookmark
+//        youtu.ajax("/questions/add_bookmark","","post",function (data) {
+//            if(data.success==0){
+//                youtu.dialog('questions/edit_edition_v',200,100)
+//
+//
+//            }else{
+//                alert("请求失败");
+//            }
+//        });
+//    });
+
+
+
+        $("#empty_bookmark").on("click",function(){
+            $('#empty_bookmark_modal').modal('show');
+        })
+
+        $("#empty_bookmark_submit").on('click',function(){
+            var topic_checked=$('input[name="content_list_radio"]:checked');
+            for(i=0;i<topic_checked.length;i++){
+                var id=topic_checked[i].id;
+                problem_id.push(id);
+            }
+            youtu.ajax("/questions/empty_bookmark?"+new Date().getTime(), "", "delete", function (data) {
+                if (data.success == 0) {
+                   // alert(data.success);
+                    youtu.ajax("/questions/get_bookmark_list?"+new Date().getTime(),"","get",function (data) {
+                        if(data.success==0){
+
+                            var jsondata=JSON.parse(JSON.stringify(data));
+
+                            var Book_mark=jsondata.data.Book_mark;
+                            alert(JSON.stringify(Book_mark));
+                            //  alert(JSON.stringify(jsondata.data.Questions));
+
+                            var nums = 3; //每页出现的数量
+                            var pages = Math.ceil(Book_mark.length/nums); //得到总页数
+
+                            var thisDate = function(curr){
+                                //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                                var str = '', last = curr*nums - 1;
+                                last = last >= Book_mark.length ? (Book_mark.length-1) : last;
+
+                                for(var i = (curr*nums - nums); i <= last; i++){
+
+                                    str +='<div class="content_list_box">';
+                                    str +=' <textarea name="content" style="visibility:hidden;">'+Book_mark[i].title_content+'</textarea>';
+                                    str +='<div class="content_c">'+Book_mark[i].title_content+'</div>'
+                                    str +='<div class="content_title_box">';
+                                    str +='<div class="content_title_l">';
+                                    str +='<input type="radio" id="'+Book_mark[i].id+'" name="content_list_radio"  onclick="topic_id('+Book_mark[i].id+')"/><p>难易度：</p><span>[</span><span>'+Book_mark[i].facility_value+'</span><span>]</span>';
+                                    str +='</div>';
+                                    str +='<div class="content_title_r">';
+                                    str +='<p style="display: none"></p>';
+                                    str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Book_mark[i].id+'&quot;,&quot;0&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+                                    //str += '<button class="btn btn-primary"  onclick="bomb_box(&quot;'+Book_mark[i].id+'&quot;)">白板</button>';
+                                    str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Book_mark[i].answer_ok+'&quot;)">正确答案</button>';
+                                    str +='</div>';
+                                    str +='</div>';
+                                    str +='</div>';
+
+                                }
+                                return str;
+                            };
+
+                            //调用分页
+                            laypage({
+                                cont: 'bookmark_city',
+                                pages: pages,
+                                jump: function(obj){
+                                    document.getElementById('bookmark_list').innerHTML = thisDate(obj.curr);
+                                }
+                            });
+                            if(attributeCount(Book_mark)==0){
+                                $("#border_box_bookmark").show();
+                                $("#bookmark_list").append('<div class="none_list">尚未添加任何书签</div>');
+
+                            }else {
+                                $("#border_box_bookmark").hide();
+                            }
+                        }else{
+                            alert("请求失败");
+                        }
+                    });
+
+
+
+
+                } else {
+                    alert("请求失败");
+                }
+
+
+            });
+        })
+
+        $("#correct_buttton").on("click",function(){
+
+            $('#correct_modal').modal('show');
+        })
+
+
+
+    })
+
+    $("a.user").bind("click", function(){
+        if($(".login_con").css("display") == "none"){
+            $("#blo_2").show();
+            $(".login_con").fadeIn(500);
+        }else{
+            $(".login_con").hide(300);
+        }
+    });
+    $(".close_2 > a").click(function(){
+        $(".login_con").hide();
+    })
+
+    $("#index_admin").on('click',function(){
+        var base64 = new Base64();
+        var teacher_box=$("#teacher_box").val();
+        var teacher_box=base64.encode(teacher_box);
+
+        var headmaster_box=$("#headmaster_box").val();
+        var headmaster_box=base64.encode(headmaster_box);
+
+        var admin_box=$("#admin_box").val();
+        var admin_box=base64.encode(admin_box);
+        window.location.href="/login_home?username="+username+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+
+    })
+
+
+    $("#class_admin").on('click',function(){
+        //alert("班级"+username);
+        if(headmaster=="true"){
+            $.ajax({
+                url:'/login?'+new Date().getTime(),
+                type: 'post',
+                contentType: "application/json",
+                dataType: 'json',
+                data:JSON.stringify({
+                    phone :username,
+                    password:"",
+                    login_role:"1",
+                    mac:"",
+                    //mac:MACAddr,
+
+                }),
+                success:function(data){
+                    if(data.success==0){
+                        var jsondata=JSON.parse(JSON.stringify(data));
+                        // alert(JSON.stringify(jsondata))
+                        var name=jsondata.data.Info.name;
+                        var school_id=jsondata.data.Info.school_id;
+                        var headmaster_class=jsondata.data.Info.headmaster_class;
+                        var type_grade=jsondata.data.Info.type_grade;
+                        var class_id=jsondata.data.Info.class_id;
+                        var base64 = new Base64();
+                        var teacher_box=$("#teacher_box").val();
+                        var teacher_box=base64.encode(teacher_box);
+
+                        var headmaster_box=$("#headmaster_box").val();
+                        var headmaster_box=base64.encode(headmaster_box);
+
+                        var admin_box=$("#admin_box").val();
+                        var admin_box=base64.encode(admin_box);
+
+                        window.location.href="/user_management_index?username="+username+"&name="+name+"&school_id="+school_id+"&headmaster_class="+headmaster_class+"&type_grade="+type_grade+"&role=1&class_id="+class_id+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+
+                    }
+                    else {
+                        // alert(data.desc);
+
+                    }
+                },
+                error:function(){
+                    alert("提交服务器失败");
+                }
+            })
+
+        }else {
+            $("#explain").html("对不起，您没有权限");
+            $('#myModal').modal("show");
+        }
+
+    })
+
+
+
+
+    $("#school_admin").on('click',function(){
+        //alert("学校"+username);
+        if(admin=="true") {
+            $.ajax({
+                url: '/login?' + new Date().getTime(),
+                type: 'post',
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({
+                    phone: username,
+                    password: "",
+                    login_role: "2",
+                    mac: "",
+                    //mac:MACAddr,
+                }),
+                success: function (data) {
+                    if (data.success == 0) {
+                        var jsondata = JSON.parse(JSON.stringify(data));
+                        //alert(JSON.stringify(jsondata))
+                        var name = jsondata.data.Info.name;
+                        var school_id = jsondata.data.Info.school_id;
+                        var class_id = jsondata.data.Info.class_id;
+                        if (class_id == "") {
+                            var class_id_a = "abc";
+                        }
+                        var base64 = new Base64();
+                        var teacher_box=$("#teacher_box").val();
+                        var teacher_box=base64.encode(teacher_box);
+
+                        var headmaster_box=$("#headmaster_box").val();
+                        var headmaster_box=base64.encode(headmaster_box);
+
+                        var admin_box=$("#admin_box").val();
+                        var admin_box=base64.encode(admin_box);
+//            var  username=$("#username_box").val();
+//            var username=base64.encode(username);
+                        window.location.href = "/user_management_index?username="+username+"&name=" + name + "&school_id=" + school_id + "&role=2&class_id=" + class_id_a+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+                        //   alert("00000");
+                    }
+                    else {
+                        // alert(data.desc);
+
+                    }
+                },
+                error: function () {
+                    alert("提交服务器失败");
+                }
+
+
+            })
+        }else {
+            $("#explain").html("对不起，您没有权限");
+            $('#myModal').modal("show");
+        }
+    })
+
+
+$("#logout_index").on('click',function(){
+
+    var base64 = new Base64();
+    var teacher_box=$("#teacher_box").val();
+    var teacher_box=base64.encode(teacher_box);
+
+    var headmaster_box=$("#headmaster_box").val();
+    var headmaster_box=base64.encode(headmaster_box);
+
+    var admin_box=$("#admin_box").val();
+    var admin_box=base64.encode(admin_box);
+    window.location.href="/login_home?username="+username+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+
+});
+
+    function correct_buttton(text){
+
+        var screenHeight = $(window).height();
+        var scrolltop = $(document).scrollTop();
+        var objTop = (screenHeight - 570)/2 + scrolltop;
+        $("#correct_modal").css('margin-top',objTop);
+        if(text=="true"){
+            $("#correct_ok").html("√");
+        }else if(text=="false"){
+            $("#correct_ok").html("×");
+        }else{
+            $("#correct_ok").html(text);
+        }
+        $('#correct_modal').modal('show');
+    }
+
+    function  add_bookmark_buttton(id){
+        var add_bookmark_id=[];
+        add_bookmark_id.push(id);
+        $.ajax({
+            url: "/questions/add_bookmark?" + new Date().getTime(),
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                id:add_bookmark_id
+            }),
+            success: function(data) {
+                if (data.success == 0) {
+                    //alert(data.success);
+                    $("#topic_box").val("");
+                    $('#dialog_success').modal('show');
+                }else if (data.success == 1) {
+                  alert("该题已存在书签中");
+                }
+                else {
+                    alert("请求失败");
+                }
+
+            },
+            error: function(){
+                alert("获取数据失败");
+            }
+
+        });
+    }
+
+    function topic_id(id) {
+//        if($('input:[name="content_list_radio"]').prop("checked"))
+//        {
+//            $("#topic_box").val(id);
+//        }
+//        else
+//            $("#topic_box").val("");
+//
+//    }
+        var val = $('input:radio[name="content_list_radio"]:checked').val();
+        if (val == null) {
+            return false;
+        }else {
+
+            $("#topic_box").val(id);
+
+        }
+
+    }
+
+
+
+
+    function hour_list(id){
+        $("#nav_hour_list").html("");
+        $(".nav_chapter_box li").removeClass('sel');
+        $("#"+id).addClass('sel');
+
+        //$("#"+id).youcolor("sel",".nav_chapter_box li");
+        var id=id;
+
+
+        //ajax调用
+        youtu.ajax('/questions/'+id+'/query_all?' + new Date().getTime(),"","get",function (data) {
+            if(data.success==0){
+                $(".managementPanel").html("");
+                var jsondata=JSON.parse(JSON.stringify(data));
+                //alert(JSON.stringify(jsondata.data.chapter_classhour));
+                var chapter_classhour=jsondata.data.chapter_classhour;
+                // alert(chapter_classhour);
+                var showlist = $("<ul></ul>");
+                showall(chapter_classhour, showlist);
+                $("#nav_hour_list").append(showlist);
+
+                function showall(json_data, showlist) {
+
+                    for (var menu in json_data) {
+
+                        if (json_data[menu].classhour.length>0) {
+
+                            var li = $("<p class='nav_hour_title'></p>");
+
+                            $(li).append(json_data[menu].classhour_content).append("<ul></ul>").appendTo(showlist);
+                            $(li).attr('id',json_data[menu].chapter_m_id);
+                            $(li).attr('iddd',json_data[menu].chapter_m_id);
+                            // $(li).attr('onclick','content_list()');
+                            showall(json_data[menu].classhour, showlist);
+                        }
+
+                        else {
+                            $("<li onclick='content_list("+json_data[menu].classhour_id+")'></li>").append(json_data[menu].classhour_content).attr('classhour_id',json_data[menu].classhour_id).attr('iddd',json_data[menu].classhour_id).appendTo(showlist);
+
+                        }
+                    }
+                }
+
+            }else{
+                alert("请求失败");
+            }
+        });
+
+    };
+
+
+
+
+
+
+
+    function bomb_box2(src,id,state){
+
+        var wb_number_b=$("#wb_number").html();
+//alert($("#wb_number").html());
+       // alert(id);
+
+        var browsewidth = $(window).width();
+        //var browseheight =$(window).height();
+        var   browseheight =document.body.scrollHeight
+        //var browsewidth = "";
+       // var browseheight ="";
+        create2(src,browsewidth,browseheight,id,wb_number_b,state);
+    }
+
+    function create2(src,width,height,id,wb_number_b,state) {
+        var class_id=$("#class_id_box").val()
+        $("body").append("<div id='bg'></div><div id='bgiframe' width='"+width+"' height='"+height+"'><iframe id='"+id+"' scrolling='no' frameborder='0' src='" + src + "?id="+id+"&wb_number_b="+wb_number_b+"&state="+state+"&class_id="+class_id+"'  width='"+width+"' height='"+height+"'></iframe>");
+        $("#bgiframe").css('top','1px');
+        $("#bgiframe").css('left','1px');
+        $('.back').click(function () {
+            deleteiframe();
+            $(window).scrollTop(0);
+        });
+    }
+    function SetHeight(value) {
+        $("iframe").height(value + 2);
+        $("#bgiframe").height(value + 2);
+    }
+    function deleteiframe() {
+        $('#bg,#bgiframe').remove();
+        $('.mainContent').show();
+    }
+
+
+    function removeByValue(arr, val) {
+        for(var i=0; i<arr.length; i++) {
+            if(arr[i] == val) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
+    }
+    var attributeCount = function(obj) {
+        var count = 0;
+        for(var i in obj) {
+            if(obj.hasOwnProperty(i)) {  // 建议加上判断,如果没有扩展对象属性可以不加
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+function  browseheight(){
+    var browseheight =document.body.scrollHeight-200;
+}
+
+
+
+    function scroll(){
+        var osTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var speed = Math.floor(-osTop / 1);
+        document.documentElement.scrollTop = document.body.scrollTop = 5 + speed;
+        isTop =true;
+    }
+
+
+
+
+    function remove_box(){
+        if($("#versionListId li").size()>0){
+           // $("#bg,#bgiframe").remove();
+            location.reload();
+        }
+
+
+    }
+
+
+
+    $("#switch_one").on('click',function(){
+        $(".main_r").show();
+        $(".main_r_two").hide();
+                $(".nav_chapter_box").slideDown("slow");
+        $("#nav_hour_list").slideDown("slow");
+    })
+
+    $("#switch_two").on('click',function(){
+        $(".main_r").show();
+        $(".main_r_two").hide();
+        $("#nav_hour_list").slideDown("slow");
+        $(".nav_chapter_box").slideDown("slow");
+    })
+
+    $(".bookmark_show").on('click',function(){
+
+        $(".main_r").hide();
+        $(".main_r_two").show();
+        $(".nav_chapter_box").slideUp("slow");
+        $("#nav_hour_list").slideUp("slow");
+        //ajax调用
+        $.ajax({
+            url: "/questions/get_bookmark_list?"+new Date().getTime(),
+            type: 'get',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+
+            }),
+            beforeSend: function () {
+                $(".load_box").show();
+            },
+            success: function(data) {
+                if(data.success==0){
+
+                    var jsondata=JSON.parse(JSON.stringify(data));
+
+                    var Book_mark=jsondata.data.Book_mark;
+                    alert(JSON.stringify(Book_mark));
+                    //  alert(JSON.stringify(jsondata.data.Questions));
+
+                    var nums = 3; //每页出现的数量
+                    var pages = Math.ceil(Book_mark.length/nums); //得到总页数
+
+                    var thisDate = function(curr){
+                        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+                        var str = '', last = curr*nums - 1;
+                        last = last >= Book_mark.length ? (Book_mark.length-1) : last;
+
+                        for(var i = (curr*nums - nums); i <= last; i++){
+
+                            str +='<div class="content_list_box">';
+                            str +=' <textarea name="content" style="visibility:hidden;">'+Book_mark[i].title_content+'</textarea>';
+                            str +='<div class="content_c">'+Book_mark[i].title_content+'</div>'
+                            str +='<div class="content_title_box">';
+                            str +='<div class="content_title_l">';
+                            str +='<input type="radio" id="'+Book_mark[i].id+'" name="content_list_radio"  onclick="topic_id('+Book_mark[i].id+')"/><p>题号：</p><span>[</span><span>' +  Book_mark[i].question_id + '</span><span>]</span><p>题型：</p><span>[</span><span>' + Book_mark[i].type + '</span><span>]</span><p>难易度：</p><span>[</span><span>'+Book_mark[i].facility_value+'</span><span>]</span><p>出处：</p><span>[</span><span>'+Book_mark[i].node_name+'</span><span>]</span>';
+                            str +='</div>';
+                            str +='<div class="content_title_r">';
+                            str +='<p style="display: none"></p>';
+                            str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Book_mark[i].id+'&quot;,&quot;0&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+                            //str += '<button class="btn btn-primary"  onclick="bomb_box(&quot;'+Book_mark[i].id+'&quot;)">白板</button>';
+                            str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Book_mark[i].answer_ok+'&quot;)">正确答案</button>';
+
+                            str +='</div>';
+                            str +='</div>';
+                            str +='</div>';
+
+                        }
+                        return str;
+                    };
+
+                    //调用分页
+                    laypage({
+                        cont: 'bookmark_city',
+                        pages: pages,
+                        jump: function(obj){
+                            document.getElementById('bookmark_list').innerHTML = thisDate(obj.curr);
+                        }
+                    })
+
+                    if(attributeCount(Book_mark)==0){
+                        $("#border_box_bookmark").show();
+                        $("#bookmark_list").append('<div class="none_list">尚未添加任何书签</div>');
+
+                    }
+                    $(".load_box").hide();
+                }else {
+                    $("#border_box_bookmark").hide();
+                    $(".load_box").hide();
+                    alert("请求失败");
+                }
+            }
+
+        });
+
+
+
+
+//            youtu.ajax("/questions/get_bookmark_list?"+new Date().getTime(),"","get",function (data) {
+//                if(data.success==0){
+//
+//                    var jsondata=JSON.parse(JSON.stringify(data));
+//
+//                    var Book_mark=jsondata.data.Book_mark;
+//                    //alert(JSON.stringify(Book_mark));
+//                    //  alert(JSON.stringify(jsondata.data.Questions));
+//
+//                    var nums = 3; //每页出现的数量
+//                    var pages = Math.ceil(Book_mark.length/nums); //得到总页数
+//
+//                    var thisDate = function(curr){
+//                        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+//                        var str = '', last = curr*nums - 1;
+//                        last = last >= Book_mark.length ? (Book_mark.length-1) : last;
+//
+//                        for(var i = (curr*nums - nums); i <= last; i++){
+//
+//                            str +='<div class="content_list_box">';
+//                            str +=' <textarea name="content" style="visibility:hidden;">'+Book_mark[i].title_content+'</textarea>';
+//                            str +='<div class="content_c">'+Book_mark[i].title_content+'</div>'
+//                            str +='<div class="content_title_box">';
+//                            str +='<div class="content_title_l">';
+//                            str +='<input type="checkbox" id="'+Book_mark[i].id+'" name="content_list_radio"  onclick="topic_id('+Book_mark[i].id+')"/><p>难易度：</p><span>[</span><span>'+Book_mark[i].facility_value+'</span><span>]</span>';
+//                            str +='</div>';
+//                            str +='<div class="content_title_r">';
+//                            str +='<p style="display: none"></p>';
+//                            str += '<a  onclick="bomb_box2(&quot;whiteboard&quot;,&quot;'+Book_mark[i].id+'&quot;,&quot;0&quot;)"><img class="whiteboard_img" src="images/whiteboard.png"/></a>';
+//                            //str += '<button class="btn btn-primary"  onclick="bomb_box(&quot;'+Book_mark[i].id+'&quot;)">白板</button>';
+//                            str += '<button class="btn btn-primary"  onclick="correct_buttton(&quot;'+Book_mark[i].answer_ok+'&quot;)">正确答案</button>';
+//                            str +='</div>';
+//                            str +='</div>';
+//                            str +='</div>';
+//
+//                        }
+//                        return str;
+//                    };
+//
+//                    //调用分页
+//                    laypage({
+//                        cont: 'bookmark_city',
+//                        pages: pages,
+//                        jump: function(obj){
+//                            document.getElementById('bookmark_list').innerHTML = thisDate(obj.curr);
+//                        }
+//                    })
+//
+//                    if(attributeCount(Book_mark)==0){
+//                        $("#bookmark_list").append('<div class="none_list">还没有录入任何题目</div>');
+//
+//                    }
+//                }else{
+//                    alert("请求失败");
+//                }
+//            });
+
+
+
+    })
+</script>
+
+
+
+
+
+</body>
+</html>

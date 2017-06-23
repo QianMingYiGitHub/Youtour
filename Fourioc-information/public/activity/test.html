@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+    <!-- http://www.jq22.com/demo/emojiPl20160525 -->
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <link rel="stylesheet" href="../common/myemojiPl/myemojiPl.css">
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../common/myemojiPl/myemojiPl.js"></script>
+
+</head>
+<body>
+
+
+<div class="weui_tab">
+  <div class="weui_tab_bd">
+
+  </div>
+
+  <div class="weui_tabbar">
+    <div class="weui_tabbar_item">
+        <div class="Main2" style="margin:5px;">
+            <div class="Input_Box">     
+                <div class="Input_Foot" style="float:left;width:5%;text-align:center;margin 0 auto;">
+                    <img class="imgBtn" src="../common/myemojiPl/img/tieba/1.jpg" style="vertical-align:middle;width:100%;">
+                </div>
+                <div contenteditable="true" class="Input_text" style="float:left;width:70%;padding-left:5px;border-bottom:solid 1px LimeGreen;">
+                </div>
+                <div style="float:right;width:20%;">
+                    <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary postBtn" style="width:100%;">发送</a>
+                </div>
+            </div>
+            <div class="faceDiv">
+                <section class="emoji_container">
+                </section>
+            </div>    
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+    $('.Main2').myEmoji();
+</script> 
+</body>
+</html>

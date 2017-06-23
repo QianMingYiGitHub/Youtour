@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var identity = null; 
+        var user_id = null;
+        var corp_id = null;
+        var type = null;
+
+        var json_obj = null;
+        {
+            var paramObj = parseURL(document.URL);
+             
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = parseInt(paramObj[i]["value"]);
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                }
+            }
+
+            if(!identity || !user_id || !corp_id || !type ) {
+                debug_trace("" + ((!identity) ? "identity" :"") + ((!user_id) ? " user_id" :"") + ((!corp_id) ? " corp_id" :"") + ((!type) ? " type" :"") + " 参数错误");
+            }
+        }
+
+        function get_daily_performance_list() {
+
+            json_obj = null;
+
+            var req_json = {
+                corpId:corp_id,
+                info:{
+                    userid:user_id,
+                    identity:parseInt(identity),
+                    state:[],
+                }
+            };
+
+            req_json.info.state.push(parseInt(type));
+            
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_getcomment', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    } else {
+                        debug_trace("json data success [" + data.success + "]");
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("json format error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get daily performance list failure. user_id[" + user_id + "]" +"]");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，服务器连接错误'));
+              }
+            });
+        };
+
+
+        get_daily_performance_list();
+
+    </script>  
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+
+    <div id="element_list">
+<!-- 
+        <div class="weui_panel">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <h4 class="weui_media_title">班主任老师_2016.01.01_家庭作业</h4>
+                    <p class="weui_media_desc">过期时间：2016.01.02</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta">
+                            <a id="select_parant_cancel" href="javascript:;">查看详细</a>
+                        </li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra">
+                            <a id="select_parant_cancel" href="javascript:;" >删除</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+ -->    
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        //init list
+        function init_daily_performance_list() {
+            
+            var root = $("#element_list");
+            root.empty();
+   
+            if( !json_obj || 0==json_obj.data.list.length ) {
+                // var strHtml = '';
+                // strHtml += '<div id="cell" style="padding:40px;">';    
+                // strHtml += '    <div id="box" style="background-color:white;color:black;font-size:10pt;line-height:18px;margin:auto;max-width:800px;border-radius:5px;-webkit-box-shadow:2px 5px 12px#555;padding:20px;">';
+                // strHtml += '      <p style="text-align: center;">暂时没有数据</p>';
+                // strHtml += '    </div>';    
+                // strHtml += '</div>';                 
+                // strHtml += '';
+
+
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('暂时没有数据'));
+                return ;
+            }
+            alert("钱0");
+            alert(json_obj.data.list[0].comment_id);
+            for(var unionIdx = 0; unionIdx < json_obj.data.list.length; unionIdx++) {
+             
+                var rate_id = json_obj.data.list[unionIdx].comment_id;
+             
+                var sid ="2"// (!json_obj.data.list[unionIdx].sid ? "" : json_obj.data.list[unionIdx].rate.sid);
+                var strHtml = '';
+
+                            //format date_time
+                json_obj.data.list[unionIdx].editTime = format_date_time(json_obj.data.list[unionIdx].editTime);
+
+
+                strHtml += '<div class="weui_panel">';
+                strHtml += '    <div class="weui_panel_bd">';
+                strHtml += '        <div class="weui_media_box weui_media_text">';
+                strHtml += '            <h4 class="weui_media_title">' + json_obj.data.list[unionIdx].comment_test + '</h4>';
+                strHtml += '            <p class="weui_media_desc">' + json_obj.data.list[unionIdx].editTime +'</p>';
+                strHtml += '            <ul class="weui_media_info">';
+                strHtml += '                <li class="weui_media_info_meta">';
+                strHtml += '                    <a href="javascript:view_detail(&quot;' + rate_id + '&quot'  + ",&quot;" + sid + '&quot;)">查看详情</a>';
+                strHtml += '                </li>';
+                if( json_obj.data.list[unionIdx].id == user_id ) {//设置可以删除权限                
+                    strHtml += '            <li class="weui_media_info_meta weui_media_info_meta_extra">';
+                    strHtml += '                <a id="select_parant_cancel" href="javascript:del_daily_performance(&quot;' + rate_id + '&quot;' + ",&quot;" + sid + '&quot;);">删除</a>';
+                    strHtml += '            </li>';
+                }
+                strHtml += '            </ul>';
+                strHtml += '        </div>';
+                strHtml += '    </div>';
+                strHtml += '</div>';
+
+                strHtml += '';
+
+                // console.log(strHtml);
+                root.append(strHtml);
+            }
+        };
+
+
+        function view_detail(rate_id, sid) {
+            console.log("钱明一："+rate_id)
+            window.location = "./daily_performance_detail.html?" + "&corp_id=" + corp_id + "&user_id=" + user_id + "&rate_id=" + rate_id + "&identity=" + identity + "&sid=" + sid + "&type=" + type;
+        }
+
+        function del_daily_performance(rate_id, sid) {
+            console.log(rate_id);
+
+            var req_json = {
+                corpId:corp_id,
+                info:{
+                    rateId:rate_id,
+                    identity:parseInt(identity),
+                    id:user_id,
+                    sid:sid,
+                }
+            }
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/rate/delete', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        $.toast("删除成功");
+                    } else {
+                        debug_trace("json data success [" + data.success + "]");
+                        $.toast("删除失败，数据错误", "forbidden");
+                    }
+                } else {
+                    debug_trace("json format error");
+                    $.toast("删除失败，格式错误", "forbidden");
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get performance list failure. user_id[" + user_id + "], type[" + type +"]");
+                $.toast("删除失败，服务器连接错误", "forbidden");
+              }
+            });
+
+            get_daily_performance_list();
+            init_daily_performance_list();
+        }
+
+
+        $(document).ready(function(){
+            
+            //
+            if(identity==1) {
+
+                switch(parseInt(type)) {
+                    case 0 :
+                        $(document).attr("title","草稿");
+                        break;
+                    case 1 :
+                        $(document).attr("title","已发布");
+                        break;
+                    case 2 :
+                        $(document).attr("title","已撤销");
+                        break;
+                        debug_trace("无效type[" + type + "]");
+                        break;
+                }
+            } else if(identity==2) {
+
+                switch(parseInt(type)) {
+                    case 0 :
+                        $(document).attr("title","未阅");
+                        break;
+                    case 1 :
+                        $(document).attr("title","已阅");
+                        break;
+                    case 2 :
+                        $(document).attr("title","已撤销");
+                        break;
+                        debug_trace("无效type[" + type + "]");
+                        break;
+                }
+            }
+
+            //
+            init_daily_performance_list();
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

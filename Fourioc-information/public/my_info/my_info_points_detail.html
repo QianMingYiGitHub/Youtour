@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分明细</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+        var g_points_info = null;
+
+        $(function(){
+
+            var req_json = {
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'get', // 提交方式 get/post
+              url: '/api/v1/personal_info/scores', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                alert("data:" + JSON.stringify(data));
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        g_points_info = data;
+                        alert("g_points_info:" + JSON.stringify(g_points_info));
+                    } else {
+                        debug_trace("personal_info/scores success [" + data.success + "] desc" + data.desc);
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("personal_info/scores error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("personal_info/scores failure.");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+              }
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="weui_cells_title">本月</div>
+    <div class="weui_panel">
+        <div id="curr_month_container" class="weui_panel_bd">
+            <!-- <div class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_hd" style="width:70%;text-align:left;">
+                  <h4 class="weui_media_title">一年一班</h4>
+                </div>
+                <div class="weui_media_bd" style="text-align:center;">
+                    <p class="weui_media_desc ">
+                        <span id="edit_time">+200</span>
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="weui_cells_title">上月</div>
+    <div class="weui_panel">
+        <div id="pre_month_container" class="weui_panel_bd">
+<!--             <div class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_hd" style="width:70%;text-align:left;">
+                  <h4 class="weui_media_title">一年一班</h4>
+                </div>
+                <div class="weui_media_bd" style="text-align:center;">
+                    <p class="weui_media_desc ">
+                        <span id="edit_time">+200</span>
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+    $(document).ready(function(){
+
+        var obj;
+
+        for( var kind = 0; kind < 2; kind++ ) {
+            if( kind == 0 ) {
+                obj = g_points_info.data.detail.current;
+            } else if( kind == 1 ) {
+                obj = g_points_info.data.detail.prev;
+            }
+
+            obj.forEach(function(v, i) {
+
+                var strHtml = '';
+
+                strHtml += '<div class="weui_media_box weui_media_appmsg">';
+                strHtml += '    <div class="weui_media_hd" style="width:70%;text-align:left;">';
+                strHtml += '      <h4 class="weui_media_title">' + v.desc + '</h4>';
+                strHtml += '    </div>';
+                strHtml += '    <div class="weui_media_bd" style="text-align:center;">';
+                strHtml += '        <p class="weui_media_desc ">';
+                if( v.money > 0 ) {
+                    strHtml += '        <span style="color:red">+' + v.money + '</span>';
+                } else {
+                    strHtml += '        <span style="color:green">' + v.money + '</span>';
+                }
+                strHtml += '        </p>';
+                strHtml += '    </div>';
+                strHtml += '</div>';
+
+                if( kind == 0 ) {
+                    $('#curr_month_container').append(strHtml);
+                } else if( kind == 1 ) {
+                    $('#pre_month_container').append(strHtml);
+                }
+            });
+        }
+    });
+
+</script>
+
+</html>
+
+
+
+

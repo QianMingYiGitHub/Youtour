@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+
+    <script>
+        var g_person_info = null;
+
+        $(function(){
+
+            var req_json = {
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'get', // 提交方式 get/post
+              url: '/wxallrequest_class/getOwnInfo', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                // alert("data:" + JSON.stringify(data));
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        g_person_info = data;
+                        // alert("g_person_info:" + JSON.stringify(g_person_info));
+                    } else {
+                         alert(2);
+                        debug_trace("personal_info/info success [" + data.success + "] desc" + data.desc);
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("personal_info/info error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("personal_info/info failure.");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+              }
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+
+    <div class="weui_panel">
+        <div class="weui_panel_bd">
+            <div class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_hd">
+                    <img id="head_pic" class="weui_media_appmsg_thumb" src="" alt="head" style="visibility:hidden">
+                </div>
+                <div class="weui_media_bd">
+                    <h4 id="nick_name" class="weui_media_title"></h4>
+                    <!-- <p class="weui_media_desc ">
+                        <span id="edit_time">微信号</span>
+                    </p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui_panel">
+        <div class="weui_panel_bd">
+            <div class="weui_media_box weui_media_small_appmsg">
+                <div class="weui_cells weui_cells_access">
+                    <a id="class" class="weui_cell" href="javascript:go_sub_page(0);" style="display:none;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>所在班级</p>
+                        </div>
+                        <span class="weui_cell_ft"></span>
+                    </a>
+                    <a id="buy" class="weui_cell" href="javascript:go_sub_page(1);" style="display:none;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>续费购买</p>
+                        </div>
+                        <span class="weui_cell_ft"></span>
+                    </a>
+                    <a id="points_exchange" class="weui_cell" href="javascript:go_sub_page(2);" style="display:none;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>积分查兑</p>
+                        </div>
+                        <span class="weui_cell_ft"></span>
+                    </a>
+                    <a id="feedback" class="weui_cell" href="javascript:go_sub_page(3);" style="display:none;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>意见反馈</p>
+                        </div>
+                        <span class="weui_cell_ft"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    function go_sub_page(page) {
+
+        switch(page) {
+            case 0 :
+                window.location = "./my_info_class.html";
+                break;
+            case 1 :
+                window.location = "./my_info_buy.html";
+                break;
+            case 2 :
+                window.location = "./my_info_points_exchange.html";
+                break;
+            case 3 :
+                window.location = "./my_info_feedback.html";
+                break;
+        }
+
+    }
+
+    $(document).ready(function(){
+        
+        //
+        if( g_person_info != null ) {
+
+            $("#head_pic").attr("src",g_person_info.data.info.avatar);
+            $("#head_pic")[0].style.visibility = 'visible';
+            $("#nick_name").text(g_person_info.data.info.name);
+
+            for( var i = 0; i < g_person_info.data.info.identity.length; i++ ) {
+                if( g_person_info.data.info.identity[i] == 1 ) {
+                    $("#class").show();
+                    $("#buy").show();
+                    $("#feedback").show();
+                } else if( g_person_info.data.info.identity[i] == 2 ) {
+                    $("#points_exchange").show();
+                }
+            }
+        }
+
+    });
+
+</script>
+
+</html>
+
+
+
+

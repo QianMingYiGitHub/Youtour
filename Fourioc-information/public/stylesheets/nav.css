@@ -1,0 +1,375 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft YaHei UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+.bg-content {
+    width: 100%;
+    height: 100%;
+    min-width: 1024px;
+    min-height: 768px;
+
+}
+
+.lg_bg {
+    width: 100%;
+    height: 100%;
+    background: url(../images/bg.jpg);
+    position: fixed;
+    background-size: cover;
+    filter: progid:dximagetransform.microsoft.alphaimageloader(src='../images/bg.jpg', sizingmethod='scale');
+    z-index: -1;
+}
+/*:root .bg-content{filter:none;}*/
+.bgimg {
+    max-width: 1423px;
+    max-height: 544px;
+    min-width: 1024px;
+    min-height: 544px;
+    background: url(../images/bg-l-2.png) no-repeat;
+    background-size: 100%;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.lg_panel {
+    padding-top: 17%;
+}
+
+.logo {
+    width: 350px;
+    height: 50px;
+    position: relative;
+    margin: 0 auto;
+    left: 20px;
+}
+
+.logo img {
+    width: 350px;
+    height: 50px;
+    margin-left: -25px;
+}
+
+.panel {
+    clear: both;
+    width: 370px;
+
+    margin: 0 auto;
+    position: relative;
+    z-index: 100;
+    background-color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.title {
+    width: 298px;
+    height: 40px;
+    float: left;
+    margin-left: 30px;
+    margin-top: 25px;
+    background-color: #59A5DA;
+    color: #fff;
+    font-size: 20px;
+    line-height: 40px;
+    padding-left: 5px;
+}
+
+.panel-form {
+    width: 298px;
+    height: 200px;
+    float: left;
+    margin-left: 30px;
+    padding: 15px 15px;
+    position: relative;
+    z-index: 100;
+}
+
+.panel-form .user, .panel-form .pas {
+    width: 280px;
+    height: 34px;
+    float: left;
+}
+
+.panel-form .pas {
+    margin-top: 18px;
+}
+
+.panel-form .user .la-user, .panel-form .pas .la-pas {
+    width: 50px;
+    height: 34px;
+    float: left;
+    text-align: right;
+    font-size: 16px;
+    line-height: 34px;
+    font-weight: 400;
+    color: #999999;
+}
+
+.panel-form .col-md {
+    width: 184px;
+    height: 34px;
+    float: left;
+    position: relative;
+    z-index: 0;
+    margin-left: 30px;
+    border-left: 2px solid #77c6fe !important;
+}
+
+.panel-form .col-md i {
+    right: 8px;
+    float: right;
+}
+
+.panel-form .col-md i {
+    color: #999999;
+    display: block;
+    position: absolute;
+    margin: 10px 2px 4px 10px;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.panel-form .user .in-user, .panel-form .pas .in-pas {
+    width: 184px;
+    height: 34px;
+    /*line-height: 34px;*/
+    color: #777;
+    padding-left: 12px;
+    padding-right: 32px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #E4E4E4;
+    border-left-width: 0px;
+    outline: none;
+}
+
+.panel-form .user .in-user:focus, .panel-form .pas .in-pas:focus {
+    border-color: #999;
+}
+
+
+
+/*Default.aspxҳ�渲����ʽ*/
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+.leftbg {
+    height: 100%;
+    float: left;
+    position: relative;
+    z-index: -1;
+    background: #33485c;
+}
+
+#wrapper {
+    margin-top: 0;
+}
+
+#sidebar {
+
+}
+
+#main{
+    margin-top: 0px;
+    width:100%;
+}
+
+
+
+.fa {
+    width:20px;
+    height:20px;
+
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+
+@media screen and (min-width:1901px) {
+    .leftbg {
+        width: 250px;
+    }
+
+    #sidebar {
+        width: 250px;
+    }
+
+    .topbar .navbar-header {
+        width: 250px;
+    }
+
+    .topbar .navbar-header #logo span.logo-text img {
+        width: 250px;
+        height: 50px;
+    }
+
+    #topbar .navbar-header {
+        margin-left: -250px;
+    }
+
+    #defaultBlock {
+        margin-left: 250px;
+    }
+}
+
+@media screen and (max-width: 1900px) {
+    .leftbg {
+        width: 240px;
+    }
+
+    #sidebar {
+        width: 240px;
+    }
+
+    #topbar .navbar-header {
+        width: 240px;
+    }
+
+    #topbar .navbar-header #logo span.logo-text img {
+        width: 240px;
+        height: 50px;
+    }
+
+    #topbar .navbar-header {
+        margin-left: -240px;
+    }
+
+    #defaultBlock {
+        margin-left: 240px;
+    }
+
+    .navbar-static-side ul li.user-panel .thumb img {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media screen and (max-width: 1601px) {
+    .leftbg {
+        width: 205px;
+    }
+
+    #sidebar {
+        width: 205px;
+    }
+
+    #topbar .navbar-header {
+        width: 205px;
+    }
+
+    #topbar .navbar-header #logo span.logo-text img {
+        width: 205px;
+        height: 50px;
+    }
+
+    #topbar .navbar-header {
+        margin-left: -205px;
+    }
+
+    #defaultBlock {
+        margin-left: 205px;
+    }
+
+    .navbar-static-side ul li.user-panel {
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-right: 0;
+        padding-bottom: 2px;
+    }
+
+    .navbar-static-side ul li.user-panel .thumb {
+
+    }
+
+    .navbar-static-side ul li.user-panel .thumb img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .sidebar-collapse .hint {
+        right: 6px;
+    }
+}
+.thumb span{
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+}
+@media screen and (max-width: 1024px) {
+    .leftbg {
+        width: 175px;
+    }
+
+    #sidebar {
+        width: 175px;
+    }
+
+    #topbar .navbar-header {
+        width: 175px;
+    }
+
+    #topbar .navbar-header #logo span.logo-text img {
+        width: 175px;
+        height: 50px;
+    }
+
+    .navbar-static-side ul li.user-panel .thumb {
+
+    }
+
+    #topbar .navbar-header {
+        margin-left: -175px;
+    }
+
+    .navbar-static-side ul li.user-panel .info {
+        padding: 5px;
+    }
+
+    .navbar-static-side ul li.user-panel .info p {
+        text-align: center;
+    }
+
+    #defaultBlock {
+        margin-left: 175px;
+    }
+
+    .navbar-static-side ul li .nav-second-level li a {
+        padding: 14px 15px 14px 18px;
+    }
+
+    .sidebar-collapse .hint {
+        right: 3px;
+        width: 58px;
+        border-radius: 10px;
+    }
+}

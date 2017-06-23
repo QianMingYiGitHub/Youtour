@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>所在班级</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var g_class_info = null;
+
+        $(function(){
+
+            var req_json = {
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'get', // 提交方式 get/post
+              url: '/wxallrequest_class/classes', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                // alert("data:" + JSON.stringify(data));
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        g_class_info = data;
+                        alert(JSON.stringify(data));
+                        // alert("g_class_info:" + JSON.stringify(g_class_info));
+                    } else {
+                        debug_trace("personal_info/classes success [" + data.success + "] desc" + data.desc);
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("personal_info/classes error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("personal_info/classes failure.");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+              }
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+
+    <div class="weui_panel">
+        <div id="class_container" class="weui_panel_bd">
+             <!--<div class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_hd" style="width:70%;text-align:left;">
+                  <h4 class="weui_media_title">一年一班</h4>
+                </div>
+                <div class="weui_media_bd" style="text-align:center;">
+                    <p class="weui_media_desc ">
+                        <span id="edit_time">50人</span>
+                    </p>
+                    <p class="weui_media_desc ">
+                        <span id="edit_time">张强海老师</span>
+                    </p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+</body>
+
+<script>
+    $(document).ready(function(){
+
+        //
+        if( g_class_info ) {
+  alert("数据添加"+JSON.stringify(g_class_info));
+            g_class_info.data.forEach(function(v, i) {
+                alert(v);
+                var strHtml = '';
+
+                strHtml += '<div class="weui_media_box weui_media_appmsg">';
+                strHtml += '    <div class="weui_media_hd" style="width:70%;text-align:left;">';
+                strHtml += '      <h4 class="weui_media_title">' + v.name + '</h4>';
+                strHtml += '    </div>';
+                strHtml += '    <div class="weui_media_bd" style="text-align:center;">';
+                strHtml += '        <p class="weui_media_desc ">';
+                strHtml += '            <span>' + v.student_num + '人</span>';
+                strHtml += '        </p>';
+                strHtml += '        <p class="weui_media_desc ">';
+                strHtml += '            <span>' + v.teacher + '老师</span>';
+                strHtml += '        </p>';
+                strHtml += '    </div>';
+                strHtml += '</div>';          
+
+                $('#class_container').append(strHtml);
+            });
+        }
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="author" content="王赛 <wangsai@bootcss.com>">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/whiteboard.css"/>
+  <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/kindeditor_sd.js"></script>
+  <script type="text/javascript" src="/javascripts/zh_CN.js"></script>
+  <script type="text/javascript" src="/javascripts/youtu.js"></script>
+  <script type="text/javascript" src="/javascripts/echarts.js"></script>
+
+  <style type="text/css">
+    .modal-header{
+      background-color: #03ACE3;
+      color: #fff;
+      height: 40px;
+      border-top-left-radius:4px;
+      border-top-right-radius:4px;
+    }
+    .modal-content{
+      border-bottom-left-radius:4px;
+      border-bottom-right-radius:4px;
+    }
+    .modal-title{
+      font-size: 16px;
+      line-height: 0.9;
+    }
+    .close{
+      color: #fff;
+      opacity: .9;
+      line-height: 0.6;
+    }
+    .modal-header .close{
+      margin-top: 1px;
+    }
+    .modal-footer{
+      padding: 8px 15px 8px 15px;
+    }
+
+  </style>
+
+
+</head>
+
+<body  ondragstart="window.event.returnValue=false" oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false"><!-- #BeginLibraryItem "/Library/admin_top.lbi" -->
+
+<div class="main">
+
+<div class="nav_button" id="nav_button">
+  <div class="number_of_box" id="number_of_box">
+    <span class="number_of" id="several">0</span ><span class="number_of" >/</span><span class="number_of" id="number_of">0</span>
+  </div>
+  <button type="button" class="btn_two btn-primary_two" id="toggle_button">开始答题</button>
+  <button type="button" class="btn_two btn-primary_two"  id="chart_button" disabled="disabled" style="color: rgba(255, 255, 255, 0.65);">答题分析</button>
+  <button type="button" class="btn_two btn-primary_two" id="result_button" disabled="disabled" style="color: rgba(255, 255, 255, 0.65);">答题结果</button>
+  <button type="button" class="btn_two btn-primary_two" id="answer_ok">参考答案</button>
+
+  <div>
+    <button type="button" class="btn_two_l btn-primary_l" style="background-image: url(images/button_nav_l.png);" id="previous_bookmark"><</button>
+    <button type="button" class="btn_two_r btn-primary_r" style="background-image:url(images/button_nav_r.png);"  id="next_bookmark">></button>
+
+    <button type="button" class="btn_two_l btn-primary_l" style="background-image: url(images/button_nav_l.png);" id="previous" style="display: none"><</button>
+    <button type="button" class="btn_two_r btn-primary_r" style="background-image:url(images/button_nav_r.png);"  id="next" style="display: none">></button>
+  </div>
+  <div>
+  <button type="button" class="btn_two_l btn-primary_l" style="background-image: url(images/button_nav_l.png);" id="enlarge_add">+</button>
+  <button type="button" class="btn_two_r btn-primary_r" style="background-image:url(images/button_nav_r.png);" id="reduce">-</button>
+
+  </div>
+
+  <!--<button type="button" class="btn_two btn-primary_two" id="toggle_nav">切换位置</button>-->
+  <div class="btnClose out">
+    <a href="#" id="btnClose_a" onclick="Fkey()">退出全屏</a>
+
+  </div>
+
+</div>
+
+  <div class="container-fluid">
+
+     <div class="title_top">
+
+     </div>
+
+<div class="content_main">
+  <div  class="type_title"><span>题型：</span><span id="typestring"></span><span style="margin-left: 25px">难易度：</span><span id="type_degree"></span></div>
+  <textarea name="content" style="visibility:hidden;" id="title_content"></textarea>
+
+  <img src=""/>
+</div>
+
+  </div>
+
+  <a  onclick="Fkey()" id="qwer" style="display: none">屏幕切换</a>
+</div><!----END--->
+
+
+
+
+
+<!-- 答案 -->
+<div class="modal fade" id="answer_ok_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 400px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">参考答案</h4>
+      </div>
+      <div class="modal-body text-center" id="answer_ok_content" style="font-size: 24px">
+
+      </div>
+      <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 图表 -->
+<div class="modal fade" id="chart_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">答题分析</h4>
+      </div>
+      <div class="modal-body" id="">
+
+        <div class="input-group">
+          <div class="title_graphical">
+            <p>答题总人数</p><span id="total_ren">0</span><p>人,</p> <p>本题答对</p><span id="text_ok">0</span><p>人,正确率</p><span id="rate">0</span><span>%</span>
+          </div>
+        <div id="main2" style="width: 600px;height:400px; float: left; margin-top: -30px"></div>
+          </div>
+      </div>
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+
+
+<!-- 答题结果 -->
+<div class="modal fade" id="result_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">答题结果</h4>
+      </div>
+      <div class="modal-body" id="">
+
+        <div class="input-group">
+            <div class="col-md-12">
+
+              <div class="title_top">
+                <div class="title_top_box">
+                <p>答对</p><span id="ture_person">0</span><p>人</p>
+                </div>
+
+                <div class="title_top_box">
+                  <p>答错</p><span id="false_person">0</span><p>人</p>
+                </div>
+
+                <div class="title_top_box">
+                  <p>无效作答</p><span id="vilidate_person">0</span><p>人</p>
+                </div>
+
+                <div class="title_top_box">
+                  <p>未作答</p><span id="no_person">0</span><p>人</p>
+                </div>
+
+                <div class="title_top_box">
+                  <p>班级总人数</p><span id="all_person">0</span><p>人</p>
+                </div>
+
+              </div>
+            <div class="student_content">
+          <div class="student_name">
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+
+
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>测试人员</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+            <!--<a>小明</a>-->
+
+          </div>
+
+           </div>
+
+        <div class="explain_foot">
+          <a class="green"></a><span>绿色代表答对</span>
+          <a class="red"></a><span>红色代表答错</span>
+          <a class="blue"></a><span>蓝色代表无效作答</span>
+          <a class="gray"></a><span>灰色代表未作答</span>
+        </div>
+              <div class="button_box">
+              <button type="button" class="btn btn-primary " style="margin-top: 15px;width: 210px;" id="next_class">切换班级</button>
+                </div>
+
+            </div>
+        </div>
+      </div>
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+
+
+
+<input type="hidden" id="answer_mark_m_id">
+<!--答题类型-->
+<input type="hidden" id="type">
+<!--current_location-->
+<input type="hidden" id="current_location">
+<!--答案-->
+<input type="hidden" id="answer_ok_input">
+
+<!--答案-->
+<input type="hidden" id="total_number">
+
+<!--选项个数-->
+<input type="hidden" id="length">
+
+<!--上一题，下一题书签题目位置-->
+<input type="hidden" id="current_location_two">
+
+<!--班级ID-->
+<input type="hidden" id="class_id_box">
+
+<script type="text/javascript">
+  $(function(){
+    parent.scroll();
+  });
+  var aaa=4;
+  var library='/stylesheets/library_css/f_l4.css'
+  $("#enlarge_add").on('click',function(){
+    $("#reduce").removeAttr('disabled');
+    $("#reduce").css('background-image','url("images/button_nav_r.png")');
+   // $("#reduce").removeAttr('style');
+    aaa+=1;
+    //alert(aaa);
+    //alert('/stylesheets/f_l'+aaa+'.css');
+    if(aaa==7){
+      $("#enlarge_add").attr('disabled','disabled');
+      //$("#enlarge_add").css('color','rgba(255, 255, 255, 0.65)');
+      $("#enlarge_add").css('background-image','url("images/button_nav_lll.png")');
+      library='/stylesheets/library_css/f_l'+aaa+'.css';
+      KindEditor.remove('textarea[name="content"]');
+      e2 =KindEditor.create('textarea[name="content"]', {
+        cssPath : library,
+        allowFileManager: true,
+        width: browsewidth,
+        height: browseheight,
+        resizeType: '0',
+        items: [],
+      })
+      return
+    }
+    else {
+      library='/stylesheets/library_css/f_l'+aaa+'.css';
+      KindEditor.remove('textarea[name="content"]');
+      e2 =KindEditor.create('textarea[name="content"]', {
+        cssPath : library,
+        allowFileManager: true,
+        width: browsewidth,
+        height: browseheight,
+        resizeType: '0',
+        items: []
+      })
+    }
+
+
+  });
+
+
+
+  $("#reduce").on('click',function(){
+    $("#enlarge_add").removeAttr('disabled');
+    $("#enlarge_add").css('background-image','url("images/button_nav_l.png")');
+    //$("#enlarge_add").removeAttr('style');
+    aaa-=1;
+
+    //alert(aaa);
+
+    //alert('/stylesheets/f_l'+aaa+'.css');
+if(aaa==1){
+  $("#reduce").attr('disabled','disabled');
+  //$("#reduce").css('color','rgba(255, 255, 255, 0.65)');
+  $("#reduce").css('background-image','url("images/button_nav_rrr.png")');
+  library='/stylesheets/library_css/f_l'+aaa+'.css';
+  KindEditor.remove('textarea[name="content"]');
+  e2 =KindEditor.create('textarea[name="content"]', {
+    cssPath : library,
+    allowFileManager: true,
+    width: browsewidth,
+    height: browseheight,
+    resizeType: '0',
+    items: []
+  })
+  return
+}else{
+  library='/stylesheets/library_css/f_l'+aaa+'.css';
+  KindEditor.remove('textarea[name="content"]');
+  e2 =KindEditor.create('textarea[name="content"]', {
+    cssPath : library,
+    allowFileManager: true,
+    width: browsewidth,
+    height: browseheight,
+    resizeType: '0',
+    items: []
+  })
+}
+
+  });
+
+
+
+  var browsewidth = $(window).width()-150;
+ // var browseheight =document.body.scrollHeight;
+  var browseheight = document.documentElement.clientHeight;
+
+//  alert(browseheight);
+//var browseheight2=window.screen.height;
+//  var browseheight3=  window.screen.availHeight
+//  alert(browseheight2);
+//  alert(browseheight3);
+  //var browseheight =document.body.scrollHeight;
+ // alert(browseheight);
+//  alert(document.body.scrollHeight);
+  var e2;
+
+  KindEditor.ready(function(K) {
+
+    e2 = K.create('textarea[name="content"]', {
+      cssPath : library,
+      allowFileManager: true,
+      width: browsewidth,
+     height: browseheight,
+      resizeType: '0',
+      items: [],
+
+    })
+    e2.readonly(true)
+  })
+
+
+
+
+
+  $(function() {
+    function getParameterByName(name) {
+      var match = RegExp('[?&]' + name + '=([^&]*)')
+              .exec(window.location.search);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    var id = location.href.split("id=")[1].split("&wb_number_b=")[0];
+
+    var wb_number = location.href.split("&wb_number_b=")[1];
+
+    var class_id = getParameterByName('class_id');
+
+    var state = getParameterByName('state');
+
+    $("#class_id_box").val(class_id);
+//    alert(location.href);
+//    alert(id);
+//    alert(class_id);
+    //alert(state);
+    if (state == 0) {
+      $.ajax({
+        url: "/questions/" + id + "/get_Bookmark?" + new Date().getTime(),
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({}),
+        success: function (data) {
+          if (data.success == 0) {
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+         // alert(JSON.stringify(data));
+            var title_content = jsondata.data.Book_mark[0].title_content;
+            var answer_ok = jsondata.data.Book_mark[0].answer_ok;
+            var type = jsondata.data.Book_mark[0].type;
+            var answer_list = jsondata.data.Book_mark[0].answer_list;
+            var current_location_two = jsondata.data.Book_mark[0].current_location;
+            var end_start_up = jsondata.data.Book_mark[0].end_start_up;
+            var end_start_down = jsondata.data.Book_mark[0].end_start_down;
+            var facility_value = jsondata.data.Book_mark[0].facility_value;
+            var several= jsondata.data.Book_mark[0].end_start_down+1;
+            var all_questions_count = jsondata.data.Book_mark[0].book_mark_id;
+            $("#number_of").html(all_questions_count);
+            $("#several").html(several);
+$("#type_degree").html(facility_value);
+            if (type == 0) {
+$("#typestring").html("单项选择题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+                dataAxis.unshift(answer_list.split(",")[i]);
+              }
+              $("#length").val(dataAxis.length);
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+            }
+            else if (type == 1) {
+              $("#typestring").html("多项选择题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+
+                dataAxis.unshift(answer_list.split(",")[i]);
+              }
+              $("#length").val(dataAxis.length);
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+
+            } else if (type = 2) {
+              $("#typestring").html("判断题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+
+                dataAxis.unshift(answer_list.split(",")[i]);
+
+              }
+              //alert(dataAxis);
+              dataAxis.splice('1', '1', '√');
+              dataAxis.splice('0', '1', '×');
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+            }
+
+            if(answer_ok=="true"){
+              $("#answer_ok_content").html("√");
+              $("#answer_ok_input").val(answer_ok);
+            }else if(answer_ok=="false"){
+              $("#answer_ok_content").html("×");
+              $("#answer_ok_input").val(answer_ok);
+            }else {
+              $("#answer_ok_content").html(answer_ok);
+              $("#answer_ok_input").val(answer_ok);
+            }
+            $("#type").val(type);
+
+            $("#current_location_two").val(current_location_two);
+
+            e2.insertHtml(title_content);
+
+            if (end_start_up == "-1") {
+              $("#previous_bookmark").css('background-image', 'url(images/button_nav_lll.png)');
+
+            }
+            if (end_start_down == "-1") {
+              $("#next_bookmark").css('background-image', 'url(images/button_nav_rrr.png)');
+            }
+
+            $("#title_content").html(title_content);
+          }
+          else {
+            alert("请求失败1");
+          }
+
+        },
+        error: function () {
+          alert("获取数据失败");
+        }
+
+      });
+      $("#previous_bookmark").show();
+      $("#next_bookmark").show();
+      $("#previous").hide();
+      $("#next").hide();
+    } else if (state == 1) {
+
+      $.ajax({
+        url: "/questions/" + id + "/get_questions?" + new Date().getTime(),
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          classhour_m_id: class_id,
+        }),
+        success: function (data) {
+          if (data.success == 0) {
+
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+          // alert(JSON.stringify(data));
+
+            var title_content = jsondata.data.title_content;
+            var answer_ok = jsondata.data.answer_ok;
+            var type = jsondata.data.type;
+            var answer_list = jsondata.data.answer_list;
+            var current_location_two = jsondata.data.current_location;
+            var end_start_up = jsondata.data.end_start_up;
+            var end_start_down = jsondata.data.end_start_down;
+            var facility_value = jsondata.data.facility_value;
+            var all_questions_count = jsondata.data.all_questions_count;
+            var several= jsondata.data.end_start_down+1;
+            $("#number_of").html(all_questions_count);
+            $("#several").html(several);
+
+            $("#type_degree").html(facility_value);
+            if (type == 0) {
+              $("#typestring").html("单项选择题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+                dataAxis.unshift(answer_list.split(",")[i]);
+              }
+              $("#length").val(dataAxis.length);
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+            }
+            else if (type == 1) {
+              $("#typestring").html("多项选择题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+
+                dataAxis.unshift(answer_list.split(",")[i]);
+              }
+              $("#length").val(dataAxis.length);
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+
+            } else if (type = 2) {
+              $("#typestring").html("判断题");
+              for (i = 0; i < answer_list.split(",").length; i++) {
+
+                dataAxis.unshift(answer_list.split(",")[i]);
+
+              }
+              //(dataAxis);
+              dataAxis.splice('1', '1', '√');
+              dataAxis.splice('0', '1', '×');
+              dataAxis.unshift("无效作答");
+              dataAxis.unshift("未作答");
+            }
+            if(answer_ok=="true"){
+              $("#answer_ok_content").html("√");
+              $("#answer_ok_input").val(answer_ok);
+            }else if(answer_ok=="false"){
+              $("#answer_ok_content").html("×");
+              $("#answer_ok_input").val(answer_ok);
+            }else {
+              $("#answer_ok_content").html(answer_ok);
+              $("#answer_ok_input").val(answer_ok);
+            }
+            $("#type").val(type);
+
+            $("#current_location_two").val(current_location_two);
+
+            e2.insertHtml(title_content);
+
+            if (end_start_up == "-1") {
+              $("#previous").css('background-image', 'url(images/button_nav_lll.png)');
+              $("#previous").attr('disabled','disabled');
+            }
+            if (end_start_down == "-1") {
+              $("#next").css('background-image', 'url(images/button_nav_rrr.png)');
+              $("#next").attr('disabled','disabled');
+            }
+
+            $("#title_content").html(title_content);
+          }
+          else {
+            alert("请求失败1111");
+          }
+        },
+        error: function () {
+          alert("获取数据失败2");
+        }
+      });
+      $("#previous_bookmark").hide();
+      $("#next_bookmark").hide();
+      $("#previous").show();
+      $("#next").show();
+    } else {
+      alert("获取数据失败4");
+    }
+
+var bottom_nav= window.screen.availHeight-600;
+  // var bottom_nav2=document.body.scrollTop+70;
+//    alert(bottom_nav);
+//    alert(bottom_nav2);
+    $(".nav_button").css("bottom",bottom_nav);
+
+  // alert(id);
+   // alert(wb_number);
+    $("#previous_bookmark").on('click',function(){
+   var   current_location_two=$("#current_location_two").val();
+      //alert(current_location_two);
+      $.ajax({
+        url: "/questions/get_bookmark_next?"+new Date().getTime(),
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          next:"-1",
+          current_location:current_location_two
+        }),
+        success: function(data) {
+          if (data.success == 0) {
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+            var title_content=jsondata.data.Book_mark[0].title_content;
+            var answer_ok=jsondata.data.Book_mark[0].answer_ok;
+            var type=jsondata.data.Book_mark[0].type;
+            var answer_list=jsondata.data.Book_mark[0].answer_list;
+            var current_location_two=jsondata.data.Book_mark[0].current_location;
+            var end_start_up=jsondata.data.Book_mark[0].end_start_up;
+            var end_start_down=jsondata.data.Book_mark[0].end_start_down;
+            var several=jsondata.data.Book_mark[0].current_location+1;
+            $("#several").html(several);
+
+
+            e2.html("");
+            dataAxis.length==0;
+
+            $("#answer_ok_content").html("");
+            $("#answer_ok_input").val("");
+            $("#type").val("");
+            $("#current_location_two").val("");
+
+            if(answer_ok=="true"){
+              $("#answer_ok_content").html("√");
+              $("#answer_ok_input").val(answer_ok);
+            }else if(answer_ok=="false"){
+              $("#answer_ok_content").html("×");
+              $("#answer_ok_input").val(answer_ok);
+            }else {
+              $("#answer_ok_content").html(answer_ok);
+              $("#answer_ok_input").val(answer_ok);
+            }
+            $("#type").val(type);
+            $("#current_location_two").val(current_location_two);
+           e2.insertHtml(title_content);
+
+              $("#next_bookmark").css('background-image','url(images/button_nav_r.png)');
+            if(end_start_up=="-1"){
+              $("#previous_bookmark").css('background-image','url(images/button_nav_lll.png)');
+
+            }else {
+              $("#previous_bookmark").css('background-image','url(images/button_nav_l.png)');
+            }
+            if(end_start_down=="-1"){
+              $("#next_bookmark").css('background-image','url(images/button_nav_rrr.png)');
+            }
+            }
+          else {
+            alert("请求失败1111");
+          }
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+      });
+    })
+
+    $("#next_bookmark").on('click',function(){
+      var   current_location_two=$("#current_location_two").val();
+      //alert(current_location_two);
+      $.ajax({
+        url: "/questions/get_bookmark_next?"+new Date().getTime(),
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          next:"1",
+          current_location:current_location_two
+        }),
+        success: function(data) {
+          if (data.success == 0) {
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+
+            var title_content=jsondata.data.Book_mark[0].title_content;
+            var answer_ok=jsondata.data.Book_mark[0].answer_ok;
+            var type=jsondata.data.Book_mark[0].type;
+            var answer_list=jsondata.data.Book_mark[0].answer_list;
+            var current_location_two=jsondata.data.Book_mark[0].current_location;
+            var end_start_up=jsondata.data.Book_mark[0].end_start_up;
+            var end_start_down=jsondata.data.Book_mark[0].end_start_down;
+            var several=jsondata.data.Book_mark[0].current_location+1;
+            $("#several").html(several);
+            e2.html("");
+            dataAxis.length==0;
+            $("#answer_ok_content").html("");
+            $("#answer_ok_input").val("");
+            $("#type").val("");
+            $("#current_location_two").val("");
+
+            if(answer_ok=="true"){
+              $("#answer_ok_content").html("√");
+              $("#answer_ok_input").val(answer_ok);
+            }else if(answer_ok=="false"){
+              $("#answer_ok_content").html("×");
+              $("#answer_ok_input").val(answer_ok);
+            }else {
+              $("#answer_ok_content").html(answer_ok);
+              $("#answer_ok_input").val(answer_ok);
+            }
+            $("#type").val(type);
+            $("#current_location_two").val(current_location_two);
+            e2.insertHtml(title_content);
+            if(end_start_up=="-1"){
+              $("#previous_bookmark").css('background-image','url(images/button_nav_lll.png)');
+
+            }else {
+              $("#previous_bookmark").css('background-image','url(images/button_nav_l.png)');
+            }
+            //alert(end_start_down);
+            if(end_start_down=="-1"){
+              $("#next_bookmark").css('background-image','url(images/button_nav_rrr.png)');
+             //$( '#next' ).attr( 'disabled' , "disabled" );
+
+            }else {
+             //$( '#next' ).attr( 'disabled' , "" );
+            }
+
+          }
+          else {
+            alert("请求失败1111");
+          }
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+
+      });
+
+    })
+
+
+
+
+    $("#previous").on('click',function(){
+      var   current_location_two=$("#current_location_two").val();
+      var classhour_m_id=$("#class_id_box").val();
+//alert(classhour_m_id);
+     // alert(current_location_two);
+
+      $.ajax({
+        url: "/questions/get_questions_next?"+new Date().getTime(),
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          next:"-1",
+          current_location:current_location_two,
+          classhour_m_id:classhour_m_id
+        }),
+        success: function(data) {
+          if (data.success == 0) {
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+            var title_content=jsondata.data.title_content;
+            var answer_ok=jsondata.data.answer_ok;
+            var type=jsondata.data.type;
+            var answer_list=jsondata.data.answer_list;
+            var current_location_two=jsondata.data.current_location;
+            var end_start_up=jsondata.data.end_start_up;
+            var end_start_down=jsondata.data.end_start_down;
+            var several=jsondata.data.current_location+1;
+            $("#several").html(several);
+            e2.html("");
+            dataAxis.length==0;
+          if(type==0){
+            $("#typestring").html("单项选择题");
+          }else if(type==1){
+            $("#typestring").html("多项选择题");
+          }else if(type==2){
+            $("#typestring").html("判断题");
+          }
+
+            $("#answer_ok_content").html("");
+            $("#answer_ok_input").val("");
+            $("#type").val("");
+            $("#current_location_two").val("");
+
+            if(answer_ok=="true"){
+              $("#answer_ok_content").html("√");
+              $("#answer_ok_input").val(answer_ok);
+            }else if(answer_ok=="false"){
+              $("#answer_ok_content").html("×");
+              $("#answer_ok_input").val(answer_ok);
+            }else {
+              $("#answer_ok_content").html(answer_ok);
+              $("#answer_ok_input").val(answer_ok);
+            }
+            $("#type").val(type);
+            $("#current_location_two").val(current_location_two);
+            e2.insertHtml(title_content);
+
+            $("#next").css('background-image','url(images/button_nav_r.png)');
+            if(end_start_up=="-1"){
+              $("#previous").css('background-image','url(images/button_nav_lll.png)');
+
+            }else {
+              $("#previous").css('background-image','url(images/button_nav_l.png)');
+            }
+            if(end_start_down=="-1"){
+              $("#next").css('background-image','url(images/button_nav_rrr.png)');
+            }
+          }
+          else {
+            alert("请求失败1111");
+          }
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+      });
+    })
+
+    $("#next").on('click',function(){
+      var   current_location_two=$("#current_location_two").val();
+     var classhour_m_id=$("#class_id_box").val();
+      //alert(classhour_m_id);
+      //alert(current_location_two);
+      $.ajax({
+        url: "/questions/get_questions_next?"+new Date().getTime(),
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          next:"1",
+          current_location:current_location_two,
+          classhour_m_id:classhour_m_id
+        }),
+        success: function(data) {
+          if (data.success == 0) {
+            // alert(data.success);
+            var jsondata = JSON.parse(JSON.stringify(data));
+           // alert(JSON.stringify(data));
+
+            var title_content=jsondata.data.title_content;
+            var answer_ok=jsondata.data.answer_ok;
+            var type=jsondata.data.type;
+            var answer_list=jsondata.data.answer_list;
+            var current_location_two=jsondata.data.current_location;
+            var end_start_up=jsondata.data.end_start_up;
+            var end_start_down=jsondata.data.end_start_down;
+            var several=jsondata.data.current_location+1;
+            $("#several").html(several);
+            e2.html("");
+            dataAxis.length==0;
+            if(type==0){
+              $("#typestring").html("单项选择题");
+            }else if(type==1){
+              $("#typestring").html("多项选择题");
+            }else if(type==2){
+              $("#typestring").html("判断题");
+            }
+            $("#answer_ok_content").html("");
+            $("#answer_ok_input").val("");
+            $("#type").val("");
+            $("#current_location_two").val("");
+
+if(answer_ok=="true"){
+  $("#answer_ok_content").html("√");
+  $("#answer_ok_input").val(answer_ok);
+}else if(answer_ok=="false"){
+  $("#answer_ok_content").html("×");
+  $("#answer_ok_input").val(answer_ok);
+}else {
+  $("#answer_ok_content").html(answer_ok);
+  $("#answer_ok_input").val(answer_ok);
+}
+            $("#type").val(type);
+            $("#current_location_two").val(current_location_two);
+            e2.insertHtml(title_content);
+            if(end_start_up=="-1"){
+              $("#previous").css('background-image','url(images/button_nav_lll.png)');
+              $("#previous").attr('disabled','disabled');
+
+            }else {
+              $("#previous").css('background-image','url(images/button_nav_l.png)');
+              $("#previous").removeAttr('disabled');
+            }
+            //alert(end_start_down);
+            if(end_start_down=="-1"){
+              $("#next").css('background-image','url(images/button_nav_rrr.png)');
+              $("#next").attr('disabled','disabled');
+              //$( '#next' ).attr( 'disabled' , "disabled" );
+
+            }else {
+              $("#next").removeAttr('disabled');
+              //$( '#next' ).attr( 'disabled' , "" );
+            }
+
+          }
+          else {
+            alert("请求失败1111");
+          }
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+
+      });
+
+    })
+
+
+//    youtu.ajax("/questions/get_bookmark_list","","get",function (data) {
+//      if(data.success==0){
+//
+//        var jsondata=JSON.parse(JSON.stringify(data));
+//        alert(JSON.stringify(data));
+//
+//
+//
+//      }else{
+//        alert("请求失败");
+//      }
+//    });
+
+   // var WsShell = new ActiveXObject('WScript.Shell')
+   // WsShell.SendKeys('{F11}');
+
+
+  })
+$("#chart_button").on('click',function(){
+
+  $('#chart_modal').modal('show');
+
+})
+
+$("#answer_ok").on('click',function(){
+
+  $('#answer_ok_modal').modal('show');
+
+})
+
+
+  $("#result_button").on('click',function(){
+
+    var answer_id=$("#answer_mark_m_id").val();
+    var type=$("#type").val();
+
+    var answer_ok_content=$("#answer_ok_input").val();
+
+    answer_ok_content=answer_ok_content.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+
+    $.ajax({
+      url: "/phones/"+answer_id+"/query_questions?"+new Date().getTime(),
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        answer_ok: answer_ok_content,
+        type:type,
+
+      }),
+      success: function(data) {
+        if (data.success == 0) {
+          var jsondata = JSON.parse(JSON.stringify(data));
+         //alert(JSON.stringify(data));
+         $(".student_name").html("");
+
+//alert(attributeCount(jsondata.data));
+      var class_count=jsondata.data.class_count;
+          //alert(class_count);
+
+       //   onlyone
+          if(attributeCount(jsondata.data)==0){
+            $("#next_class").removeClass('btn-primary');
+            $("#next_class").attr('disabled','disabled');
+            return
+          }else {
+            if(class_count=="onlyone"){
+              $("#next_class").removeClass('btn-primary');
+              $("#next_class").attr('disabled','disabled');
+
+            }else if(class_count!="onlyone"){
+              $("#next_class").addClass('btn-primary');
+              $("#next_class").removeAttr('disabled','disabled');
+            }
+            var ture_person=jsondata.data.ture_person;
+            var false_person=jsondata.data.false_person;
+            var vilidate_person=jsondata.data.vilidate_person;
+            var no_person=jsondata.data.no_person;
+            var all_person=jsondata.data.all_person;
+            var all_once=jsondata.data.all_once;
+            var current_location=jsondata.data.current_location;
+
+            $("#ture_person").html(ture_person);
+            $("#false_person").html(false_person);
+            $("#vilidate_person").html(vilidate_person);
+            $("#no_person").html(no_person);
+            $("#all_person").html(all_person);
+            $("#current_location").val(current_location);
+            var html="";
+
+            for (i=0;i<all_once.length;i++){
+              // alert(all_once[i].name);
+              // alert(all_once[i].state);
+              html+='<a state="'+all_once[i].state+'">'+all_once[i].name+'</a>';
+
+            }
+            $(".student_name").append(html);
+//         var  state_aa=$(".student_name a");
+//          for(i=0;i<state_aa.length;i++){
+//alert(state_aa[i].attr('state'));
+//          }
+
+            $(".student_name a").each(function(){
+              if($(this).attr('state')==1){
+                $(this).css('background-color','#4cae4c')
+                        .css('color','#fff')
+              }
+              if($(this).attr('state')==2){
+                $(this).css('background-color','tomato')
+                        .css('color','#fff')
+              }
+              if($(this).attr('state')==3){
+                $(this).css('background-color','#00B7FF')
+                        .css('color','#fff')
+              }
+              if($(this).attr('state')==4){
+                $(this).css('background-color','#9d9d9d')
+                        .css('color','#fff')
+              }
+
+          })
+
+          }
+
+
+
+        }
+        else {
+          //alert("请求失败1111");
+        }
+
+
+      },
+      error: function(){
+        alert("获取数据失败");
+      }
+
+    });
+
+    $('#result_modal').modal('show');
+
+  })
+
+  var b=0;
+  $("#toggle_button").click(function() {
+    if(b==0){
+      var wb_number=location.href.split("&wb_number_b=")[1].split("&state=")[0];
+      $.ajax({
+      url: "/phones/"+wb_number+"/start_question?"+new Date().getTime(),
+      type:"get",
+      dataType: "json",
+      contentType: "application/json",
+      data: {
+
+      },
+      success: function (data) {
+        if (data.success==0) { // 请求成功
+
+          var jsondata=JSON.parse(JSON.stringify(data));
+          var answer_mark_m_id=jsondata.data.answer_mark_m_id;
+            $("#toggle_button").html("结束答题");
+            $("#chart_button").attr('disabled','disabled');
+            $("#result_button").attr('disabled','disabled');
+            $("#previous_bookmark").attr('disabled','disabled');
+            $("#next_bookmark").attr('disabled','disabled');
+          $("#previous").attr('disabled','disabled');
+          $("#next").attr('disabled','disabled');
+            $("#chart_button").css('color','rgba(255, 255, 255, 0.65)');
+            $("#result_button").css('color','rgba(255, 255, 255, 0.65)');
+          $("#answer_mark_m_id").val(answer_mark_m_id);
+        }
+        else {
+
+        }
+      },
+      error: function () {
+
+      },
+    });
+      b=1;
+    }else  {
+
+      ;
+    var answer_id=$("#answer_mark_m_id").val();
+      //alert(answer_id);
+      $.ajax({
+        url: "/phones/"+answer_id+"/end_question?"+new Date().getTime(),
+        type:"get",
+        dataType: "json",
+        contentType: "application/json",
+        data: {},
+        success: function (data) {
+          if (data.success==0) { // 请求成功
+            var jsondata=JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+            //alert(jsondata.data.answer_mark_m_id)
+              $("#toggle_button").html("开始答题")
+              $("#chart_button").removeAttr('disabled');
+              $("#result_button").removeAttr('disabled');
+              $("#previous_bookmark").removeAttr('disabled');
+              $("#next_bookmark").removeAttr('disabled');
+            $("#previous").removeAttr('disabled');
+            $("#next").removeAttr('disabled');
+              $("#chart_button").removeAttr('style');
+              $("#result_button").removeAttr('style');
+          }
+          else {
+
+          }
+        },
+        error: function () {
+
+
+        },
+      });
+      b=0;
+    }
+  });
+
+
+
+  var a=0;
+  $("#toggle_nav").click(function() {
+
+    if(a==0){
+      $(".nav_button").removeAttr("style");
+      $(".nav_button").css("left","20px");
+
+      a=1;
+    }else  {
+      $(".nav_button").removeAttr("style");
+      $(".nav_button").css("right","20px");
+
+      a=0;
+    }
+  });
+
+
+
+  $("#chart_button").click(function(){
+//alert(dataAxis);
+    var answer_id=$("#answer_mark_m_id").val();
+    var type=$("#type").val();
+    var answer_ok_input=$("#answer_ok_input").val();
+    answer_ok_input=answer_ok_input.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+ //  alert(answer_id);
+//    alert("类型"+type);
+//    alert(type)
+//    alert("答案"+answer_ok_input);
+
+    $.ajax({
+      url: "/phones/"+answer_id+"/analys_questions?"+new Date().getTime(),
+      type:"post",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({
+        answer_ok: answer_ok_input,
+        type:type,
+
+      }),
+      success: function (data) {
+        if (data.success==0) { // 请求成功
+
+          var jsondata=JSON.parse(JSON.stringify(data));
+        //alert(JSON.stringify(data));
+          if(attributeCount(jsondata.data)==0){
+
+            data_number.unshift('0','0','0','0','0','0');
+            for (var i = 0; i < data_number.length; i++) {
+              dataShadow.unshift('0');
+            }
+            var myChart = echarts.init(document.getElementById('main2'));
+
+            myChart.setOption(option, true)
+
+          }else {
+
+            var allclass_person_count=jsondata.data.allclass_person_count;
+            var answer_ture=jsondata.data.answer_ture;
+
+            $("#text_ok").html(answer_ture);
+            $("#total_ren").html(allclass_person_count);
+            var rate=(answer_ture/allclass_person_count).toFixed(2)*100;
+
+            $("#rate").html(rate);
+            //   alert(rate);
+            // yMax=allclass_person_count;
+            data_number.length = 0;
+            dataShadow.length = 0;
+
+
+            if($("#type").val()==0){
+              var   length_abc=$("#length").val();
+              var aa=jsondata.data.answer.A;
+              var bb=jsondata.data.answer.B;
+              var cc=jsondata.data.answer.C;
+              var dd=jsondata.data.answer.D;
+              var ee=jsondata.data.answer.E;
+              var ff=jsondata.data.answer.F;
+              var gg=jsondata.data.answer.G;
+              var hh=jsondata.data.answer.H;
+              var ii=jsondata.data.answer.I;
+
+              if(length_abc==3){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+              }
+              if(length_abc==4){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+              }
+              if(length_abc==5){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+              }
+              if(length_abc==5){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+              }
+              if(length_abc==6){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+              }
+              if(length_abc==7){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+                data_number.unshift(hh);
+              }
+              if(length_abc==8){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+                data_number.unshift(hh);
+                data_number.unshift(ii);
+              }
+
+              var invalid_count=jsondata.data.invalid_count;
+
+              data_number.unshift(invalid_count);
+              var noanswer_person_count=jsondata.data.noanswer_person_count;
+              data_number.unshift(noanswer_person_count);
+            }
+            else if($("#type").val()==1){
+              var   length_abc=$("#length").val();
+
+              var aa=jsondata.data.answer.A;
+              var bb=jsondata.data.answer.B;
+              var cc=jsondata.data.answer.C;
+              var dd=jsondata.data.answer.D;
+              var ee=jsondata.data.answer.E;
+              var ff=jsondata.data.answer.F;
+              var gg=jsondata.data.answer.G;
+              var hh=jsondata.data.answer.H;
+              var ii=jsondata.data.answer.I;
+
+              if(length_abc==3){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+              }
+              if(length_abc==4){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+              }
+              if(length_abc==5){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+              }
+              if(length_abc==6){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+              }
+              if(length_abc==7){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+              }
+              if(length_abc==8){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+                data_number.unshift(hh);
+              }
+              if(length_abc==9){
+                data_number.unshift(aa);
+                data_number.unshift(bb);
+                data_number.unshift(cc);
+                data_number.unshift(dd);
+                data_number.unshift(ee);
+                data_number.unshift(ff);
+                data_number.unshift(gg);
+                data_number.unshift(hh);
+                data_number.unshift(ii);
+              }
+              var invalid_count=jsondata.data.invalid_count;
+
+              data_number.unshift(invalid_count);
+              var noanswer_person_count=jsondata.data.noanswer_person_count;
+              data_number.unshift(noanswer_person_count);
+              //alert(data_number);
+            }
+
+
+            else if($("#type").val()==2){
+              var aa=jsondata.data.answer.A;
+              var bb=jsondata.data.answer.B;
+              if(aa!="0"){
+
+                data_number.unshift(aa);
+              }
+              if(bb!="0"){
+                data_number.unshift(bb);
+              }
+              var invalid_count=jsondata.data.invalid_count;
+
+              data_number.unshift(invalid_count);
+              var noanswer_person_count=jsondata.data.noanswer_person_count;
+              data_number.unshift(noanswer_person_count);
+
+            }
+
+
+           // alert(data_number)
+            for (var i = 0; i < data_number.length; i++) {
+              dataShadow.unshift(allclass_person_count);
+            }
+            var myChart = echarts.init(document.getElementById('main2'));
+
+            myChart.setOption(option, true)
+
+          }
+
+        }
+        else {
+          alert("请求失败");
+        }
+      },
+      error: function () {
+        alert("请求失败");
+      },
+    });
+
+
+
+
+
+  })
+
+
+$("#next_class").on("click",function(){
+
+  var answer_id=$("#answer_mark_m_id").val();
+  var type=$("#type").val();
+  var answer_ok_input=$("#answer_ok_input").val();
+  answer_ok_input=answer_ok_input.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
+  var current=$("#current_location").val();
+//  alert(answer_id);
+//  alert("类型"+type);
+//  alert("答案"+answer_ok_input);
+//  alert("后台"+current);
+  $.ajax({
+    url: "/phones/"+answer_id+"/query_questions_next?"+new Date().getTime(),
+    type: 'post',
+    dataType: 'json',
+    contentType: "application/json",
+    data: JSON.stringify({
+      answer_ok: answer_ok_input,
+      type:type,
+      current:current
+    }),
+    success: function (data) {
+      if (data.success==0) { // 请求成功
+        var jsondata=JSON.parse(JSON.stringify(data));
+        //alert(JSON.stringify(data));
+        $(".student_name").html("");
+        var ture_person=jsondata.data.ture_person;
+        var false_person=jsondata.data.false_person;
+        var vilidate_person=jsondata.data.vilidate_person;
+        var no_person=jsondata.data.no_person;
+        var all_person=jsondata.data.all_person;
+        var all_once=jsondata.data.all_once;
+        var current_location=jsondata.data.current_location;
+        $("#ture_person").html(ture_person);
+        $("#false_person").html(false_person);
+        $("#vilidate_person").html(vilidate_person);
+        $("#no_person").html(no_person);
+        $("#all_person").html(all_person);
+        $("#current_location").val(current_location);
+        var html="";
+
+        for (i=0;i<all_once.length;i++){
+          // alert(all_once[i].name);
+          // alert(all_once[i].state);
+          html+='<a state="'+all_once[i].state+'">'+all_once[i].name+'</a>';
+
+        }
+        $(".student_name").append(html);
+//         var  state_aa=$(".student_name a");
+//          for(i=0;i<state_aa.length;i++){
+//alert(state_aa[i].attr('state'));
+//          }
+
+
+        $(".student_name a").each(function(){
+          if($(this).attr('state')==1){
+            $(this).css('background-color','#4cae4c')
+                    .css('color','#fff')
+          }
+          if($(this).attr('state')==2){
+            $(this).css('background-color','tomato')
+                    .css('color','#fff')
+          }
+          if($(this).attr('state')==3){
+            $(this).css('background-color','#00B7FF')
+                    .css('color','#fff')
+          }
+          if($(this).attr('state')==4){
+            $(this).css('background-color','#9d9d9d')
+                    .css('color','#fff')
+          }
+        })
+
+
+      }
+      else {
+
+      }
+    },
+    error: function () {
+
+
+    },
+  });
+
+
+})
+
+
+
+
+
+
+  $(".out").click(function () {
+    parent.$("#bg,#bgiframe").remove();
+  });
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+
+
+  var dataAxis = [];
+  var data_number = [];
+ // var yMax=50;
+  var dataShadow = [];
+
+
+
+  option = {
+    xAxis: {
+
+    },
+    yAxis: {
+
+      data: dataAxis,
+
+      axisLabel: {
+
+        textStyle: {
+          fontSize: 14,
+        }
+      },
+
+      axisTick: {
+        show: false
+      },
+      axisLine: {
+        show: false
+      },
+      z: 10
+    },
+
+    series: [
+      { // For shadow
+        type: 'bar',
+        itemStyle: {
+          normal: {color: 'rgba(0,0,0,0.05)'}
+        },
+        barGap:'-100%',
+        barCategoryGap:'40%',
+        data: dataShadow,
+        animation: false
+      },
+      {
+        type: 'bar',
+        label: {
+          normal: {
+
+            show: true,
+
+          }
+        },
+        data_number:[22, 18, 19, 23, 29, 33],
+        itemStyle: {
+          normal: {
+            color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                      {offset: 0, color: '#83bff6'},
+                      {offset: 0.5, color: '#188df0'},
+                      {offset: 1, color: '#188df0'}
+                    ]
+            )
+          },
+          emphasis: {
+            color: new echarts.graphic.LinearGradient(
+                    0, 0, 0, 1,
+                    [
+                      {offset: 0, color: '#2378f7'},
+                      {offset: 0.7, color: '#2378f7'},
+                      {offset: 1, color: '#83bff6'}
+                    ]
+            )
+          }
+        },
+        data: data_number
+      }
+    ]
+  };
+  setTimeout(function() {
+    if(document.all) {
+      document.getElementById("qwer").click();
+    }
+    else {
+      var e = document.createEvent("MouseEvents");
+      e.initEvent("click", true, true);
+      document.getElementById("qwer").dispatchEvent(e);
+    }
+  });
+  // Enable data zoom when user click bar.
+//  var zoomSize = 1;
+//  myChart.on('click', function (params) {
+//    console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+//    myChart.dispatchAction({
+//      type: 'dataZoom',
+//      startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+//      endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+//    });
+//  });
+  // 使用刚指定的配置项和数据显示图表。
+
+</script>
+
+<script type="text/javascript">
+//  function longPolling() {
+//    var wb_number=location.href.split("&wb_number_b=")[1];
+//    $.ajax({
+//      url: "/phones/"+wb_number+"/start_question",
+//      type:"get",
+//      dataType: "json",
+//      contentType: "application/json",
+//      data: {},
+//      timeout: 5000,
+//      success: function (data) {
+//        if (data.success==0) { // 请求成功
+//          alert(data.success);
+//          longPolling();
+//        }
+//        else {
+//          longPolling();
+//        }
+//      },
+//      error: function () {
+//        longPolling();
+//
+//      },
+//    });
+//  };
+var attributeCount = function(obj) {
+  var count = 0;
+  for(var i in obj) {
+    if(obj.hasOwnProperty(i)) {  // 建议加上判断,如果没有扩展对象属性可以不加
+      count++;
+    }
+  }
+  return count;
+}
+          $('#delRepeat').click(function(){
+            var str = $('#repeatValue').val();
+            var reg = /(.)(?=.*\1)/g;//预搜索方式（有的叫断言）
+            var result = str.replace(reg, "");
+            $('#noRepeat').val(result);
+          })
+
+
+
+function Fkey(){
+
+  scroll(0,0);
+  var WsShell = new ActiveXObject('WScript.Shell')
+  WsShell.SendKeys('{F11}');
+}
+
+
+
+
+</script>
+</body>
+</html>

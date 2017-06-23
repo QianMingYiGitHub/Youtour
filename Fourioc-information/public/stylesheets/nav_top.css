@@ -1,0 +1,89 @@
+/* CSS Document */
+
+  html {
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial, Helvetica, STHeiti;
+            margin: 0;
+        }
+  <!---页眉--->
+ .top_box{
+		   width:100%;
+		    background-color:#fff; 
+			height:70px; 
+			float:left; 
+		  }
+		  .top_box_l{
+			  width:600px;
+			  float:left;
+			  height:100%;
+			   
+			  }
+			.top_logo img{
+				width: 130px;
+				margin-top:13px;
+				margin-left:30px;
+				}  
+		    .top_logo{
+				float:left;	
+					}
+			.top_line{
+				width:10px;
+				float:left;
+					}
+		.top_line img{
+				margin-top:20px;
+				margin-left:10px;
+				
+				} 
+				
+				.top_size{
+					font-size: 18px;
+					color: #000;
+					font-weight: bold;
+					margin-top: 25px;
+					display: block;
+					margin-left: 15px;
+					float: left;
+					font-family: "微软雅黑";
+					}
+					
+					 .top_box_r{
+			  width:400px;
+			  float:right;
+			  height:100%;
+			   
+			  }
+  <!---导航--->
+  
+  .navbar{
+	background-color:#fff;	
+	}
+        .main-nav {
+            margin-left: 1px;
+			
+        }
+.icon_box{
+	width:27px; 
+	height:27px; 
+	float:left;
+	}
+	a:hover{
+		text-decoration:none;
+		}
+		.hover_one{
+			}
+		.hover_two{
+			}	
+	    .hover_three{
+				}
+			
+		
+			
+						
+  
+  
+

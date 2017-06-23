@@ -1,0 +1,439 @@
+ 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>当前位置</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/demos.css">
+    <script type="text/javascript" src="../javascripts/jquery-2.1.1-youtu.js"></script>
+    <!--<script type="text/javascript" src="../javascripts/jquery-2.1.1.min.js"></script>-->
+    <!--<script src="../javascripts/jweixin-1.1.0.js"></script>-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oHNrrfCF1WLKxAdHTxbMqfmg"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <link rel="prerender" href="info_edit.html">
+    <style type="text/css">
+
+        .weui_label {
+            font-weight:bold;
+            font-size: 14px;
+        }
+        .weui_btn.weui_btn_mini{
+            padding: 0 .45em;
+
+        }
+
+        .weui_cells_form{
+            background-color:#fbf9fe;
+        }
+        .weui_cell{
+            background-color:#fff;
+        }
+        .weui_cells:after{
+            border-top: 1px solid #d9d9d9;
+            border-bottom:0;
+        }
+        .weui_vcode{
+            padding-left:0;
+        }
+        .weui_select{
+            font-weight: bold;
+            font-size: 14px;
+            font-family:微软雅黑;
+        }
+        .weui_input{
+            font-size:14px;
+        }
+        .weui_vcode{
+            height: 43px;
+            padding-left:15px;
+        }
+        .weui_btn_area{
+            width: 40%;
+            float: left;
+            margin-bottom: 5px;
+        }
+        .weui_icon_cancel{
+            margin-right: 10px;
+        }
+        .weui_uploader_status_content{
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            line-height: 35px;
+        }
+
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap{width:100%;height:100%;}
+        #r-result{width:50%;height:400px;}
+        #r-result2{width:50%;height:400px;}
+        p{margin-left:5px; font-size:14px;}
+    </style>
+
+
+</head>
+
+<body >
+<div id="allmap"></div>
+
+
+
+
+<!--<div class="weui_cells weui_cells_form">-->
+
+
+
+    <!--&lt;!&ndash;&#45;&#45;盒子2&#45;&#45;&ndash;&gt;-->
+    <!--<div class="box_two">-->
+
+        <!--&lt;!&ndash;-&#45;&#45;店铺-&#45;&#45;&ndash;&gt;-->
+        <!--<div class="weui_cell">-->
+            <!--<div class="weui_cell_hd"><label class="weui_label">店铺名称</label></div>-->
+            <!--<div class="weui_cell_bd weui_cell_primary">-->
+                <!--<input class="weui_input" type="text" placeholder="请输入店铺名称" id="shop_name">-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+        <!--&lt;!&ndash;&#45;&#45;银行&#45;&#45;&ndash;&gt;-->
+        <!--<div class="weui_cell weui_cell_select">-->
+            <!--<div class="weui_cell">-->
+                <!--<div class="weui_cell_hd"><label class="weui_label">开户银行</label></div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;&#45;&#45;下拉&#45;&#45;&ndash;&gt;-->
+            <!--<div class="weui_cell_bd weui_cell_primary">-->
+                <!--<select class="weui_select" name="select1" id="select1">-->
+                    <!--<option selected="" value="0" >选择银行</option>-->
+
+                <!--</select>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash;-&#45;&#45;开户名-&#45;&#45;&ndash;&gt;-->
+        <!--<div class="weui_cell">-->
+            <!--<div class="weui_cell_hd"><label class="weui_label">开户名</label></div>-->
+            <!--<div class="weui_cell_bd weui_cell_primary">-->
+                <!--<input class="weui_input" type="text" placeholder="请输入银行开户名" id="account">-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash;-&#45;&#45;银行卡号-&#45;&#45;&ndash;&gt;-->
+        <!--<div class="weui_cell">-->
+            <!--<div class="weui_cell_hd"><label class="weui_label">银行卡号</label></div>-->
+            <!--<div class="weui_cell_bd weui_cell_primary">-->
+                <!--<input class="weui_input" type="tel" placeholder="请输入银行卡号" id="bank">-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
+
+    <!--<div class="box_three">-->
+        <!--&lt;!&ndash; 1 &ndash;&gt;-->
+        <!--<div class="upload_box">-->
+            <!--<p class="img_word">身份证影印件正面</p>-->
+            <!--<div class="img_r">-->
+                <!--<div class="img_button"id="img_button_one">-->
+                    <!--<a href="javascript:;" class="file" id="img_box_one">　　-->
+                        <!--<input class="add_input file" type="file" id="img_upload_one" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<i class="weui_icon_cancel" id="button_delete_one"></i>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+
+        <!--&lt;!&ndash; 2 &ndash;&gt;-->
+        <!--<div class="upload_box">-->
+            <!--<p class="img_word">身份证影印件反面</p>-->
+            <!--<div class="img_r">-->
+                <!--<div class="img_button"id="img_button_two">-->
+                    <!--<a href="javascript:;" class="file" id="img_box_two">　　-->
+                        <!--<input class="add_input file" type="file" id="img_upload_two" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<i class="weui_icon_cancel" id="button_delete_two"></i>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+        <!--&lt;!&ndash; 3 &ndash;&gt;-->
+        <!--<div class="upload_box">-->
+            <!--<p class="img_word">本人手持身份证照片</p>-->
+            <!--<div class="img_r">-->
+                <!--<div class="img_button"id="img_button_three">-->
+                    <!--<a href="javascript:;" class="file" id="img_box_three">　　-->
+                        <!--<input class="add_input file" type="file" id="img_upload_three" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<i class="weui_icon_cancel" id="button_delete_three"></i>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+        <!--&lt;!&ndash; 4 &ndash;&gt;-->
+        <!--<div class="upload_box">-->
+            <!--<p class="img_word">营业执行照影印件</p>-->
+            <!--<div class="img_r">-->
+                <!--<div class="img_button"id="img_button_four">-->
+                    <!--<a href="javascript:;" class="file" id="img_box_four">　　-->
+                        <!--<input class="add_input file" type="file" id="img_upload_four" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<i class="weui_icon_cancel" id="button_delete_four"></i>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+        <!--&lt;!&ndash; 5 &ndash;&gt;-->
+        <!--<div class="upload_box">-->
+            <!--<p class="img_word">其它证件照影印件</p>-->
+            <!--<div class="img_r">-->
+                <!--<div class="img_button"id="img_button_five">-->
+                    <!--<a href="javascript:;" class="file" id="img_box_five">　　-->
+                        <!--<input class="add_input file" type="file" id="img_upload_five" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<i class="weui_icon_cancel" id="button_delete_five"></i>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+
+    <!--</div>-->
+
+    <!--<div class="weui_btn_area">-->
+        <!--<a href="javascript:;" class="weui_btn weui_btn_default" id="preservation">保存</a>-->
+    <!--</div>-->
+    <!--<div class="weui_btn_area">-->
+        <!--<a class="weui_btn weui_btn_primary" href="javascript:" id="submit">提交审核</a>-->
+    <!--</div>-->
+
+<!--</div>&lt;!&ndash;-END form-&ndash;&gt;-->
+
+
+
+
+</div>
+
+
+
+
+</body>
+<script type="text/javascript">
+
+    var user_id=$.intercept_url("user_id");
+    //alert(user_id);
+    function funcTest(){
+
+        window.setInterval("timelyFun()",30000);
+    }
+    window.onload = funcTest;
+
+    function timelyFun(){
+       // alert("循环触发");
+        //可写触发ajax请求
+       // alert("11111111");
+        $.ajax({
+
+            url: '/school/get_student_position',
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                user_id: user_id
+            }),
+            success: function (data) {
+
+                //alert(JSON.stringify(data));
+                if(data.success==0){
+                    var jsondata=JSON.parse(JSON.stringify(data));
+                 //   alert(JSON.stringify(data));
+                    var   longitude=jsondata.data.Range[0].longitude;
+                    var   latitude=jsondata.data.Range[0].latitude;
+//alert(longitude);
+//alert(latitude);
+                    // 百度地图API功能
+                    var map = new BMap.Map("allmap");            // 创建Map实例
+                    var mPoint = new BMap.Point(longitude, latitude);
+                    // map.enableScrollWheelZoom();
+                    // map.centerAndZoom(mPoint,17);
+//                    var point = new BMap.Point(longitude, latitude); //将标注点转化成地图上的点
+//                    var marker = new BMap.Marker(point); //将点转化成标注点
+//                    map.addOverlay(marker);
+
+
+                    map.centerAndZoom(new BMap.Point(longitude, latitude), 17);
+                    map.enableScrollWheelZoom(true);
+                    var index = 0;
+                    var myGeo = new BMap.Geocoder();
+                    var adds = [
+                        new BMap.Point(longitude, latitude),
+                    ];
+                    for(var i = 0; i<adds.length; i++){
+                        var marker = new BMap.Marker(adds[i]);
+                        map.addOverlay(marker);
+                    }
+
+                    var pt = adds[index];
+                    geocodeSearch(pt);
+                    index++;
+                    function geocodeSearch(pt){
+                        if(index < adds.length-1){
+                            setTimeout(window.bdGEO,400);
+                        }
+                        myGeo.getLocation(pt, function(rs){
+                            var addComp = rs.addressComponents;
+                            //document.getElementById("result").innerHTML += index + ". " +adds[index-1].lng + "," + adds[index-1].lat + "："  + "商圈(" + rs.business + ")  结构化数据(" + addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber + ")<br/><br/>";
+
+                            //添加文字
+                            var opts = {
+                                position : mPoint,    // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(-110, -60)    //设置文本偏移量
+                            }
+                            var label = new BMap.Label(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber, opts);  // 创建文本标注对象
+                            label.setStyle({
+                                color : "red",
+                                fontSize : "14px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);
+
+                        });
+                    }
+
+                }
+                else if(data.success==1){
+
+                }
+                else if(data.success==2){
+
+                }
+                else {
+                    alert("获取数据失败1");
+                }
+
+            },
+            error: function(){
+                alert("获取数据失败2");
+            }
+        });
+    }
+    $(function(){
+
+        $.ajax({
+
+            url: '/school/get_student_position',
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                user_id: user_id
+            }),
+            success: function (data) {
+
+                //alert(JSON.stringify(data));
+                if(data.success==0){
+                    var jsondata=JSON.parse(JSON.stringify(data));
+                    //   alert(JSON.stringify(data));
+                    var   longitude=jsondata.data.Range[0].longitude;
+                    var   latitude=jsondata.data.Range[0].latitude;
+//                    alert(longitude);
+//                    alert(latitude);
+                    // 百度地图API功能
+                    var map = new BMap.Map("allmap");            // 创建Map实例
+                    var mPoint = new BMap.Point(longitude, latitude);
+                    // map.enableScrollWheelZoom();
+                    // map.centerAndZoom(mPoint,17);
+//                    var point = new BMap.Point(longitude, latitude); //将标注点转化成地图上的点
+//                    var marker = new BMap.Marker(point); //将点转化成标注点
+//                    map.addOverlay(marker);
+
+
+                    map.centerAndZoom(new BMap.Point(longitude, latitude), 17);
+                    map.enableScrollWheelZoom(true);
+                    var index = 0;
+                    var myGeo = new BMap.Geocoder();
+                    var adds = [
+                        new BMap.Point(longitude, latitude),
+                    ];
+                    for(var i = 0; i<adds.length; i++){
+                        var marker = new BMap.Marker(adds[i]);
+                        map.addOverlay(marker);
+                    }
+
+                    var pt = adds[index];
+                    geocodeSearch(pt);
+                    index++;
+                    function geocodeSearch(pt){
+                        if(index < adds.length-1){
+                            setTimeout(window.bdGEO,400);
+                        }
+                        myGeo.getLocation(pt, function(rs){
+                            var addComp = rs.addressComponents;
+                            //document.getElementById("result").innerHTML += index + ". " +adds[index-1].lng + "," + adds[index-1].lat + "："  + "商圈(" + rs.business + ")  结构化数据(" + addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber + ")<br/><br/>";
+
+                            //添加文字
+                            var opts = {
+                                position : mPoint,    // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(-110, -60)    //设置文本偏移量
+                            }
+                            var label = new BMap.Label(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber, opts);  // 创建文本标注对象
+                            label.setStyle({
+                                color : "red",
+                                fontSize : "14px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);
+
+                        });
+                    }
+
+                }else {
+                    alert("获取数据失败1");
+                }
+
+            },
+            error: function(){
+                alert("获取数据失败2");
+            }
+        });
+
+
+    })
+
+
+
+
+
+
+</script>
+</html>
+

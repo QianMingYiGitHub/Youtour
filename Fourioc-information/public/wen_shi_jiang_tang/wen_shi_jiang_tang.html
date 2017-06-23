@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>文史讲堂</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <style>
+    a:active
+    {
+        background-color:white;
+    }
+    a:hover
+    {
+        background-color:white;
+    }
+    a:visited
+    {
+        background-color:white;
+    }
+    a:link
+    {
+        background-color:white;
+    }
+    </style>
+
+    <script>
+        //
+        var g_subjects =[
+            { kind:0, name:'文史', icon:'wenshi.png', url:'video_list.html' },
+            // { kind:1, name:'国学', icon:'guoxue.png', url:'../activity/reply_test.html' },
+            { kind:1, name:'国学', icon:'guoxue.png', url:'../activity/test.html' },
+        ];
+    </script>
+
+</head>
+
+
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div>
+        <img src="banner.jpg" style="width:100%" />
+    </div>
+
+    <div id='subject_container' class="weui_grids" style="background-color:white;margin-top:5px;">
+<!--       
+      <a href="buttons.html" class="weui_grid js_grid">
+        <div class="weui_grid_icon">
+          <img src="images/icon_nav_button.png" alt="">
+        </div>
+        <p class="weui_grid_label">
+          Button
+        </p>
+      </a>
+-->
+    </div>
+
+    <script>
+        function init_data_field() {
+
+            var container = $("#subject_container");
+
+            for(var i = 0; i < g_subjects.length; i++) {
+
+                var strHtml = '';
+                strHtml += '<a href="' + g_subjects[i].url + '" class="weui_grid js_grid" >';
+                strHtml += '    <div class="weui_grid_icon">';
+                strHtml += '        <img style="width:36px;height:36px;" src="' + g_subjects[i].icon + '" alt="">';
+                strHtml += '    </div>';
+                strHtml += '    <br>';
+                strHtml += '    <p class="weui_grid_label">' + g_subjects[i].name + '</p>';
+                strHtml += '</a>';
+
+                // console.log(strHtml);
+                container.append(strHtml);
+            }
+        }
+
+        $(document).ready(function(){
+
+            //
+            init_data_field();
+        });
+
+    </script>
+
+
+
+</body>
+</html>

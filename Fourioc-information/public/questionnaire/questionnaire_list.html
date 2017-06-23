@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var corp_id = null;
+        var user_id = null;
+        var type = null;
+
+        var json_obj = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                }
+            }
+
+            if(!type || !user_id || !corp_id ) {
+                debug_trace("" + ((!type) ? "type" :"") + ((!user_id) ? " user_id" :"") + ((!corp_id) ? " corp_id" :"") + " 参数错误");
+            }
+        }
+
+        function get_questionnaire_list() {
+
+            json_obj = null;
+
+            var req_json = {
+                corpId:corp_id,
+                userid:user_id,
+                status:parseInt(type)
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/list', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    } else {
+                        // debug_trace("json data success [" + data.success + "]");
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，无法取得数据'));
+                    }
+                } else {
+                    // debug_trace("json format error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                // debug_trace("get questionnairList list failure. user_id[" + user_id + "], type[" + type +"]");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+
+            // format date_time
+            if( json_obj != null ) {
+
+                for( var i = 0; i < json_obj.data.questionnairList.length; i++ ) {
+
+                    json_obj.data.questionnairList[i].editTime = format_date_time(json_obj.data.questionnairList[i].editTime);
+                }
+            }
+        };
+
+
+        get_questionnaire_list();
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div id="element_list">
+
+<!--
+        <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+                        <img class="weui_media_appmsg_thumb" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAeFBMVEUAwAD///+U5ZTc9twOww7G8MYwzDCH4YcfyR9x23Hw+/DY9dhm2WZG0kbT9NP0/PTL8sux7LFe115T1VM+zz7i+OIXxhes6qxr2mvA8MCe6J6M4oz6/frr+us5zjn2/fa67rqB4IF13XWn6ad83nxa1loqyirn+eccHxx4AAAC/klEQVRo3u2W2ZKiQBBF8wpCNSCyLwri7v//4bRIFVXoTBBB+DAReV5sG6lTXDITiGEYhmEYhmEYhmEYhmEY5v9i5fsZGRx9PyGDne8f6K9cfd+mKXe1yNG/0CcqYE86AkBMBh66f20deBc7wA/1WFiTwvSEpBMA2JJOBsSLxe/4QEEaJRrASP8EVF8Q74GbmevKg0saa0B8QbwBdjRyADYxIhqxAZ++IKYtciPXLQVG+imw+oo4Bu56rjEJ4GYsvPmKOAB+xlz7L5aevqUXuePWVhvWJ4eWiwUQ67mK51qPj4dFDMlRLBZTqF3SDvmr4BwtkECu5gHWPkmDfQh02WLxXuvbvC8ku8F57GsI5e0CmUwLz1kq3kD17R1In5816rGvQ5VMk5FEtIiWislTffuDpl/k/PzscdQsv8r9qWq4LRWX6tQYtTxvI3XyrwdyQxChXioOngH3dLgOFjk0all56XRi/wDFQrGQU3Os5t0wJu1GNtNKHdPqYaGYQuRDfbfDf26AGLYSyGS3ZAK4S8XuoAlxGSdYMKwqZKM9XJMtyqXi7HX/CiAZS6d8bSVUz5J36mEMFDTlAFQzxOT1dzLRljjB6+++ejFqka+mXIe6F59mw22OuOw1F4T6lg/9VjL1rLDoI9Xzl1MSYDNHnPQnt3D1EE7PrXjye/3pVpr1Z45hMUdcACc5NVQI0bOdS1WA0wuz73e7/5TNqBPhQXPEFGJNV2zNqWI7QKBd2Gn6AiBko02zuAOXeWIXjV0jNqdKegaE/kJQ6Bfs4aju04lMLkA2T5wBSYPKDGF3RKhFYEa6A1L1LG2yacmsaZ6YPOSAMKNsO+N5dNTfkc5Aqe26uxHpx7ZirvgCwJpWq/lmX1hA7LyabQ34tt5RiJKXSwQ+0KU0V5xg+hZrd4Bn1n4EID+WkQdgLfRNtvil9SPfwy+WQ7PFBWQz6dGWZBLkeJFXZGCfLUjCgGgqXo5TuSu3cugdcTv/HjqnBTEMwzAMwzAMwzAMwzAMw/zf/AFbXiOA6frlMAAAAABJRU5ErkJggg==" alt="">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 class="weui_media_title">班主任老师_2016.01.01_问卷调查</h4>
+                        <p class="weui_media_desc">
+                            <span>2016.01.01</span>
+                            &nbsp;&nbsp;
+                            <span style="color:white;background-color:#32CD32;padding:5px;">进行中</span>
+                            <span style="color:white;background-color:#999999;padding:5px;">已结束 已关闭</span>
+                        </p>
+                        <p class="weui_media_desc" style="margin-top:5px">
+                            <a id="select_parant_cancel" href="javascript:;">查看详细</a>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a id="select_parant_cancel" href="javascript:;" >删除</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+ -->
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        //init list
+        function init_questionnaire_list() {
+
+            var root = $("#element_list");
+            root.empty();
+
+            if( !json_obj || 0==json_obj.data.questionnairList.length ) {
+
+                // var strHtml = '';
+                // strHtml += '<div id="cell" style="padding:40px;">';
+                // strHtml += '    <div id="box" style="background-color:white;color:black;font-size:10pt;line-height:18px;margin:auto;max-width:800px;border-radius:5px;-webkit-box-shadow:2px 5px 12px#555;padding:20px;">';
+                // strHtml += '      <p style="text-align: center;">暂时没有数据</p>';
+                // strHtml += '    </div>';
+                // strHtml += '</div>';
+                // strHtml += '';
+
+
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('暂时没有数据'));
+                return ;
+            }
+
+            for(var unionIdx = 0; unionIdx < json_obj.data.questionnairList.length; unionIdx++) {
+
+                var id = json_obj.data.questionnairList[unionIdx].id;
+                var sid = json_obj.data.questionnairList[unionIdx].ext;
+                var strHtml = '';
+
+
+                strHtml += '<div class="weui_panel weui_panel_access">';
+                strHtml += '    <div class="weui_panel_bd">';
+                strHtml += '        <div class="weui_media_box weui_media_appmsg">';
+                strHtml += '            <div class="weui_media_hd">';
+                strHtml += '                <img class="weui_media_appmsg_thumb" src="' + json_obj.data.questionnairList[unionIdx].headPic + '" alt="">';
+                strHtml += '            </div>';
+                strHtml += '            <div class="weui_media_bd">';
+                strHtml += '                <h4 class="weui_media_title">' + decodeURI(decodeURI(json_obj.data.questionnairList[unionIdx].title)) + '</h4>';
+                strHtml += '                <p class="weui_media_desc">';
+                strHtml += '                    <span>' + json_obj.data.questionnairList[unionIdx].editTime +'</span>';
+                strHtml += '                    &nbsp;&nbsp;';
+
+                // if(json_obj.data.questionnairList[unionIdx].status==1 && json_obj.data.questionnairList[unionIdx].isTimeout==false) {
+                //     strHtml += '                <span style="color:white;background-color:#32CD32;padding:5px;">进行中</span>';
+                // } else if(json_obj.data.questionnairList[unionIdx].status==2) {
+                //     strHtml += '                <span style="color:white;background-color:#999999;padding:5px;">已关闭</span>';
+                // } else if(json_obj.data.questionnairList[unionIdx].status==1 && json_obj.data.questionnairList[unionIdx].isTimeout==true) {
+                //     strHtml += '                <span style="color:white;background-color:#999999;padding:5px;">已结束</span>';
+                // }
+
+                strHtml += '                </p>';
+                strHtml += '                <p class="weui_media_desc" style="margin-top:5px">';
+                strHtml += '                    <a href="javascript:view_detail(&quot;' + id + '&quot;,&quot;' + sid + '&quot;,&quot;' + json_obj.data.questionnairList[unionIdx].identity + '&quot;);">查看详情</a>';
+
+                if( json_obj.data.questionnairList[unionIdx].createPerson == user_id
+                    && (type == 0 || type == 2 || type == 4 || (type==1 && json_obj.data.questionnairList[unionIdx].isTimeout)) ) {
+                    strHtml += '                &nbsp;&nbsp;|&nbsp;&nbsp;';
+                    strHtml += '                <a href="javascript:del_questionnaire(&quot;' + json_obj.data.questionnairList[unionIdx].id + '&quot;,&quot;' + json_obj.data.questionnairList[unionIdx].ext + '&quot;,&quot;' + json_obj.data.questionnairList[unionIdx].identity + '&quot;);">删除</a>';
+                }
+
+                strHtml += '                </p>';
+                strHtml += '            </div>';
+                strHtml += '        </div>';
+                strHtml += '    </div>';
+                strHtml += '</div>';
+
+                // console.log(strHtml);
+                root.append(strHtml);
+            }
+        };
+
+
+        function view_detail(questionnaire_id, sid, identity) {
+
+            if( 0 == type ) {
+                window.location = "./questionnaire_edit.html?" + "&corp_id=" + corp_id + "&user_id=" + user_id + "&identity=" + identity + "&questionnaire_id=" + questionnaire_id + "&sid=" + sid;
+            } else {
+                if((type == 3 || type == 4)&&sid){
+                    window.location = "./questionnaire_detail.html?" + "&corp_id=" + corp_id + "&user_id=" + user_id + "&identity=" + identity + "&type=" + type + "&questionnaire_id=" + questionnaire_id + "&sid=" + sid ;
+                }else{
+                    window.location = "./questionnaire_detail.html?" + "&corp_id=" + corp_id + "&user_id=" + user_id + "&identity=" + identity + "&type=" + type + "&questionnaire_id=" + questionnaire_id + "&sid=";
+                }
+            }
+
+        }
+
+        function del_questionnaire(questionnaire_id, sid, identity) {
+            console.log(questionnaire_id);
+
+            var req_json = {
+                corpId:corp_id,
+                userid:user_id,
+                identity:parseInt(identity),
+                ext:sid,
+                questionnairId:questionnaire_id,
+            }
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/delete', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        $.toast("删除成功");
+                    } else {
+                        debug_trace("json data success [" + data.success + "] data.desc[" + data.desc + "]");
+                        $.toast("删除失败，" + data.desc, "forbidden");
+                    }
+                } else {
+                    debug_trace("json format error");
+                    $.toast("删除失败，格式错误", "forbidden");
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("delete questionnaire list failure. user_id[" + user_id + "], type[" + type +"]");
+                $.toast("删除失败，服务器连接错误", "forbidden");
+              }
+            });
+
+            get_questionnaire_list();
+            init_questionnaire_list();
+        }
+
+
+        $(document).ready(function(){
+
+            //
+            switch(parseInt(type)) {
+                case 0 :
+                    $(document).attr("title","问卷草稿");
+                    break;
+                case 1 :
+                    $(document).attr("title","已发布问卷");
+                    break;
+                case 2 :
+                    $(document).attr("title","已关闭问卷");
+                    break;
+                case 3 :
+                    $(document).attr("title","未参与问卷");
+                    break;
+                case 4 :
+                    $(document).attr("title","已参与问卷");
+                    break;
+                default :
+                    debug_trace("无效type[" + type + "]");
+                    break;
+            }
+
+            //
+            init_questionnaire_list();
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

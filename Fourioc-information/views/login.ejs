@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>登录</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css"/>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascripts/base64.js"></script>
+
+    <style type="text/css">
+        p{
+            margin:0px;
+        }
+        .btn-default{
+            width:310px;
+        }
+        .input-group-addon{
+            background-color:#FFF;
+            padding: 5px 12px;
+        }
+        h4{
+            font-size: 16px;
+            color: #4C8DEE;
+            padding: 10px 20px 5px;
+            font-weight:bold;
+        }
+
+        .form-horizontal{
+            margin: 52px 45px 0;
+        }
+
+        h2.tab a {
+            display: inline-block;
+            width: 100px;
+            margin-right: 3px;
+            text-align: center;
+            background: #6b6b6b;
+            opacity: .6;
+            filter: alpha(opacity=60);
+            -moz-opacity: 0.6;
+            color: #fff;
+            font-size: 24px;
+        }
+        .nav>li>a {
+            position: relative;
+            display: block;
+            padding: 0;
+            width: 110px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            background: #6b6b6b;
+            opacity: 1;
+            filter: alpha(opacity=100);
+            -moz-opacity:1;
+            color: #fff;
+            font-size: 18px;
+
+        }
+        .nav-tabs>li{
+            width: 115px;
+        }
+        .nav-tabs>li>a{
+            border-radius: 0 0 0 0;
+            border: 0;
+            margin: 0 auto 0 auto;
+        }
+        .nav-tabs>li>a:hover {
+            background: #6b6b6b;
+            border-radius:0;
+        }
+        .nav>li>a:hover, .nav>li>a:focus {
+            text-decoration: none;
+            background: #6b6b6b;
+        }
+
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+            color: #fff;
+            background-color: #428bca;
+            border:0px;
+
+        }
+        .btn-primary{
+    background-color: #31ABDE;
+    border-color:#31ABDE;
+}
+
+
+    </style>
+
+</head>
+
+<body>
+
+<!--<div class="top_box">-->
+    <!--<div class="top_box_l">-->
+        <!--<div class="top_logo">-->
+            <!--<span>智慧校园-互动课堂</span>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="top_box_r">-->
+        <!--<div class="contact_us">-->
+            <!--<b class="ico_mobile"><img src="images/mobile.png" width="32" height="32"></b>-->
+            <!--<span class="txt_r">客服电话：</span>-->
+            <!--<p>400-000-110</p>-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+
+<!--</div>-->
+
+
+<div class="body_box" id="img_bg">
+    <!--<img src="images/login_bg.jpg" id="login_bg">-->
+
+
+
+    <div  class="login_box">
+
+
+
+
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="home">
+
+                <!--<h4>登录</h4>-->
+                <div class="form-horizontal">
+
+
+                    <div class="div_user">
+
+                        <input id="userName" type="text" name="userName" placeholder="请输入用户名">
+
+                    </div>
+                    <div class="div_user">
+
+                        <input id="userPassword" type="password" name="userPassword" placeholder="请输入密码">
+
+                    </div>
+
+<div class="checkbox_box">
+
+                    <input type="checkbox" id="remember_password" name="sex"><span class="checkbox_size">记住密码</span>
+
+</div>
+                    <div class="prompt_box">
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10" style=" width:100%">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="login">登录</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+            <div class="tab-pane" id="profile">
+                <div class="form-horizontal">
+
+
+                    <div class="div_user">
+                        <b class="ico_one"></b>
+                        <input id="headmaster_userName" type="text" name="userName" data-nullmsg="请输入用户名">
+
+                    </div>
+                    <div class="div_user">
+                        <b class="ico_two"></b>
+                        <input id="headmaster_userPassword" type="password" name="userPassword" data-nullmsg="请输入用户名">
+
+                    </div>
+
+             
+                    <div class="form-group">
+                        <div class="col-sm-10" style=" width:100%">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="login2">登录</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+            <div class="tab-pane" id="messages">
+
+                <div class="form-horizontal">
+
+
+                    <div class="div_user">
+                        <b class="ico_one"></b>
+                        <input id="profile_userName" type="text" name="userName" data-nullmsg="请输入用户名" style="padding-left:10px;"/>
+
+                    </div>
+                    <div class="div_user">
+                        <b class="ico_two"></b>
+                        <input id="profile_userPassword" type="password" name="userPassword" data-nullmsg="请输入用户名" style="padding-left:10px;"/>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10" style=" width:100%">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="login3">登录</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <!--<div class="tab-pane" id="settings">.33344..</div>-->
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+    <div class="footer_yun">
+
+    </div>
+
+    <div class="footer" style="">
+        ©2017技术支持  沈阳优途软件有限公司 All Rights Reserved
+    </div>
+
+
+</div>
+
+<input type="hidden" id="tabs_box"/>
+
+
+
+
+
+
+
+
+
+</body>
+<script>
+
+    $("#img_bg").css("width",$(window).width());
+    $("#img_bg").css("height",$(window).height());
+
+$(function(){
+
+    compatible_login_home();
+    var userName= localStorage.getItem("userName");
+    var userPassword= localStorage.getItem("userPassword");
+    $("#userName").val(userName);
+    $("#userPassword").val(userPassword);
+    if(userName.length==0||userPassword.length==0){
+        $('#remember_password').removeAttr("checked","checked");
+    }
+    $('#remember_password').attr("checked","checked");
+
+
+    $(document).keydown(function(event){
+        if(event.keyCode ==8){
+            $("#userPassword").val("");
+        }
+    });
+
+
+})
+
+
+    $("#login").on('click',function(){
+        var  userName=$("#userName").val();
+        var  userPassword=$("#userPassword").val();
+        if(userName.length==0){
+            $(".div_user").eq(0).css("border","red 1px solid");
+            $(".prompt_box").html("");
+            $(".prompt_box").html("请填写用户名");
+            return
+        }else {
+            $(".prompt_box").html("");
+            $(".div_user").eq(0).removeAttr("style");
+        }
+
+        if(userPassword.length==0){
+            $(".div_user").eq(1).css("border","red 1px solid");
+            $(".prompt_box").html("");
+            $(".prompt_box").html("请填写密码");
+            return
+        }else {
+            $(".prompt_box").html("");
+            $(".div_user").eq(0).removeAttr("style");
+        }
+        if($('#remember_password').is(':checked')){
+           // alert("记住");
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("userPassword",userPassword);
+        }else {
+          //  alert("不记住");
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userPassword");
+        }
+
+    });
+
+    function browser(){
+        var  userAgent = navigator.userAgent,
+                rMsie = /(msie\s|trident.*rv:)([\w.]+)/,
+                rFirefox = /(firefox)\/([\w.]+)/,
+                rOpera = /(opera).+version\/([\w.]+)/,
+                rChrome = /(chrome)\/([\w.]+)/,
+                rSafari = /version\/([\w.]+).*(safari)/;
+        var browser;
+        var version;
+        var ua = userAgent.toLowerCase();
+        function uaMatch(ua) {
+            var match = rMsie.exec(ua);
+            if (match != null) {
+                return { browser : "IE", version : match[2] || "0" };
+            }
+            var match = rFirefox.exec(ua);
+            if (match != null) {
+                return { browser : match[1] || "", version : match[2] || "0" };
+            }
+            var match = rOpera.exec(ua);
+            if (match != null) {
+                return { browser : match[1] || "", version : match[2] || "0" };
+            }
+            var match = rChrome.exec(ua);
+            if (match != null) {
+                return { browser : match[1] || "", version : match[2] || "0" };
+            }
+            var match = rSafari.exec(ua);
+            if (match != null) {
+                return { browser : match[2] || "", version : match[1] || "0" };
+            }
+            if (match != null) {
+                return { browser : "", version : "0" };
+            }
+        }
+        var browserMatch = uaMatch(userAgent.toLowerCase());
+        if (browserMatch.browser) {
+            browser = browserMatch.browser;
+            version = browserMatch.version;
+        }
+        // document.write(browser);
+        if(browser!="IE"){
+            alert("您用浏览器不是IE");
+        }
+
+    }
+
+            $("#login").on('click',function(){
+                var  userName=$("#userName").val();
+                var  userPassword=$("#userPassword").val();
+                $.ajax({
+                    url:'/general_platform_login',
+                    type: 'post',
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data:JSON.stringify({
+                        phone :userName,
+                        password:userPassword,
+                        //mac:"",
+                        //mac:MACAddr,
+                    }),
+                    success:function(data){
+                        if(data.success==0){
+
+                            var jsondata=JSON.parse(JSON.stringify(data));
+                            //alert(JSON.stringify(jsondata))
+
+                            var admin=jsondata.data.Info.admin;
+                            var base64 = new Base64();
+                       var  username=jsondata.data.Info.username;
+                       // var username=base64.encode(username);
+
+                            var teacher=jsondata.data.Info.teacher.toString();
+                           var teacher=base64.encode(teacher);
+                            var headmaster=jsondata.data.Info.headmaster.toString();
+                            var headmaster=base64.encode(headmaster);
+                            var admin=jsondata.data.Info.admin.toString();
+                           var admin=base64.encode(admin);
+                            var mb = myBrowser();
+                            if ("FF" == mb) {
+                                window.location.href="/login_home?username="+username+"&teacher="+teacher+"&headmaster="+headmaster+"&admin="+admin+"&mac="+mac;
+                            }
+                           var mac=MACAddr;
+                            window.location.href="/login_home?username="+username+"&teacher="+teacher+"&headmaster="+headmaster+"&admin="+admin+"&mac="+mac;
+                           // window.location.href="/login_home?username="+username_a+"&teacher="+teacher_a
+                            //   alert("00000");
+                        }
+                        else if(data.success==1){
+                            if($("#userName").val()!=""||$("#userPassword").val()!=""){
+                                $(".prompt_box").html("");
+                                $(".prompt_box").html("该用户名不存在，请联系管理员");
+
+                        }
+
+return
+                        }
+                        else if(data.success==2){
+                            if($("#userName").val()!=""||$("#userPassword").val()!=""){
+                                $(".prompt_box").html("");
+                                $(".prompt_box").html("输入的密码错误！");
+
+                            }
+
+                            return
+                        }
+                        else {
+                           // alert(data.desc);
+
+                        }
+                    },
+                    error:function(){
+                        alert("提交服务器失败");
+                    }
+                })
+
+            });
+    function myBrowser(){
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isOpera = userAgent.indexOf("Opera") > -1;
+        if (isOpera) {
+            return "Opera"
+        }; //判断是否Opera浏览器
+        if (userAgent.indexOf("Firefox") > -1) {
+            return "FF";
+        } //判断是否Firefox浏览器
+        if (userAgent.indexOf("Chrome") > -1){
+            return "Chrome";
+        }
+        if (userAgent.indexOf("Safari") > -1) {
+            return "Safari";
+        } //判断是否Safari浏览器
+        if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+            return "IE";
+        }; //判断是否IE浏览器
+    }
+
+
+    function compatible_login_home(){
+        var compatible_height=window.screen.height;
+        // alert(compatible_height);
+        var compatible_width=window.screen.width;
+        // alert(compatible_width);
+         //alert(compatible_width/compatible_height);
+        if(compatible_width/compatible_height>1.9){
+          //  alert("1");
+             $(".footer_yun").css("height","25%");
+        }else {
+
+        }
+    }
+
+</script>
+
+</html>
+
+
+<HEAD>
+    <SCRIPT language=JScript event="OnCompleted(hResult,pErrorObject, pAsyncContext)" for=foo>
+
+        document.forms[0].txtMACAddr.value=unescape(MACAddr);
+
+        document.forms[0].txtIPAddr.value=unescape(IPAddr);
+
+        document.forms[0].txtDNSName.value=unescape(sDNSName);
+
+    </SCRIPT>
+
+    <SCRIPT language=JScript event=OnObjectReady(objObject,objAsyncContext) for=foo>
+
+        if(objObject.IPEnabled != null && objObject.IPEnabled != "undefined" && objObject.IPEnabled == true){
+
+            if(objObject.MACAddress != null && objObject.MACAddress != "undefined")
+
+                MACAddr = objObject.MACAddress;
+
+
+
+        }
+
+    </SCRIPT>
+
+    <META content="MSHTML 6.00.2800.1106" name=GENERATOR>
+
+</HEAD>
+
+<BODY>
+
+<OBJECT style="display: none" id=locator classid=CLSID:76A64158-CB41-11D1-8B02-00600806D9B6 VIEWASTEXT></OBJECT>
+
+<OBJECT style="display: none" id=foo classid=CLSID:75718C9A-F029-11d1-A1AC-00C04FB6C223></OBJECT>
+
+<SCRIPT language=JScript>
+
+    var service = locator.ConnectServer();
+    var MACAddr ;
+    var DomainAddr;
+
+    service.Security_.ImpersonationLevel=3;
+
+    service.InstancesOfAsync(foo, 'Win32_NetworkAdapterConfiguration');
+
+</SCRIPT>
+
+
+
+</BODY>
+

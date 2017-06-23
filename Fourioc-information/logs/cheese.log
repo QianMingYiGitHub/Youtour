@@ -1,0 +1,87 @@
+[2017-05-18 11:42:02.206] [ERROR] cheese - /classic_film. err = ETIMEDOUT
+[2017-06-21 09:18:53.608] [ERROR] cheese - /classic_film. err = ETIMEDOUT
+[2017-06-21 09:49:41.730] [ERROR] cheese - /classic_film. err = ETIMEDOUT
+[2017-06-22 11:21:19.213] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:22:02.484] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:22:20.795] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:22:59.021] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:23:15.337] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:23:53.182] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:24:17.330] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:24:31.219] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:24:45.661] [INFO] cheese - /read_rate.result = {"rate":0}
+[2017-06-22 11:25:26.436] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 11:26:32.419] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 11:48:21.750] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 13:58:45.721] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":2,"store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{}}, message = {"to":{},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 13:58:48.682] [ERROR] cheese - sendMessage err : {"name":"WeChatAPIError","code":82001}
+[2017-06-22 14:01:45.210] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":2,"store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{}}, message = {"to":{"touser":"18304077397"},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 14:01:45.425] [INFO] cheese - sendMessage.result = {"errcode":0,"errmsg":"ok"}
+[2017-06-22 14:03:20.670] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":2,"store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{},"token":{"accessToken":"XeU2CXhn-rkYrn7HDHaBAilQ_Y1fLk1JNqezsAOGZkFsUnZJaR4jMAtL1f64Kc06"}}, message = {"to":{"touser":"18304077397"},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 14:03:20.855] [INFO] cheese - sendMessage.result = {"errcode":0,"errmsg":"ok"}
+[2017-06-22 14:03:21.958] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":2,"store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{},"token":{"accessToken":"XeU2CXhn-rkYrn7HDHaBAilQ_Y1fLk1JNqezsAOGZkFsUnZJaR4jMAtL1f64Kc06"}}, message = {"to":{"touser":"18304077397"},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 14:03:22.156] [INFO] cheese - sendMessage.result = {"errcode":0,"errmsg":"ok"}
+[2017-06-22 14:15:52.391] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":2,"store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{}}, message = {"to":{"touser":"18304077397|18304077397"},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 14:15:52.663] [INFO] cheese - sendMessage.result = {"errcode":0,"errmsg":"ok"}
+[2017-06-22 14:16:51.183] [INFO] cheese - sendMessage api = {"corpid":"wx89c411811fef7bc6","corpsecret":"MvicjDUCKrn4rKOzSCH-vcjD1PPzKsG1zcDnsvE1V9NaaKi-2-IIxxifWyl78Cp1","agentid":"2","store":null,"prefix":"https://qyapi.weixin.qq.com/cgi-bin/","defaults":{},"ticketStore":{}}, message = {"to":{"touser":"18304077397|13610824661"},"msg":{"msgtype":"news","news":{"articles":[{"title":"评语撤销","description":"钱明一班主任:你好你怎么样"}]}},"safe":"0"}
+[2017-06-22 14:16:51.378] [INFO] cheese - sendMessage.result = {"errcode":0,"errmsg":"ok"}
+[2017-06-22 16:16:38.313] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:18:45.625] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:22:11.198] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:24:15.100] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:24:30.208] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:24:58.002] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:25:52.273] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:30:40.330] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:33:40.900] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:35:33.734] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 16:41:06.312] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-22 18:48:06.972] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:14:14.414] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:33:29.865] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:45:26.810] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:46:00.781] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:46:23.171] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:51:07.268] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:51:20.806] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:51:54.581] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:57:07.448] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 09:57:45.624] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:06:41.015] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:07:09.351] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:07:53.076] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:08:12.513] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:26:02.507] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:29:31.874] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:31:02.805] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:32:02.979] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:34:19.968] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:35:29.178] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:37:07.834] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:37:40.852] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:45:40.615] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:47:45.910] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:49:08.280] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 10:53:33.417] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 13:43:15.697] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 14:03:54.262] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 14:06:26.821] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 14:06:54.065] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 14:10:36.713] [INFO] cheese - /read_rate.result = []
+[2017-06-23 15:18:58.644] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:19:07.865] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:19:22.904] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:29:54.721] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:34:00.279] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:36:12.200] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:46:00.584] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 15:46:33.327] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:53:05.489] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:53:06.777] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:53:16.390] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:54:05.878] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:55:43.206] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 16:57:44.428] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 17:12:06.026] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 17:12:56.007] [INFO] cheese - /read_rate.result = {"state":0}
+[2017-06-23 17:13:27.864] [INFO] cheese - /read_rate.result = {"state":0}

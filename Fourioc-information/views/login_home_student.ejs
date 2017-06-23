@@ -1,0 +1,1089 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>管理平台</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/login_home.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css"/>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascripts/base64.js"></script>
+
+    <style type="text/css">
+        body{
+            font-family: "微软雅黑";
+        }
+        p{
+            margin:0px;
+        }
+        .btn-default{
+            width:310px;
+        }
+        .input-group-addon{
+            background-color:#FFF;
+            padding: 5px 12px;
+        }
+        .modal-header {
+            height: 40px;
+        }
+        .modal-title {
+            line-height: 10px;
+            font-size: 16px;
+        }
+        .modal-header .close {
+            margin-top: -6px;
+        }
+        .modal-footer{
+            padding: 8px;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .form-horizontal{
+            margin: 25px 20px 0;
+        }
+        a:hover, a:focus{
+            color: #fff;
+            text-decoration: none;
+        }
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+<!--<div class="top_box">-->
+    <!--<div class="top_box_l">-->
+        <!--<div class="top_logo">-->
+            <!--<span>智慧校园-互动课堂</span>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="top_box_r">-->
+        <!--<div class="contact_us">-->
+            <!--<b class="ico_mobile"><img src="images/mobile.png" width="32" height="32"></b>-->
+            <!--<span class="txt_r">客服电话：</span>-->
+            <!--<p>400-000-110</p>-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+
+<!--</div>-->
+
+
+<div class="body_box"  id="img_bg">
+    <!--<img src="images/login_home.jpg"  id="img_bg">-->
+
+    <div class="login_admin">
+        <ul>
+            <li class="hmain8">
+                <a href="#" class="title_up">管理<span class="login_admin_symbol">▼</span></a>
+                <ul style="margin-top: 15px">
+
+                    <li class="admin_box" style="display: none; ">
+                        <div class="login_content">
+                            <div class="close_2">
+                                <a href="javascript:;">×</a>
+                            </div>
+                            <h2 style="color:#fff;">请选择</h2>
+
+                            <ul class="jiaz_list">
+                        <a href="javascript:;" id="class_admin">班级管理</a>
+                        <a href="javascript:;" id="school_admin">学校管理</a>
+                        <a href="/logout">退出</a>
+                            </ul>
+                        </div>
+                        <div class="login_con_bg" style="min-height: 240px;"><span class="angle1"></span></div>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+
+
+ <!--<div class="login_admin">-->
+     <!--<ul>-->
+         <!--<li class="hmain8">-->
+             <!--<a href="#">管理<span class="login_admin_symbo">▼</span></a>-->
+             <!--<ul>-->
+                 <!--<div class="triangle_border_up">-->
+
+                 <!--</div>-->
+                 <!--<li class="admin_box" >-->
+                     <!--<a href="javascript:;" id="class_admin">班级管理</a>-->
+                     <!--<a href="javascript:;" id="school_admin">学校管理</a>-->
+                     <!--<a href="/logout">退出</a>-->
+                 <!--</li>-->
+                 <!--<li><a href="#">子菜单项11</a></li>-->
+                 <!--<li><a href="#">子菜单项12</a></li>-->
+             <!--</ul>-->
+         <!--</li>-->
+
+     <!--</ul>-->
+
+ <!--</div>-->
+
+<div class="icon_main">
+<div class="icon_box" style="">
+
+    <!--<div class="icon_div" id="one_icon">-->
+  <!--<div class="icon" style="display: block" >-->
+      <!--<img src="images/login_icon_one.png"  id="img_bg_icon" width="120">-->
+      <!--<span>备课</span>-->
+  <!--</div>-->
+
+    <!--<div class="icon_two" id="login_one_bg" style="float: left;display: none">-->
+        <!--<img src="images/login_icon_one_b.png"  id="img_bg_icon" width="190">-->
+        <!--<span>备课</span>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+    <!--<div class="icon_div" id="two_icon">-->
+    <!--<div class="icon" style="display: block" >-->
+        <!--<img src="images/login_icon_two.png"  id="img_bg_icon" width="120">-->
+        <!--<span>授课</span>-->
+    <!--</div>-->
+
+        <!--<div class="icon_two" id="login_one_bg" style="float: left;display: none">-->
+            <!--<img src="images/login_icon_two_b.png"  id="img_bg_icon" width="190">-->
+            <!--<span>授课</span>-->
+        <!--</div>-->
+<!--</div>-->
+
+
+    <!--<div class="icon_div" id="three_icon">-->
+    <!--<div class="icon" style="display: block" >-->
+        <!--<img src="images/login_icon_three.png"  id="img_bg_icon" width="120">-->
+        <!--<span>互动课堂</span>-->
+    <!--</div>-->
+        <!--<div class="icon_two" id="login_one_bg" style="float: left;display: none">-->
+            <!--<img src="images/login_icon_three_b.png"  id="img_bg_icon" width="190">-->
+            <!--<span>互动课堂</span>-->
+        <!--</div>-->
+
+
+    <!--</div>-->
+
+    <div class="icon_div" id="four_icon">
+    <div class="icon">
+        <img src="images/login_icon_four.png"  id="img_bg_icon" width="120">
+        <span>仿真实验室</span>
+    </div>
+        <div class="icon_two" style="float: left;display: none">
+            <img src="images/login_icon_four_b.png"  id="img_bg_icon" width="190">
+            <span>仿真实验室</span>
+        </div>
+
+    </div>
+
+    <div class="icon_div">
+    <div class="icon">
+        <img src="images/login_icon_five.png"  id="img_bg_icon" width="120">
+        <span>测评练习</span>
+    </div>
+        <div class="icon_two" style="float: left;display: none">
+            <img src="images/login_icon_five_b.png"  id="img_bg_icon" width="190">
+            <span>测评练习</span>
+        </div>
+
+
+    </div>
+
+
+    <div class="icon_div" id="six_icon">
+        <div class="icon">
+            <img src="images/login_icon_six.png"  id="img_bg_icon" width="120">
+            <span>名师讲堂</span>
+        </div>
+        <div class="icon_two" style="float: left;display: none">
+            <img src="images/login_icon_six_b.png"  id="img_bg_icon" width="190">
+            <span>名师讲堂</span>
+        </div>
+    </div>
+
+    <div class="icon_div" >
+        <div class="icon" >
+            <img src="images/login_icon_seven.png"  id="img_bg_icon" width="120">
+            <span>个人空间</span>
+        </div>
+        <div class="icon_two" style="float: left;display: none">
+            <img src="images/login_icon_seven_b.png"  id="img_bg_icon" width="190">
+            <span>个人空间</span>
+        </div>
+
+
+    </div>
+
+    <div class="icon_div" id="eight_icon">
+        <div class="icon" >
+            <img src="images/login_icon_eight.png"  id="img_bg_icon" width="120">
+            <span>教师培训</span>
+        </div>
+        <div class="icon_two" style="float: left;display: none">
+            <img src="images/login_icon_eight_b.png"  id="img_bg_icon" width="190">
+            <span>教师培训</span>
+        </div>
+
+
+    </div>
+</div>
+
+    <div class="icon_box_two">
+
+
+
+
+
+</div>
+
+    </div>
+
+    </div>
+
+
+
+    <div class="footer">
+        ©2017技术支持  沈阳优途软件有限公司 All Rights Reserved
+    </div>
+
+
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Moda2 -->
+<div class="modal fade" id="edition_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box">人教网</div>
+                <div class="edition_box">外研社</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Moda3 -->
+<div class="modal fade" id="edition_modal_two" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box">人教网</div>
+                <div class="edition_box">外研社</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Moda4 -->
+<div class="modal fade" id="edition_modal_six" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box">人教微课</div>
+                <div class="edition_box">省内名师微课</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Moda5-->
+<div class="modal fade" id="edition_modal_six" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box">人教微课</div>
+                <div class="edition_box">省内名师微课</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Moda6-->
+<div class="modal fade" id="edition_modal_eight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box">人教社</div>
+                <div class="edition_box">东师理想</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Moda7-->
+<div class="modal fade" id="edition_modal_four" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">版本</h4>
+            </div>
+            <div class="modal-body text-center" id="explain">
+                <div class="edition_box" onclick="href('1')">物理实验</div>
+                <div class="edition_box" onclick="href('2')">化学实验</div>
+                <div class="edition_box" onclick="href('3')">生物实验</div>
+                <div class="edition_box" onclick="href('4')">初中生物实验</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="tabs_box"/>
+
+<input type="hidden" id="username_box"/>
+<input type="hidden" id="teacher_box"/>
+<input type="hidden" id="headmaster_box"/>
+<input type="hidden" id="admin_box"/>
+
+</body>
+<script type="text/javascript">
+
+$(function(){
+
+    $("#img_bg").css("width",$(window).width());
+    $("#img_bg").css("height",$(window).height());
+    compatible_login_home();
+    var userName= localStorage.getItem("userName");
+    var userPassword= localStorage.getItem("userPassword");
+   // alert(userName);
+    $("#userName").val(userName);
+    $("#userPassword").val(userPassword);
+    if(userName==null||userPassword==null){
+        $('#remember_password').removeAttr("checked","checked");
+    }
+    $('#remember_password').attr("checked","checked");
+
+
+    $(".icon_div").eq(0).hover(function(){
+        $(".icon").eq(0).hide();
+        $(".icon_two").eq(0).show();
+
+    },function(){
+        $(".icon").eq(0).show();
+        $(".icon_two").eq(0).hide();
+
+    });
+
+
+    $(".icon_div").eq(1).hover(function(){
+        $(".icon").eq(1).hide();
+        $(".icon_two").eq(1).show();
+
+    },function(){
+        $(".icon").eq(1).show();
+        $(".icon_two").eq(1).hide();
+
+    });
+
+    $(".icon_div").eq(2).hover(function(){
+        $(".icon").eq(2).hide();
+        $(".icon_two").eq(2).show();
+
+    },function(){
+        $(".icon").eq(2).show();
+        $(".icon_two").eq(2).hide();
+
+    });
+
+    $(".icon_div").eq(3).hover(function(){
+        $(".icon").eq(3).hide();
+        $(".icon_two").eq(3).show();
+
+    },function(){
+        $(".icon").eq(3).show();
+        $(".icon_two").eq(3).hide();
+
+    });
+
+    $(".icon_div").eq(4).hover(function(){
+        $(".icon").eq(4).hide();
+        $(".icon_two").eq(4).show();
+
+    },function(){
+        $(".icon").eq(4).show();
+        $(".icon_two").eq(4).hide();
+
+    });
+
+
+    $(".icon_div").eq(5).hover(function(){
+        $(".icon").eq(5).hide();
+        $(".icon_two").eq(5).show();
+
+    },function(){
+        $(".icon").eq(5).show();
+        $(".icon_two").eq(5).hide();
+
+    });
+
+    $(".icon_div").eq(6).hover(function(){
+        $(".icon").eq(6).hide();
+        $(".icon_two").eq(6).show();
+
+    },function(){
+        $(".icon").eq(6).show();
+        $(".icon_two").eq(6).hide();
+
+    });
+    $(".icon_div").eq(7).hover(function(){
+        $(".icon").eq(7).hide();
+        $(".icon_two").eq(7).show();
+
+    },function(){
+        $(".icon").eq(7).show();
+        $(".icon_two").eq(7).hide();
+
+    });
+})
+
+var base64 = new Base64();
+var username=$.intercept_url("username");
+
+//username=base64.decode(username);
+var student=$.intercept_url("student");
+//teacher=base64.decode(teacher);
+//var headmaster=$.intercept_url("headmaster");
+//headmaster=base64.decode(headmaster);
+//var admin=$.intercept_url("admin");
+//admin=base64.decode(admin);
+
+//$("#username_box").val(username);
+//$("#teacher_box").val(teacher);
+//$("#headmaster_box").val(headmaster);
+//$("#admin_box").val(admin);
+
+
+$("#login").on('click',function(){
+        var  userName=$("#userName").val();
+        var  userPassword=$("#userPassword").val();
+        if(userName.length==0){
+            $(".div_user").eq(0).css("border","red 1px solid");
+            $(".prompt_box").html("");
+            $(".prompt_box").html("请填写手机号/邮箱/用户名");
+            return
+        }else {
+            $(".prompt_box").html("");
+            $(".div_user").eq(0).removeAttr("style");
+        }
+
+        if(userPassword.length==0){
+            $(".div_user").eq(1).css("border","red 1px solid");
+            $(".prompt_box").html("");
+            $(".prompt_box").html("请填写用户密码");
+            return
+        }else {
+            $(".prompt_box").html("");
+            $(".div_user").eq(0).removeAttr("style");
+        }
+        if($('#remember_password').is(':checked')){
+           // alert("记住");
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("userPassword",userPassword);
+        }else {
+            //alert("不记住");
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userPassword");
+        }
+
+    });
+
+$("#one_icon").on('click',function(){
+    if(teacher=="true"){
+
+        $('#edition_modal').modal("show");
+    }else {
+    $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+}
+});
+
+$("#two_icon").on('click',function(){
+    if(teacher=="true"){
+
+        $('#edition_modal_two').modal("show");
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+});
+
+
+
+
+
+
+$("#three_icon").on('click',function(){
+    if(teacher=="true"){
+        $.ajax({
+            url:'/login?'+new Date().getTime(),
+            type: 'post',
+            contentType: "application/json",
+            dataType: 'json',
+            data:JSON.stringify({
+                phone :username,
+                password:"",
+                login_role:"0",
+                mac:"14:DA:E9:57:EF:7C",
+                //mac:MACAddr,
+
+            }),
+            success:function(data){
+
+                if(data.success==0){
+                    var jsondata=JSON.parse(JSON.stringify(data));
+                    //alert(JSON.stringify(jsondata))
+                    var name_a=jsondata.data.Info.name;
+                    var wb_number=jsondata.data.Info.wb_number;
+                    var base64 = new Base64();
+                    var teacher_box=$("#teacher_box").val();
+                    var teacher_box=base64.encode(teacher_box);
+
+                    var headmaster_box=$("#headmaster_box").val();
+                    var headmaster_box=base64.encode(headmaster_box);
+
+                    var admin_box=$("#admin_box").val();
+                    var admin_box=base64.encode(admin_box);
+                    window.location.href="/edition_main_v?name="+name_a+"&wb_number="+wb_number+"&username="+username+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+
+                    //   alert("00000");
+                }
+                else {
+                    //alert(data.desc);
+
+                }
+            },
+            error:function(){
+                //alert("提交服务器失败");
+            }
+
+
+        })
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+
+})
+
+$("#four_icon").on('click',function(){
+    if(student=="true"){
+
+        $('#edition_modal_four').modal("show");
+      // window.location.href="http://console.nobook.com.cn/my/login?username=hh1j30&password=085746";
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+});
+
+
+
+$("#six_icon").on('click',function(){
+    if(teacher=="true"){
+
+        $('#edition_modal_six').modal("show");
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+});
+
+
+
+
+$("#eight_icon").on('click',function(){
+    if(teacher=="true"){
+
+        $('#edition_modal_eight').modal("show");
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+});
+
+
+
+
+
+$("#class_admin").on('click',function(){
+
+    if(headmaster=="true"){
+    $.ajax({
+                url:'/login?'+new Date().getTime(),
+                type: 'post',
+                contentType: "application/json",
+                dataType: 'json',
+                data:JSON.stringify({
+                    phone :username,
+                    password:"",
+                    login_role:"1",
+                    mac:"",
+                    //mac:MACAddr,
+
+                }),
+                success:function(data){
+                    if(data.success==0){
+                        var jsondata=JSON.parse(JSON.stringify(data));
+                        //(JSON.stringify(jsondata))
+                        var name=jsondata.data.Info.name;
+                        var school_id=jsondata.data.Info.school_id;
+                        var headmaster_class=jsondata.data.Info.headmaster_class;
+                        var type_grade=jsondata.data.Info.type_grade;
+                        var class_id=jsondata.data.Info.class_id;
+
+                        var base64 = new Base64();
+                        var teacher_box=$("#teacher_box").val();
+                        var teacher_box=base64.encode(teacher_box);
+
+                        var headmaster_box=$("#headmaster_box").val();
+                        var headmaster_box=base64.encode(headmaster_box);
+
+                        var admin_box=$("#admin_box").val();
+                        var admin_box=base64.encode(admin_box);
+
+                        window.location.href="/user_management_index?username="+username+"&name="+name+"&school_id="+school_id+"&headmaster_class="+headmaster_class+"&type_grade="+type_grade+"&role=1&class_id="+class_id+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+                        //   alert("00000");
+                    }
+                    else {
+                       // alert(data.desc);
+
+                    }
+                },
+                error:function(){
+                    alert("提交服务器失败");
+                }
+            })
+
+        }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+
+})
+
+
+
+
+$("#school_admin").on('click',function(){
+
+    if(admin=="true") {
+        $.ajax({
+            url: '/login?' + new Date().getTime(),
+            type: 'post',
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({
+                phone: username,
+                password: "",
+                login_role: "2",
+                mac: "",
+                //mac:MACAddr,
+
+            }),
+            success: function (data) {
+
+                if (data.success == 0) {
+                    var jsondata = JSON.parse(JSON.stringify(data));
+                  //alert(JSON.stringify(jsondata))
+                    var name = jsondata.data.Info.name;
+                    var school_id = jsondata.data.Info.school_id;
+                    var class_id = jsondata.data.Info.class_id;
+                    if (class_id == "") {
+                        var class_id_a = "abc";
+                    }
+                    var base64 = new Base64();
+                    var teacher_box=$("#teacher_box").val();
+                    var teacher_box=base64.encode(teacher_box);
+
+                    var headmaster_box=$("#headmaster_box").val();
+                    var headmaster_box=base64.encode(headmaster_box);
+
+                    var admin_box=$("#admin_box").val();
+                    var admin_box=base64.encode(admin_box);
+
+                    window.location.href = "/user_management_index?username="+username+"&name=" + name + "&school_id=" + school_id + "&role=2&class_id=" + class_id_a+"&teacher="+teacher_box+"&headmaster="+headmaster_box+"&admin="+admin_box;
+                    //   alert("00000");
+                }
+                else {
+                   // alert(data.desc);
+
+                }
+            },
+            error: function () {
+                alert("提交服务器失败");
+            }
+
+
+        })
+    }else {
+        $("#explain").html("对不起，您没有权限");
+        $('#myModal').modal("show");
+    }
+})
+
+
+
+
+
+
+//$(".hmain8").hover(function () {
+//    //.children获取点击元素的所有子元素（仅儿子辈）
+//    $(this).children("ul").slideDown();
+//}, function () {
+//    $(this).children("ul").slideUp();
+//});
+
+//$(".login_admin").hover(function () {
+//
+//    //.children获取点击元素的所有子元素（仅儿子辈）
+//    $(this).children("ul").slideDown("600");
+//}, function () {
+//
+//    $(this).children("ul").slideUp("600");
+//});
+
+//$(".hmain8").on('click',function(){
+//    $(this).children("ul").slideToggle(500);
+//})
+
+
+//$(".login_admin").hover(function(){
+//            $('.eject_box').slideToggle();
+//},
+//function(){
+//    $('.eject_box').slideToggle();
+//});
+//$(".login_admin").mouseover(function(){
+//            $('.eject_box').slideDown();
+//        });
+//
+//$(".eject_box").mouseleave(function(){
+//    $('.eject_box').slideUp();
+//
+//});
+
+$(document).mouseleave(function(){
+    $('.eject_box').slideUp();
+});
+
+
+//
+//$(".eject_box").mouseenter(function(){
+//            $('.eject_box').hide();
+//        },
+//        function(){
+//            $('.eject_box').hide();
+//        });
+
+
+function href(type){
+//   var  apiURL
+//    if(type==1){
+//        apiURL='http://open.nobook.com/wuli/openapi';
+//    }else if(type==2){
+//        apiURL='http://open.nobook.com/huaxue/openapi';
+//    }else if(type==3){
+//        apiURL='http://open.nobook.com/shengwu/openapi';
+//    }else if(type==4){
+//        apiURL='http://open.nobook.com/shengwu_gz/openapi';
+//    }
+//window.location.href=apiURL;
+$.ajax({
+    url: '/get_out_interface?type='+type,
+    type: 'get',
+    contentType: "application/json",
+    dataType: 'json',
+    data: JSON.stringify({
+
+    }),
+    success: function (data) {
+        if (data.success == 0) {
+            var jsondata = JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data))
+var url=jsondata.url;
+            window.location.href = url;
+        }
+        else {
+
+        }
+    },
+    error: function () {
+        alert("提交服务器失败");
+    }
+})
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+$("#img_bg").attr("width",$(window).width());
+$("#img_bg").attr("height",$(window).height());
+
+$(".edition_box").eq(0).hover(function() {
+        $('.edition_box').eq(0).css('border','2px solid #428bca');
+    },
+    function () {
+        $('.edition_box').eq(0).css('border','2px solid #e6e6e6');
+})
+
+$(".edition_box").eq(1).hover(function() {
+
+            $('.edition_box').eq(1).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(1).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(2).hover(function() {
+
+            $('.edition_box').eq(2).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(2).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(3).hover(function() {
+
+            $('.edition_box').eq(3).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(3).css('border','2px solid #e6e6e6');
+        })
+$(".edition_box").eq(4).hover(function() {
+
+            $('.edition_box').eq(4).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(4).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(5).hover(function() {
+
+            $('.edition_box').eq(5).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(5).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(6).hover(function() {
+
+            $('.edition_box').eq(6).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(6).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(7).hover(function() {
+
+            $('.edition_box').eq(7).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(7).css('border','2px solid #e6e6e6');
+        })
+$(".edition_box").eq(8).hover(function() {
+
+            $('.edition_box').eq(8).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(8).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(9).hover(function() {
+
+            $('.edition_box').eq(9).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(9).css('border','2px solid #e6e6e6');
+        })
+$(".edition_box").eq(10).hover(function() {
+
+            $('.edition_box').eq(10).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(10).css('border','2px solid #e6e6e6');
+        })
+$(".edition_box").eq(11).hover(function() {
+
+            $('.edition_box').eq(11).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(11).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(12).hover(function() {
+
+            $('.edition_box').eq(12).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(12).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(13).hover(function() {
+
+            $('.edition_box').eq(13).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(13).css('border','2px solid #e6e6e6');
+        })
+
+$(".edition_box").eq(14).hover(function() {
+
+            $('.edition_box').eq(14).css('border','2px solid #428bca');
+        },
+        function () {
+            $('.edition_box').eq(14).css('border','2px solid #e6e6e6');
+        })
+
+
+function compatible_login_home(){
+    var compatible_height=window.screen.height;
+   // alert(compatible_height);
+    var compatible_width=window.screen.width;
+   // alert(compatible_width);
+   // alert(compatible_width/compatible_height);
+    if(compatible_width/compatible_height>1.9){
+        var browsewidth = $(window).width();
+        var browseheight = $(window).height();
+
+        var cwinwidth = 960;
+        var cwinheight = 400;
+        var scrollLeft = $(window).scrollLeft();
+        var scrollheight = $(window).scrollTop();
+
+        var left = scrollLeft + (browsewidth - cwinwidth) / 2-60;
+        var top = scrollheight + (browseheight - cwinheight) / 2;
+        $(".icon_main").css('margin-top',top);
+        $(".icon_main").css('margin-left',left);
+        $("#img_bg").css('background-image','url(../images/login_home2.jpg)');
+    }else {
+       // alert("333333");
+       var browsewidth = $(window).width();
+        var browseheight = $(window).height();
+
+       var cwinwidth = 960;
+        var cwinheight = 400;
+        var scrollLeft = $(window).scrollLeft();
+        var scrollheight = $(window).scrollTop();
+
+        var left = scrollLeft + (browsewidth - cwinwidth) / 2;
+        var top = scrollheight + (browseheight - cwinheight) / 2;
+
+        $(".icon_main").css('margin-top',top);
+      $(".icon_main").css('margin-left',left);
+    }
+}
+
+
+$(".hmain8").bind("click", function(){
+    if($(".admin_box").css("display") == "none"){
+        $("#blo_2").show();
+        $(".admin_box").fadeIn(500);
+    }else{
+        $(".admin_box").hide(300);
+    }
+});
+$(".close_2 > a").click(function(){
+   // $(".admin_box").css("display","none")
+  $(".admin_box").hide(300);
+})
+
+</script>

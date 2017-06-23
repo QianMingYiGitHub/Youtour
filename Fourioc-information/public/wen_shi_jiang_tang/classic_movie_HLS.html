@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="../HLSPlayer/images/common.css"/>
+
+    <style type="text/css">
+    body,html{height: 100%; }
+    #outer {height: 100%; overflow: hidden; position: relative;width: 100%;}
+    #outer[id] {display: table; position: static;}
+    #middle {position: absolute; top: 50%;text-align:center;} /* for explorer only*/
+    #middle[id] {display: table-cell; vertical-align: middle; position: static;}
+    .inner {position: relative; top: -50%;width: 600px;margin: 0 auto;text-align:left;}/*for explorer only */
+    </style>
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../common/common_func.js"></script>
+
+    <script>
+        var param_Pic = "";
+        var param_HLSurl = "";
+        var param_title = ""
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "vPic" ) {
+                    param_Pic = decodeURI(decodeURI(paramObj[i]["value"]));
+                } else if( paramObj[i]["key"] == "vHLSurl" ) {
+                    param_HLSurl = decodeURI(decodeURI(paramObj[i]["value"]));
+                } else if( paramObj[i]["key"] == "title" ) {
+                    param_title = decodeURI(decodeURI(paramObj[i]["value"]));
+                }
+            }
+        }
+
+        $(document).attr("title",param_title);
+    </script>
+
+</head>
+
+<body>
+
+<div id="outer">
+  <div id="middle">
+    <div class="video inner" id="HLSPlayer" >
+        <SCRIPT LANGUAGE=JavaScript>
+            var vID        = ""; 
+            var vWidth     = "100%";                //播放器宽度设置
+            var vHeight    = 400;                   //播放器宽度设置
+            var vPlayer    = "../HLSPlayer/HLSplayer.swf?v=1.5"; //播放器文件
+            var vHLSset    = "../HLSPlayer/HLS.swf";             //HLS配置
+            var vPic       = param_Pic;    //视频缩略图
+            var vCssurl    = "../HLSPlayer/images/mini.css";     //移动端CSS应用文件
+            var vHLSurl    = param_HLSurl;
+        </SCRIPT> 
+        <script type="text/javascript" src="../HLSPlayer/js/hls.min.js?rand=20141217"></script>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

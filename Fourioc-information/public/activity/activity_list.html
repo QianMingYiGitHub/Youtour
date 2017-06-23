@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var corp_id = null;
+        var user_id = null;
+        var type = null;
+
+        var json_obj = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                }
+            }
+
+            if(!type || !user_id || !corp_id ) {
+                debug_trace("" + ((!type) ? "type" :"") + ((!user_id) ? " user_id" :"") + ((!corp_id) ? " corp_id" :"") + " 参数错误");
+            }
+        }
+
+        function get_activity_list() {//获取list
+
+            json_obj = null;
+
+            var req_json = {
+                corpId:corp_id,
+                userid:user_id,
+                type:parseInt(type)
+            };
+            
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_getactivity', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                  console.log(JSON.stringify(data));
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    } else {
+                        // debug_trace("json data success [" + data.success + "]");
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，无法取得数据'));
+                    }
+                } else {
+                    // debug_trace("json format error");
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                // debug_trace("get activity list failure. user_id[" + user_id + "], type[" + type +"]");
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，服务器连接错误'));
+              }
+            });
+
+            // format date_time
+            if( json_obj != null ) {
+
+                for( var i = 0; i < json_obj.data.activity.length; i++ ) {
+
+                    json_obj.data.activity[i].editTime = format_date_time(json_obj.data.activity[i].editTime);
+                }
+            }
+        };
+
+
+        get_activity_list();
+
+    </script>  
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+
+    <div id="element_list">
+<!-- 
+        <div class="weui_panel">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <h4 class="weui_media_title">班主任老师_2016.01.01_家庭作业</h4>
+                    <p class="weui_media_desc">过期时间：2016.01.02</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta">
+                            <a id="select_parant_cancel" href="javascript:;">查看详细</a>
+                        </li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra">
+                            <a id="select_parant_cancel" href="javascript:;" >删除</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>-->
+     
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        //init list
+        function init_activity_list() {
+
+            var root = $("#element_list");
+            root.empty();
+            if( !json_obj || 0==json_obj.data.activity.length ) {
+
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('暂时没有数据'));
+                return ;
+            }
+
+            for(var unionIdx = 0; unionIdx < json_obj.data.activity.length; unionIdx++) {
+
+                var id = json_obj.data.activity[unionIdx].id;
+                var sid = json_obj.data.activity[unionIdx].sid;
+                var strHtml = '';
+
+                strHtml += '<div class="weui_panel">';
+                strHtml += '    <div class="weui_panel_bd">';
+                strHtml += '        <div class="weui_media_box weui_media_text">';
+                strHtml += '            <h4 class="weui_media_title">' + decodeURI(decodeURI(json_obj.data.activity[unionIdx].title)) + '</h4>';
+                strHtml += '            <p class="weui_media_desc">' + json_obj.data.activity[unionIdx].editTime +'</p>';
+                strHtml += '            <ul class="weui_media_info">';
+                strHtml += '                <li class="weui_media_info_meta">';
+                strHtml += '                    <a href="javascript:view_detail(&quot;' + id + '&quot;,&quot;' + sid + '&quot;,&quot;' + json_obj.data.activity[unionIdx].identity + '&quot;);">查看详情</a>';
+                strHtml += '                </li>';
+                if( json_obj.data.activity[unionIdx].createPerson == user_id 
+                    && (type == 0 || type == 2 || type == 4) ) {
+                    
+                    strHtml += '            <li class="weui_media_info_meta weui_media_info_meta_extra">';
+                    strHtml += '                <a href="javascript:del_activity(&quot;' + id + '&quot;,&quot;' + sid + '&quot;,&quot;' + json_obj.data.activity[unionIdx].identity + '&quot;);">删除</a>';
+                    strHtml += '            </li>';
+                }
+                strHtml += '            </ul>';
+                strHtml += '        </div>';
+                strHtml += '    </div>';
+                strHtml += '</div>';
+
+                strHtml += '';
+
+                // console.log(strHtml);
+                root.append(strHtml);
+            }
+        };
+
+
+        function view_detail(activity_id, sid, identity) {
+
+            if( 0 == type ) {
+                window.location = "./activity_edit.html?" + "&user_id=" + user_id + "&activity_id=" + activity_id + "&corp_id=" + corp_id + "&identity=" + identity;
+            } else {
+                if((type == 3 || type == 4)&&sid){
+                    window.location = "./activity_detail.html?" + "&user_id=" + user_id + "&type=" + type + "&activity_id=" + activity_id + "&corp_id=" + corp_id + "&sid=" + sid + "&identity=" + identity;
+                }else{
+                    window.location = "./activity_detail.html?" + "&user_id=" + user_id + "&type=" + type + "&activity_id=" + activity_id + "&corp_id=" + corp_id + "&identity=" + identity;
+                }
+            }
+
+        }
+
+        function del_activity(activity_id, sid, identity) {
+            console.log(activity_id);
+
+            var req_json = {
+                corpId:corp_id,
+                id:activity_id,
+                identity:parseInt(identity),
+                ext:sid,
+                state:parseInt(type)
+            }
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/activity/delete', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        $.toast("删除成功");
+                    } else {
+                        debug_trace("json data success [" + data.success + "] data.desc[" + data.desc + "]");
+                        $.toast("删除失败，" + data.desc, "forbidden");
+                    }
+                } else {
+                    debug_trace("json format error");
+                    $.toast("删除失败，格式错误", "forbidden");
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get activity list failure. user_id[" + user_id + "], type[" + type +"]");
+                $.toast("删除失败，服务器连接错误", "forbidden");
+              }
+            });
+
+            get_activity_list();
+            init_activity_list();
+        }
+
+
+        $(document).ready(function(){
+            
+            //
+            switch(parseInt(type)) {
+                case 0 :
+                    $(document).attr("title","草稿");
+                    break;
+                case 1 :
+                    $(document).attr("title","已发布");
+                    break;
+                case 2 :
+                    $(document).attr("title","已关闭");
+                    break;
+                case 3 :
+                    $(document).attr("title","未阅");
+                    break;
+                case 4 :
+                    $(document).attr("title","已阅");
+                    break;
+                default :
+                    debug_trace("无效type[" + list_type + "]");
+                    break;
+            }
+
+            //
+            alert("草稿测试");
+            init_activity_list();
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

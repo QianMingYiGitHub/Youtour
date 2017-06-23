@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <link rel="stylesheet" href="../common/myemojiPl.css">
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+
+
+        .delete_button{
+            float:right;
+
+        }
+
+        .foot_button_l{
+            width: 43%;
+            float: left;
+        }
+
+        .foot_button_r{
+            width: 43%;
+            float: right;
+        }
+
+
+        .weui_cell{
+            padding: 5px 15px;
+        }
+        .weui_btn{
+            margin-right:10px;
+        }
+        .weui_btn.weui_btn_mini{
+            padding: 0 .95em;
+
+        }
+        .weui_media_box .weui_media_desc{
+            -webkit-line-clamp: 3;
+            color:#666;
+            font-size: 16px;
+            word-break:break-all;
+        }
+        .weui_tabbar_item{
+            padding: 0 0 0 0;
+        }
+
+        .weui_media_desc img{
+            width:22px;
+        }
+        .weui_tabbar{
+            position: fixed;
+
+        }
+
+
+
+
+
+    </style>
+
+    <script>
+
+
+        var corp_id = null;
+        var user_id = null;
+        var activity_id = null;
+        var identity = null;
+        var type = null;
+        var ext = '0';
+
+        var json_obj = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "activity_id" ) {
+                    activity_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "sid" ) {
+                    ext =  paramObj[i]["value"];
+                }
+            }
+
+            if(!activity_id || !type || !user_id || !corp_id || !identity ) {
+                debug_trace("" + ((!activity_id) ? "activity_id" :"") + ((!type) ? " type" :"") + ((!user_id) ? " user_id" :"" + ((!corp_id) ? " corp_id" :"") + ((!identity) ? " identity" :"") + " 参数错误"));
+            }
+        }
+
+        $(function(){
+
+            var req_json = {
+              corpId:corp_id,
+              userid:user_id,
+              id:activity_id,
+              identity:parseInt(identity),
+              ext:ext
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/activity/detail', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动数据失败，服务器连接错误'));
+              }
+            });
+
+            //format date_time
+            if( json_obj ) {
+
+                json_obj.data.activity.editTime = format_date_time(json_obj.data.activity.editTime);
+                json_obj.data.activity.beginTime = format_date_time(json_obj.data.activity.beginTime);
+                json_obj.data.activity.endTime = format_date_time(json_obj.data.activity.endTime);
+            }
+        });
+
+        //
+        // alert("call /wxedu/jsconfig/get");
+        $.ajax({
+            url: '/wxedu/jsconfig/get', // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+            }
+        }).done(function(r) {
+
+            // 返回了数字签名对象
+            console.log(r);
+
+            // 开始配置微信JS-SDK
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+        });
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="weui_tab_bd" >
+        <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+                        <img id="create_person_pic" class="weui_media_appmsg_thumb" src="" alt="head">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 id="create_person_name" class="weui_media_title"></h4>
+                        <p class="weui_media_desc ">
+                            <span id="edit_time"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui_cells" >
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="title" class="weui_textarea" rows="1" readonly></textarea>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" maxlength="200" rows="8" readonly></textarea>
+                    <ul id='pic_container' class="weui_uploader_files">
+                    </ul>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label"><i class="weui_icon_waiting"></i>&nbsp;开始时间</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary" >
+                    <label id="start_time" class="weui_label weui_input"></label>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label"><i class="weui_icon_waiting_circle"></i>&nbsp;截止时间</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label id="stop_time" class="weui_label weui_input"></label>
+                </div>
+            </div>
+        </div>
+
+        <div id="leader_list_cell" class="weui_cells" style="display:none;" >
+            <div class="weui_cells_access">
+                <a id="leader_list_view" class="weui_cell open-popup" data-target="#leader_list_container">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>负责人</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="leader_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+        <div id="not_view_person_cell" class="weui_cells" style="display:none;" >
+            <div class="weui_cells_access">
+                <a id="not_view_person" class="weui_cell open-popup" data-target="#not_view_person_list_container">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>未阅人员</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="not_view_person_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="person_cnt"></span>
+                        </div>
+                </a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="bd">
+
+            <div class="weui_panel_bd">
+                <div class="weui_cells">
+                    <div class="weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">
+
+                            <p class="info_reply">回复</p><span class="info_symbol">(</span><p class="info_num">0</p><span class="info_symbol">)</span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div id="info-show">
+
+                </div>
+
+
+
+                <div class="weui_tabbar">
+                    <div class="weui_tabbar_item">
+                        <div class="Main2">
+                            <div class="Input_Box">
+                                <!--<div contenteditable="true" class="Input_text"></div>   -->
+                                <div class="Input_Foot">
+
+                                    <div id='cancel_activity_div' style="width: 100%; height: 53px; display:none">
+
+                                        <a id="cancel_activity" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">取消活动</a>
+
+                                    </div>
+
+
+
+                                    <a class="imgBtn" href="javascript:void(0);"><img src="../common/expression.png" class="imgbtn_img"/></a>
+
+                                    <div contenteditable="true" class="Input_text"></div>
+
+                                    <!--            <a class="postBtn">确定</a>  -->
+                                    <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary postBtn">发表</a>
+
+
+                                </div>
+                            </div>
+                            <div class="faceDiv">
+                                <section class="emoji_container">
+                                </section>
+                                <section class="emoji_tab"></section>
+                            </div>
+                        </div>
+
+
+                        <div class="faceDiv">
+                            <section class="emoji_container">
+                            </section>
+                            <section class="emoji_tab"></section>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div><!---weui_tabbar_item-->
+            <div style="height: 50px; width: 100%;">
+
+            </div>
+
+
+        </div><!--weui_tabbar-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <br><br><br><br>
+    </div>
+
+    <!--<div id="footer" class="weui_tabbar" style="display:none">-->
+        <!--<div id="cancel_activity_div" class="weui_tabbar_item" style="display:none">-->
+            <!--<a id="cancel_activity" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">取消活动</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <div id="leader_list_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                    <div class="weui-col-30">
+                        <a href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                    </div>
+                    <div class="weui-col-50"></div>
+                </div>
+
+                <div id="leader_list" style="margin-top:10px;">
+    <!--
+                    <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                    </div>
+                    <div class="weui_cells " >
+                        <label class="weui_cell weui_check_label">
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div id="not_view_person_list_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                    <div class="weui-col-30">
+                        <a href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                    </div>
+                    <div class="weui-col-50"></div>
+                </div>
+
+                <div id="not_view_person_list" style="margin-top:10px;">
+    <!--
+                    <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                    </div>
+                    <div class="weui_cells " >
+                        <label class="weui_cell weui_check_label">
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <div id="tabbar" class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a id="notify_no_view" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">通知未阅人员</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        //
+        function pic_view(id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#pic_container img').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == id ) {
+                    url = value.src;
+                }
+            });
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+        //
+        function init_data_field() {
+
+            if( json_obj == null ) {
+                return ;
+            }
+
+            $("#create_person_name").text(json_obj.data.activity.personName);
+            $("#edit_time").text(json_obj.data.activity.editTime);
+            $("#create_person_pic").attr("src",json_obj.data.activity.personPics);
+            $("#title").html(decodeURI(decodeURI(json_obj.data.activity.title)));
+            $("#content").html(decodeURI(decodeURI(json_obj.data.activity.content)));
+
+            //
+            var pic_cnt = 0;
+            json_obj.data.activity.pics.forEach(function(v, i) {
+
+                var strHtml = '';
+                strHtml += '<li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                strHtml += '    <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                strHtml += '</li>';
+
+                $('#pic_container').append(strHtml);
+
+                pic_cnt++;
+            });
+
+            //
+            var str;
+            str = '';
+            str += json_obj.data.activity.beginTime;
+            $("#start_time").html(str);
+
+            str = '';
+            str += json_obj.data.activity.endTime;
+            $("#stop_time").html(str);
+
+            //
+            $("#leader_cnt").text(json_obj.data.activity.leader.length);
+            $("#person_cnt").text(json_obj.data.activity.leader.length + json_obj.data.activity.partner.length);
+            $("#not_view_person_cnt").text(json_obj.data.activity.unreadPerson.length);
+        }
+
+        $(document).ready(function(){
+
+            //
+            switch(parseInt(type)) {
+                case 0 :
+                    $(document).attr("title","草稿");
+                    break;
+                case 1 :
+                    $(document).attr("title","已发布");
+                    break;
+                case 2 :
+                    $(document).attr("title","已关闭");
+                    break;
+                case 3 :
+                    $(document).attr("title","未阅");
+                    break;
+                case 4 :
+                    $(document).attr("title","已阅");
+                    break;
+                default :
+                    debug_trace("无效type[" + type + "]");
+                    break;
+            }
+
+            //
+            if( json_obj ) {
+
+                var is_leader = false;
+
+                if( json_obj.data.activity.createPerson == user_id ) {
+                    is_leader = true;
+                } else {
+                    for( var i = 0; i < json_obj.data.activity.leader.length; i++ ) {
+                        if( json_obj.data.activity.leader[i].id == user_id ) {
+                            is_leader = true;
+                            break;
+                        }
+                    }
+                }
+
+                if( is_leader ) {
+
+                    $('#leader_list_cell').show();
+                    $('#not_view_person_cell').show();
+
+                    if(1 == type) {
+
+                        $('#cancel_activity_div').show();
+                        $('#footer').show();
+                    }
+                } else {
+                    $('#leader_list_cell').show();
+                }
+
+                //禁用通知button
+                if( is_leader ) {
+                    if( !type || (type==0 || type==2) ) {
+                        $("#notify_no_view").addClass("weui_btn_disabled");
+                    }                
+                } else {
+                    $("#tabbar")[0].style.display = "none";
+                }
+            }
+
+            //
+            init_data_field();
+
+            //
+            $("#leader_list_view").click(function(){
+                //init contacts list
+                var root = $("#leader_list");
+                root.empty();
+
+                if( json_obj == null ) {
+                    return ;
+                }
+
+                for(var unionIdx = 0; unionIdx < 1; unionIdx++) {
+
+                    var strHtml = '';
+
+                    // strHtml += '<div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">';
+                    // strHtml += '    <div class="weui-col-50"><h3>' + '1年' + (unionIdx+1) + '班</h3></div>';
+                    // strHtml += '</div>';
+                    strHtml += '<div class="weui_cells">';
+
+                    for( var personIdx = 0; personIdx < json_obj.data.activity.leader.length; personIdx++) {
+
+                        strHtml += '    <label class="weui_cell weui_check_label">';
+                        strHtml += '        <img src="' + json_obj.data.activity.leader[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '            <p>' + json_obj.data.activity.leader[personIdx].identity==1?json_obj.data.activity.leader[personIdx].ext2:json_obj.data.activity.leader[personIdx].name + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    root.append(strHtml);
+                }
+            });
+
+            //
+            $("#not_view_person").click(function(){
+                //init contacts list
+                var root = $("#not_view_person_list");
+                root.empty();
+
+                if( json_obj == null ) {
+                    return ;
+                }
+
+                for(var unionIdx = 0; unionIdx < 1; unionIdx++) {
+
+                    var strHtml = '';
+
+                    // strHtml += '<div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">';
+                    // strHtml += '    <div class="weui-col-50"><h3>' + '1年' + (unionIdx+1) + '班</h3></div>';
+                    // strHtml += '</div>';
+                    strHtml += '<div class="weui_cells">';
+
+                    for( var personIdx = 0; personIdx < json_obj.data.activity.unreadPerson.length; personIdx++) {
+
+                        strHtml += '    <label class="weui_cell weui_check_label">';
+                        strHtml += '        <img src="' + json_obj.data.activity.unreadPerson[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '            <p>' + json_obj.data.activity.unreadPerson[personIdx].identity==1?json_obj.data.activity.unreadPerson[personIdx].ext2:json_obj.data.activity.unreadPerson[personIdx].name + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    root.append(strHtml);
+                }
+            });
+
+
+            $("#notify_no_view").click(function(){
+
+                if( !type || (type==0 || type==2) ) {
+                    return ;
+                }
+
+                //
+                var req_json = {
+                    corpId:corp_id,
+                    id:activity_id
+                }
+
+                $.ajax({
+                  dataType:'json',
+                  contentType: "application/json",
+                  type: 'post', // 提交方式 get/post
+                  url: '/wxqyh/activity/notify', // 需要提交的 url
+                  data: JSON.stringify(req_json),
+                  async: false,
+                  beforeSend: function(XHR) {
+                  },
+                  success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( typeof data == "object" ) {
+                        if( data.success == 0 ) {
+                            $.toast("通知成功");
+                            // setTimeout(function() {
+                            //     window.location = './activity_list.html?user_id=' + user_id + '&type=1' + '&corp_id=' + corp_id;
+                            // }, 2000);
+                        } else {
+                            $.toast("通知失败，" + data.desc, "forbidden");
+                        }
+                    } else {
+                        $.toast("通知失败，格式错误", "forbidden");
+                    }
+                  },
+                  error:function(XHR, ErrText, Exception) {
+                    $.toast("通知失败，服务器连接错误", "forbidden");
+                  }
+                });
+            });
+
+
+            $("#cancel_activity").click(function(){
+
+                $.prompt("请输入取消活动原因", "",
+                function(text) {
+                    //
+                    var req_json = {
+                      corpId:corp_id,
+                      id:activity_id,
+                      reason:text
+                    };
+                    $.ajax({
+                      dataType:'json',
+                      contentType: "application/json",
+                      type: 'post', // 提交方式 get/post
+                      url: '/wxqyh/activity/close', // 需要提交的 url
+                      data: JSON.stringify(req_json),
+                      async: false,
+                      beforeSend: function(XHR) {
+                      },
+                      success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                        if( typeof data == "object" ) {
+                            if( data.success == 0 ) {
+                                $.toast("取消活动成功");
+                                setTimeout(function() {
+                                    window.location = './activity_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&type=1' ;
+                                }, 2000);
+                            } else {
+                                $.toast("取消活动失败，" + data.desc, "forbidden");
+                            }
+                        } else {
+                            $.toast("取消活动失败，格式错误", "forbidden");
+                        }
+                      },
+                      error:function(XHR, ErrText, Exception) {
+                        $.toast("取消活动失败，服务器连接错误", "forbidden");
+                      }
+                    });
+                },
+                function() {
+                  //取消操作
+                });
+            });
+
+        });
+
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+
+        $("#ufo").click(function(){
+            $.toast("操作成功");
+
+        })
+
+        function  delete_button(userid,identity,ext,messageId){
+//alert(corp_id);
+          // alert(userid);
+//            alert(identity);
+//            alert(ext);
+//            alert(messageId);
+            $.confirm("确认删除留言?", function() {
+
+                $.ajax({
+                    url:'/wxqyh/reply/activity/'+activity_id,
+                    type: 'delete',
+                    contentType: "application/json",
+                    dataType:'json',
+                    data:JSON.stringify({
+                        corpid:corp_id,
+                        userid:userid,
+                        identity:identity,
+                        ext:ext,
+                        messageId:messageId
+                    }),
+                    success: function (data) {
+                        if(data.success==0){
+
+                        }else {
+                            alert(data.desc);
+                            $.toast("删除失败");
+                        }
+
+                    },
+                    error:function(){
+                        $.toast("删除失败");
+                    }
+
+                })
+//
+                var info_num=$("#info-show")[0];
+
+                for( var i = 0; i < info_num.children.length; i++ ) {
+//alert(info_num.children[i].getAttribute("name"));
+                    if( info_num.children[i].getAttribute("name") == messageId ) {
+                        info_num.children[i].remove();
+                    }
+                }
+                num();
+                //点击确认后的回调函数
+            }, function() {
+                //点击取消后的回调函数
+            });
+
+
+        }
+
+        var timeOutEvent=0;
+        $(function(){
+
+//            var agentTrees = [
+//                {
+//                    id:123,//留言id
+//                    userid:56789,
+//                    name:"小刘",
+//                    ext:"给大家打发打发更多路公交地方规定了国家领导就够了",
+//                    nowtime:"2015.12.31",
+//                    posttime:"22:50:31"
+//                },
+//                {
+//                    id:345,//留言id
+//                    userid:4565765,
+//                    name:"大幅度",
+//                    ext:"对分管领导根据劳动法22222222222222222222",
+//
+//                    nowtime:"2001.02.31",
+//                    posttime:"12:50:31"
+//                },
+//                {
+//                    id:890,//留言id
+//                    userid:666666,
+//                    name:"贷款",
+//                    ext:'谁说的<img src="../common/img/tieba/3.jpg" alt="" data-alias="tushe" title="吐舌">',
+//
+//                    nowtime:"2105.02.01",
+//                    posttime:"12:50:31"
+//                },
+//
+//            ];
+            $.ajax({
+                url:'/wxqyh/reply/activity/'+activity_id+'?corpid='+corp_id+'&userid='+userid+'&identity='+identity+'&ext='+ext,
+                type: 'get',
+                contentType: "application/json",
+                dataType:'json',
+                data:JSON.stringify({
+
+                }),
+                success: function (data) {
+
+                    var jsondata = JSON.parse(JSON.stringify(data));
+                   // alert(JSON.stringify(jsondata.data.replys));
+                    var  agentTrees=jsondata.data.replys;
+                //  alert(jsondata.data.replys[0].userid);
+//alert(JSON.stringify(jsondata.data.replys));
+
+                    var root=''
+                    for(i=0;i<agentTrees.length;i++){
+                        var time= new Date().format('yyyy-mm-dd');
+                        //    alert(jsondata.data.replys[i].nowtime.split("T")[0]);
+
+                        if(jsondata.data.replys[i].nowtime.split("T")[0]==time){
+                            var yestime=jsondata.data.replys[i].nowtime.split("T")[0]
+                        }
+                        else {
+                            yestime=jsondata.data.replys[i].nowtime.split("T")[1].jsondata.data.replys[i].nowtime.split(",")[0]
+                        }
+
+                        root +='<a href="javascript:void(0);"  name='+agentTrees[i].id+' id="'+agentTrees[i].userid+'" class="weui_media_box weui_media_appmsg">';
+                        root +='<div class="weui_media_hd" id="touchArea">';
+                        root +='<img  name="'+agentTrees[i].name+'" class="weui_media_appmsg_thumb" src="'+agentTrees[i].avatar+'" alt="">';
+                        root +='<p class="weui_media_desc" style="display: none">'+agentTrees[i].identity+'</p>';
+                        root +='<p class="weui_media_desc" style="display: none">'+agentTrees[i].ext+'</p>';
+                        root +='</div>';
+                        root +='<div class="weui_media_bd">';
+                        root +='<h4 class="weui_media_title"><span class="name_box">'+agentTrees[i].name+'</span><p class="time_box">'+yestime+'<p></h4>';
+                        root +='<p class="weui_media_desc">'+agentTrees[i].message+'</p>';
+                       // root +='<div class=""><span class="weui_btn weui_btn_mini weui_btn_warn delete_button" onclick="delete_button(&quot;'+agentTrees[i].userid+'&quot;,&quot;'+agentTrees[i].identity+'&quot;,&quot;'+agentTrees[i].ext+'&quot;,&quot;'+agentTrees[i].id+'&quot;)">删除</span> </div>';
+                        root +='</div>';
+                        root +='</a>';
+                    }
+
+                    $("#info-show").append(root);
+
+                    num();
+
+
+                },
+                error:function(){
+                    //alert("获取数据失败");
+                }
+
+            })
+
+//alert(agentTrees[0].id);
+
+
+//alert("111111");
+
+
+//动态加载绑定事件
+
+            var touser=[];
+            $("#info-show").on('touchstart','a>div>img',function(e){
+
+                var obj = new Object()
+                var info_name=$(this).attr('name');
+                $(".Input_text").html("@"+info_name);
+                //   alert("1114");
+//alert($(this).parent().parent().attr('id'));
+                var id_b=$(this).parent().parent().attr('id');
+                //    alert($(this).attr('name'));
+                var name_b=$(this).attr('name');
+                //    alert($(this).next().html());
+                var identity_b=$(this).next().html();
+                //    alert($(this).next().next().html());
+                var  ext_b=$(this).next().next().html();
+
+                obj.id=id_b;
+                obj.name=name_b;
+                obj.identity=identity_b;
+                obj.ext=ext_b;
+
+                touser.push(obj)
+                //   alert(touser);
+//alert(JSON.stringify(touser));
+
+
+
+
+
+
+//alert($(this).attr('id'));
+
+                //timeOutEvent = setTimeout("longPress()",1500);
+
+                //	 	e.preventDefault();
+                //});
+
+            });
+        });
+
+        function longPress(){
+
+
+            timeOutEvent = 0;
+            alert("长按事件触发发");
+
+
+            alert($(".name_box").html());
+
+
+
+//定时器
+
+            //alert($(this).attr('id'));
+            // alert($(this).find().find().next().next().find().find().html());
+            // $(e.target).attr('src','11111');
+            //var ff=$(e.target).attr('src','11111');
+            //alert(ff);
+        }
+
+
+    </script>
+
+    <script src="../common/myemojiPl_activity.js"></script>
+    <script>
+        var emojiconfig = {
+            tieba: {
+                // name: "贴吧表情",
+                path: "img/tieba/",
+                maxNum: 50,
+                file: ".jpg",
+                placeholder: ":{alias}:",
+                alias: {
+                    1: "hehe",
+                    2: "haha",
+                    3: "tushe",
+                    4: "a",
+                    5: "ku",
+                    6: "lu",
+                    7: "kaixin",
+                    8: "han",
+                    9: "lei",
+                    10: "heixian",
+                    11: "bishi",
+                    12: "bugaoxing",
+                    13: "zhenbang",
+                    14: "qian",
+                    15: "yiwen",
+                    16: "yinxian",
+                    17: "tu",
+                    18: "yi",
+                    19: "weiqu",
+                    20: "huaxin",
+                    21: "hu",
+                    22: "xiaonian",
+                    23: "neng",
+                    24: "taikaixin",
+                    25: "huaji",
+                    26: "mianqiang",
+                    27: "kuanghan",
+                    28: "guai",
+                    29: "shuijiao",
+                    30: "jinku",
+                    31: "shengqi",
+                    32: "jinya",
+                    33: "pen",
+                    34: "aixin",
+                    35: "xinsui",
+                    36: "meigui",
+                    37: "liwu",
+                    38: "caihong",
+                    39: "xxyl",
+                    40: "taiyang",
+                    41: "qianbi",
+                    42: "dnegpao",
+                    43: "chabei",
+                    44: "dangao",
+                    45: "yinyue",
+                    46: "haha2",
+                    47: "shenli",
+                    48: "damuzhi",
+                    49: "ruo",
+                    50: "OK"
+                },
+                title: {
+                    1: "呵呵",
+                    2: "哈哈",
+                    3: "吐舌",
+                    4: "啊",
+                    5: "酷",
+                    6: "怒",
+                    7: "开心",
+                    8: "汗",
+                    9: "泪",
+                    10: "黑线",
+                    11: "鄙视",
+                    12: "不高兴",
+                    13: "真棒",
+                    14: "钱",
+                    15: "疑问",
+                    16: "阴脸",
+                    17: "吐",
+                    18: "咦",
+                    19: "委屈",
+                    20: "花心",
+                    21: "呼~",
+                    22: "笑脸",
+                    23: "冷",
+                    24: "太开心",
+                    25: "滑稽",
+                    26: "勉强",
+                    27: "狂汗",
+                    28: "乖",
+                    29: "睡觉",
+                    30: "惊哭",
+                    31: "生气",
+                    32: "惊讶",
+                    33: "喷",
+                    34: "爱心",
+                    35: "心碎",
+                    36: "玫瑰",
+                    37: "礼物",
+                    38: "彩虹",
+                    39: "星星月亮",
+                    40: "太阳",
+                    41: "钱币",
+                    42: "灯泡",
+                    43: "茶杯",
+                    44: "蛋糕",
+                    45: "音乐",
+                    46: "haha",
+                    47: "胜利",
+                    48: "大拇指",
+                    49: "弱",
+                    50: "OK"
+                }
+            },
+            AcFun:{
+                name : "AcFun表情",
+                path : "../common/img/AcFun/",
+                maxNum : 54,
+                file : ".png"
+            }
+        };
+        //$('.Main').myEmoji({emojiconfig : emojiconfig});
+        //$('.Main3').myEmoji();
+        $('.Main2').myEmoji();
+
+
+    </script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1285 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>管理平台</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="author" content="<wanghaiyang@bootcss.com>">
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav_top.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/user_management_index.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/zTreeStyle/metro.css"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/icon.css">
+
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-table.css">
+  <style type="text/css">
+
+    body{
+      font-size: 16px;
+      font-family: "微软雅黑";
+    }
+
+    .icon_box_nav{
+      content: "\f104";
+      width: 20px;
+      height: 20px;
+      float: left;
+      padding-left: 15px;
+      padding-top: 2px;
+    }
+
+
+    p {
+      margin: 0 0 0px;
+    }
+
+    .input-group{
+      width: 100%;
+    }
+    h3{
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar{
+      margin-bottom: 10px;
+    }
+    .user-panel{
+      background-color: #06afe6;
+
+    }
+    .navbar-default{
+      margin-top: 2px;
+    }
+
+    .tabs{
+      background-color: #06afe6;
+    }
+    .tabs-header, .tabs-tool{
+      background-color: #eee;
+    }
+
+    .panel-body{
+      background-color:#fff;
+    }
+    .tabs-header .tabs-pill li.tabs-selected a.tabs-inner{
+      background-color: #eeeeee;
+    }
+
+    .tabs li.tabs-selected a.tabs-inner{
+      background-color: #0099d5;
+
+    }
+    .tabs li a.tabs-inner{
+      background-color: #0099d5;
+    }
+    .panel-body{
+      color: #000000;
+    }
+    .tabs li.tabs-selected a.tabs-inner:hover{
+      background-color: #0099d5;
+    }
+    .tabs li a.tabs-close{
+      background: url(images/tabs_icons.png) no-repeat -34px center;
+    }
+    .tabs li a.tabs-close {
+      width: 14px;
+      right: 5px;
+      opacity: 1.0;
+
+    }
+    .tabs-panels{
+      border:0px;
+    }
+    .tabs-header{
+      border: 0px;
+      background: #fafafa none repeat scroll 0 0
+    }
+    .tabs{
+      border: 0px;
+    }
+    .tabs li a.tabs-inner{
+      color: #fff;
+      background-color: #06afe6;
+      background: -webkit-linear-gradient(top,#06afe6 0,#06afe6 100%);
+      background: -moz-linear-gradient(top,#06afe6 0,#06afe6 100%);
+      background: -o-linear-gradient(top,#06afe6 0,#06afe6 100%);
+      background: linear-gradient(to bottom,#06afe6 0,#06afe6 100%);
+      background-repeat: repeat-x;
+
+    }
+    .tabs li a.tabs-inner{
+      border: 0px;
+      -moz-border-radius: 0px 0px 0 0;
+      -webkit-border-radius: 0px 0px 0 0;
+      border-radius: 0px 0px 0 0;
+    }
+    .tabs li a.tabs-inner:hover {
+      color: #fff;
+      background-color: #06afe6;
+      filter: none;
+      border: 0px;
+    }
+    .tabs li.tabs-selected a.tabs-inner {
+      background: #0099d5 none repeat scroll 0 0;
+      border-top: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: 3px solid #4c8dee;
+      color: #fff;
+      filter: none;
+    }
+    .tabs-p-tool a:hover, .tabs li a:hover.tabs-close, .tabs-scroller-over{
+      background-color: #06afe6;
+      color: #fff;
+
+    }
+    .panel-body {
+      padding: 8px 10px 10px 10px;
+
+    }
+
+
+    p {
+      margin: 0 0 0px;
+    }
+
+    .navbar-static-side ul li a:focus{
+      color: #FFF;
+      background-color: #f4f4f4;
+    }
+    .navbar-static-side ul li a:hover{
+
+
+
+    }
+    .navbar-static-side ul li .nav-second-level li:hover a{
+      color:#777;
+    }
+    #sidebar{
+      background-color: #fff;
+    }
+    .ztree{
+      float: left;
+    }
+    .ztree{
+      padding:0;
+    }
+    .ztree *{
+      font-size: 14px;
+    }
+    .modal-header{
+      background-color: #03ACE3;
+      color: #fff;
+      height: 40px;
+      border-top-left-radius:6px;
+      border-top-right-radius:6px;
+    }
+    .modal-title{
+      line-height: 10px;
+      font-size: 16px;
+    }
+    .close{
+      color: #fff;
+      opacity: .9;
+      line-height: 0.6;
+    }
+    .btn-primary {
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    .modal-footer{
+
+    }
+
+    @media (min-width: 768px) {
+      .modal-dialog {
+        width: 500px;
+        margin: 30px auto;
+      }
+    }
+    .ztree li span.button.noline_close{
+      background-position: -126px -84px;
+    }
+    .ztree li span.button.noline_open {
+      background-position: -105px -84px;
+    }
+  </style>
+
+
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="navbar navbar-duomi navbar-static-top" role="navigation" >
+    <div class="top_box_l">
+      <div class="top_logo">
+        <img  src="images/logo_user.png"/>
+        <span></span>
+      </div>
+      <div class="top_line">
+      </div>
+      <span class="nav_size">
+        沃e学.校方管理平台
+      </span>
+    </div>
+    <div class="txt_r">
+      <img src="images/admin.png"/>
+      <b>您好：</b><span id="user_name" class="user_name">1111</span>
+      <!--<a href="javascript:void(0);" id="jq_index_update_pwd">修改密码</a>-->
+      <a href="javascript:void(0);" id="jq_index_login_out" onclick="window.location.href='/logout'">退出</a>
+    </div>
+
+
+
+
+
+
+  </div><!-- #EndLibraryItem -->
+  <div class="main_l">
+    <nav id="sidebar" role="navigation" class="navbar-default navbar-static-side">
+      <div class="sidebar-collapse">
+        <ul id="side-menu-l" class="nav">
+          <li class="user-panel">
+            <div class="thumb">
+              <span>功能导航</span>
+
+            </div>
+
+            <div class="clearfix"></div>
+          </li>
+          <!--左侧菜单-->
+          <!-- <li id="lpt" runat="server" class="active">-->
+          <!--<li id="personnel" runat="server" class="nav_li_box" style="margin-top: 10px;  border-top: 1px solid #dddddd;">-->
+
+          <!--<a href="javascript:void(0);" onclick="addTab('人员管理','/setting')">-->
+          <!--<i class="fa fa-list fa-gears">-->
+
+          <!--</i><span class="menu-title">人员管理</span>-->
+          <!--<span class="icon_box_nav"><img src="images/setting.png"></span>-->
+          <!--</a>-->
+          <!--&lt;!&ndash;<ul id="upt" class="nav nav-second-level" style="display: none;">&ndash;&gt;-->
+          <!--&lt;!&ndash;<li id="editor_r">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a href="javascript:void(0)" onclick="addTab('待定...','')">&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa fa-rebel">&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="icon-bg bg-orange"></div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</i><span class="menu-title_two">待定...</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;</li>&ndash;&gt;-->
+          <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--</li>-->
+
+          <!--<li id="hear" runat="server" class="nav_li_box">-->
+          <!--<a href="javascript:void(0);" onclick="addTab('审理案件','/case_examine/case_examine_get')">-->
+          <!--<i class="fa fa-list fa-database">-->
+          <!--<div class="icon-bg bg-orange"></div>-->
+          <!--</i><span class="menu-title">审理案件</span>-->
+          <!--<span class="icon_box_nav"><img src="images/review.png"></span>-->
+          <!--</a>-->
+          <!--&lt;!&ndash;<ul id="usy" class="nav nav-second-level" style="display: none;"  >&ndash;&gt;-->
+          <!--&lt;!&ndash;<li id="articles_editor_r">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a href="javascript:void(0)">&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa fa-list-alt ">&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="icon-bg bg-orange"></div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</i><span class="menu-title_two">审件</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+          <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--</li>-->
+
+
+          <!--<li id="see" runat="server"  class="nav_li_box">-->
+          <!--<a href="javascript:void(0);"  onclick="addTab('查看案件','see')">-->
+          <!--<i class="fa fa-list fa-database">-->
+          <!--<div class="icon-bg bg-orange"></div>-->
+          <!--</i><span class="menu-title">查看案件</span>-->
+          <!--<span class="icon_box_nav"><img src="images/see.png"></span>-->
+          <!--</a>-->
+          <!--&lt;!&ndash;<ul id="usy" class="nav nav-second-level" style="display: none;">&ndash;&gt;-->
+          <!--&lt;!&ndash;<li  id="picture_r">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a href="javascript:void(0)">&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa fa-list-alt ">&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="icon-bg bg-orange"></div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</i><span class="menu-title_two">回执</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;</li>&ndash;&gt;-->
+          <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--</li>-->
+
+
+
+          <!--<li id="record" runat="server"  class="nav_li_box">-->
+          <!--<a href="javascript:void(0);" onclick="addTab('安全记录','/case_examine/case_examine_safe')">-->
+          <!--<i class="fa fa-list fa-database">-->
+          <!--<div class="icon-bg bg-orange"></div>-->
+          <!--</i><span class="menu-title">安全记录</span>-->
+          <!--<span class="icon_box_nav"><img src="images/journal.png"></span>-->
+          <!--</a>-->
+          <!--&lt;!&ndash;<ul id="usy" class="nav nav-second-level" style="display: none;">&ndash;&gt;-->
+          <!--&lt;!&ndash;<li  id="picture_r">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a href="javascript:void(0)" >&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa fa-list-alt ">&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="icon-bg bg-orange"></div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</i><span class="menu-title_two">安全记录</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--&lt;!&ndash;</li>&ndash;&gt;-->
+          <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--</li>-->
+
+
+        </ul>
+      </div>
+    </nav>
+
+
+
+
+
+
+
+
+  </div><!-- #EndLibraryItem -->
+
+
+
+
+  <div class="main_l">
+
+    <div class="nav_top">
+      <p>功能导航</p>
+    </div>
+
+    <div class="nav_add_staff" >
+
+      <p id="toggle1"><img src="images/nav_classification.png"  class="nav_classification"/>学校组织架构</p>
+
+
+    </div>
+
+
+    <div id="department_list" class="department_list">
+
+      <div class="department_title_box">
+        <a id="department_list_href" onclick="addhref('全体教师','map_department_list?department_name=全体教师')">全体教师</a>
+      </div>
+      <ul id="tree" class="ztree"></ul>
+    </div>
+
+
+    <div class="nav_add_staff" >
+
+      <p id="toggle2"><img src="images/nav_classification.png"  class="nav_classification"/>班级学生信息</p>
+
+    </div>
+    <div class="department_list" id="department_list_two">
+      <div class="department_class_list">
+        <ul id="tree2" class="ztree" >
+
+        </ul>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="main">
+
+    <!--<div id="defaultBlock" style="position: relative; padding: 0; background: #f0f2f5">-->
+    <!--<iframe id="main" name="main" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onload="this.height=1000;"></iframe>-->
+    <!--</div>-->
+
+
+    <div id="tt" class="easyui-tabs" style="width:100%;">
+      <div title="首　页">
+
+
+
+      </div>
+
+
+    </div>
+
+  </div><!----END--->
+
+</div>
+
+
+<!-- Moda1 -->
+<div class="modal fade" id="modal_user_name" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+
+        <form id="form" class="form-horizontal" method = 'post' role="form"  onsubmit="return checkUser()" >
+          <div class="input-group">
+            <span class="input-group-addon form_title">用户名</span>
+            <input id="username"  disabled="disabled" name="input_name" type="text" class="form-control" placeholder="用户名确定后不可修改">
+          </div>
+          <!--<p class="annotation">注：请输入字母或者数字</p>-->
+          </br>
+          <div class="input-group">
+            <span class="input-group-addon form_title">旧密码</span>
+            <input id="old_password" name="old_password" type="text" class="form-control" placeholder="请输入旧密码">
+          </div>
+          <!--<p class="annotation">注：最少输入6位密码</p>-->
+          </br>
+
+          <div class="input-group">
+            <span class="input-group-addon form_title">新密码</span>
+            <input id="new_password" name="new_password" type="text" class="form-control" placeholder="请输入新密码">
+
+          </div>
+
+          </br>
+          <div class="input-group">
+            <span class="input-group-addon form_title">确认新密码</span>
+            <input id="repeat_password" name="input_name" type="text"  class="form-control" placeholder="请再一次输入新密码">
+          </div>
+
+          <!--<div class="form-group">-->
+          <!--<div class="col-sm-offset-2 col-sm-10">-->
+          <!--<button type="submit" class="btn btn-default">修改密码</button>-->
+          <!--</div>-->
+          <!--</div>-->
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button  type="submit" class="btn btn-primary button_width">提交</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+
+
+
+<div class="modal fade" id="add_staff">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">添加<span id="staff_title"></span></h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="input-group">
+          <span class="input-group-addon">名&nbsp;&nbsp;&nbsp;&nbsp;称</span>
+          <input id="add_staff_name" name="input_department_name" type="text" class="form-control" placeholder="请输入名称">
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="add_staff_submit" data-dismiss="modal">添加</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="delete_department_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">删除部门<span id="staff_title"></span></h4>
+      </div>
+      <div class="modal-body text-center">
+        是否确定删除整组及所有信息？
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="delete_department_submit" >确定</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="add_class">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">添加班级</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <span class="input-group-addon">年级</span>
+          <select class="form-control" id="select_grade" name="select_grade">
+            <option value="请选择">请选择</option>
+            <option value="0">一年级</option>
+            <option value="1">二年级</option>
+            <option value="2">三年级</option>
+            <option value="3">四年级</option>
+            <option value="4">五年级</option>
+            <option value="5">六年级</option>
+            <option value="6">七年级</option>
+            <option value="7">八年级</option>
+            <option value="8">九年级</option>
+            <option value="9">高一</option>
+            <option value="10">高二</option>
+            <option value="11">高三</option>
+          </select>
+
+        </div>
+        </br>
+        <div class="input-group">
+          <span class="input-group-addon">班级</span>
+          <select class="form-control" id="select_class" name="select_class">
+            <option value="请选择">请选择</option>
+            <option value="一班">一班</option>
+            <option value="二班">二班</option>
+            <option value="三班">三班</option>
+            <option value="四班">四班</option>
+            <option value="五班">五班</option>
+            <option value="六班">六班</option>
+            <option value="七班">七班</option>
+            <option value="八班">八班</option>
+            <option value="九班">九班</option>
+            <option value="十班">十班</option>
+            <option value="十一班">十一班</option>
+            <option value="十二班">十二班</option>
+            <option value="十三班">十三班</option>
+            <option value="十四班">十四班</option>
+            <option value="十五班">十五班</option>
+            <option value="十六班">十六班</option>
+            <option value="十七班">十七班</option>
+            <option value="十八班">十八班</option>
+            <option value="十九班">十九班</option>
+            <option value="二十班">二十班</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="add_class_submit">添加</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="delete_class_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">删除班级<span id="staff_title"></span></h4>
+      </div>
+      <div class="modal-body text-center">
+        是否确定删除班级及所有信息？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="delete_class_submit">确定</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="whole_upgrade_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">全体升级</h4>
+      </div>
+      <div class="modal-body text-center">\
+        全体升级后，一年级信息为空（自动升入二年级，以此类推），
+        毕业的学生信息则全部删除，是否确定全部升级？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="whole_upgrade_submit" >确定</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- /.modal -->
+<div class="modal fade in" id="modal_user_name" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false"><div class="modal-backdrop fade in"></div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+
+        <form id="form" class="form-horizontal" method="post" role="form" onsubmit="return checkUser()">
+          <div class="input-group">
+            <span class="input-group-addon form_title">用户名</span>
+            <input id="username" readonly="readonly" name="input_name" type="text" class="form-control" placeholder="用户名确定后不可修改">
+          </div>
+          <!--<p class="annotation">注：请输入字母或者数字</p>-->
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon form_title">旧密码</span>
+            <input id="old_password" name="old_password" type="text" class="form-control" placeholder="请输入旧密码">
+          </div>
+          <!--<p class="annotation">注：最少输入6位密码</p>-->
+          <br>
+
+          <div class="input-group">
+            <span class="input-group-addon form_title">新密码</span>
+            <input id="new_password" name="new_password" type="text" class="form-control" placeholder="请输入新密码">
+
+          </div>
+
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon form_title">确认新密码</span>
+            <input id="repeat_password" name="input_name" type="text" class="form-control" placeholder="请再一次输入新密码">
+          </div>
+
+          <!--<div class="form-group">-->
+          <!--<div class="col-sm-offset-2 col-sm-10">-->
+          <!--<button type="submit" class="btn btn-default">修改密码</button>-->
+          <!--</div>-->
+          <!--</div>-->
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary">提交</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--删除部门ID-->
+<input type="hidden" id="delete_id_department"/>
+<!--删除部门名字-->
+<input type="hidden" id="delete_name_department"/>
+<!--删除班级ID-->
+<input type="hidden" id="delete_id_class"/>
+<!--删除班级名字-->
+<input type="hidden" id="delete_name_class"/>
+
+<!--删除区分标志-->
+<input type="hidden" id="delete_sign_class"/>
+
+<!--删除年级ID -->
+<input type="hidden" id="delete_sort_class"/>
+
+
+<script src="/javascripts/jquery-2.1.1-youtu.js"></script>
+<script src="/javascripts/jquery.ztree.all-3.5.min.js"></script>
+<script src="/javascripts/jquery.easyui.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/bootstrap-table.js"></script>
+<script src="/javascripts/bootstrap-table-zh-CN.js"></script>
+
+
+
+<script type="text/javascript">
+  //  $("#upt ") .css("display", "block")
+  $("#upt ") .css("display", "none")
+  ToUrl("/html/manage/admin/agent.html");
+
+
+  function iFrameHeight() {
+
+    var iframe = document.getElementById("main");
+    try {
+      var bHeight = iframe.contentWindow.document.body.scrollHeight,
+              dHeight = iframe.contentWindow.document.documentElement.scrollHeight,
+              height = Math.max(bHeight, dHeight);
+      iframe.height = 600;
+      iframe.width = "100%";
+
+    } catch (ex) { }
+  }
+  function ToUrl(url) {
+
+
+    /*if (url == 'index.aspx') {
+     $("#bodyPage").css("min-width", 1820 + 'px');
+     }
+     else {
+     $("#bodyPage").css("min-width", 1350 + 'px');
+     }
+     */            $("#main").attr("src", url);
+    setInterval("iFrameHeight()", 50);
+  }
+  $('#toggle1').click(function(){
+    $('#department_list').slideToggle();
+    $('#toggle_img').attr('src',$('#toggle_img').attr('src')=='images/nav_bottom.png'?'images/nav_top.png':'images/nav_bottom.png');
+
+  });
+  $('#toggle2').click(function(){
+    $('#department_list_two').slideToggle();
+    $('#toggle_img2').attr('src',$('#toggle_img2').attr('src')=='images/nav_bottom.png'?'images/nav_top.png':'images/nav_bottom.png');
+
+  });
+
+  $(function () {
+
+
+    var zTree;
+    var demoIframe;
+
+//var json=[
+//  {"department_name":"呵呵组"},
+//  {"department_name":"调研组"},
+//  {"department_name":"屁屁组"},
+//  {"department_name":"脑袋组"}
+//];
+
+    var school_id=$.intercept_url("school_id");
+    $.ajax({
+      url: '/users/'+school_id+'/querydepartment',
+      type: 'get',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+
+      }),
+      success: function (data) {
+        var jsondata=JSON.parse(JSON.stringify(data));
+//alert(JSON.stringify(data));
+        //  alert(JSON.stringify(jsondata.data.Department_Count));
+        var jsontree=jsondata.data.Department_Count;
+        t = $.fn.zTree.init($("#tree"), setting, jsontree);
+
+        demoIframe = $("#testIframe");
+        demoIframe.bind("load", loadReady);
+        var zTree = $.fn.zTree.getZTreeObj("tree");
+        zTree.expandAll(true);
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+    var school_id=$.intercept_url("school_id");
+
+    $.ajax({
+      url: '/classes/'+school_id+'/queryclass',
+      // url: '/classes/queryclass',
+      type: 'get',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+      }),
+      success: function (data) {
+
+        var jsondata2=JSON.parse(JSON.stringify(data));
+
+        // alert(JSON.stringify(data))
+        // alert(JSON.stringify(jsondata.data.department));
+        //  alert(JSON.stringify(jsondata2.data.Classes));
+        var jsontree2=jsondata2.data.Classes;
+        demoIframe = $("#testIframe");
+        demoIframe.bind("load", loadReady);
+
+        t = $.fn.zTree.init($("#tree2"), setting2, jsontree2)
+        var zTree2 = $.fn.zTree.getZTreeObj("tree2");
+        zTree2.expandAll(true);
+        var role=$.intercept_url("role");
+        if(role=="1"){
+          var aa=$("#tree2").find("li").html();
+          var headmaster_class=$.intercept_url("headmaster_class");
+          var type_grade=$.intercept_url("type_grade");
+          alert(headmaster_class);
+          alert(type_grade);
+          $("#tree2").find("li").each(function(){
+            // $(this).contents("a").find("span").next().css("display","none");
+            //  $(this).contents("a").find("span").css("display","none");
+            $(this).css("display","none");
+          })
+          $("#tree2").find("li").each(function(){
+            var aa=$(this).contents("a").find("span").next().html()
+            if(aa==type_grade){
+              alert("display: block;");
+              // $(this).css("display","block");
+              $(this).contents("a").find("span").next().removeAttr("style");
+              $(this).contents("a").find("span").removeAttr("style");
+              $(this).removeAttr("style");
+            }
+            if(aa==headmaster_class){
+              alert("display: block;");
+              $(this).css("display","block");
+              $(this).contents("a").find("span").next().removeAttr("style");
+              $(this).contents("a").find("span").removeAttr("style");
+              $(this).css("display","block");
+            }
+          });
+          $(".nav_add_staff").eq(0).remove();
+          $(".nav_add_staff").eq(1).remove();
+          $("#nav_add_class").remove();
+          $("#department_list").remove();
+
+
+        }
+
+
+
+
+        for(var i=0;i<aa.length;i++){
+
+        }
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+
+
+    function loadReady() {
+      var bodyH = demoIframe.contents().find("body").get(0).scrollHeight,
+              htmlH = demoIframe.contents().find("html").get(0).scrollHeight,
+              maxH = Math.max(bodyH, htmlH), minH = Math.min(bodyH, htmlH),
+              h = demoIframe.height() >= maxH ? minH:maxH ;
+      if (h < 530) h = 530;
+      demoIframe.height(h);
+    }
+
+    $("#user_name").html();
+
+    $("#form").attr("action","/users/"+user_name+"/password");
+
+
+    $(".tabs").css('height','38px');
+    $(".tabs-header").css('width','100%');
+    $(".tabs-inner").css('height','38px');
+    $(".panel-body-noborder").css('height','700px');
+    $(".panel-body-noborder").eq(1).css('height','700px');
+    $("#sidebar>div>ul>li:gt(0)>a").click(function () {
+      var groupLi = $(this).parent();
+      var groupLiALL = $("#sidebar>div>ul>li:gt(0)");
+      if (!groupLi.hasClass("active")) {
+        var oldShowGroupUL = groupLi.parent().children("li.active")
+        groupLi.toggleClass("active");
+
+        if (groupLiALL.index(groupLi) > groupLiALL.index(oldShowGroupUL)) {
+          groupLi.children("ul").css("display", "block");
+          oldShowGroupUL.removeClass("active").children("ul").slideUp("normal");
+        }
+        else {
+          groupLi.children("ul").slideDown("normal");
+          oldShowGroupUL.removeClass("active").children("ul").css("display", "none");
+        }
+      }
+    });
+
+
+  });
+</script>
+
+
+<script>
+  $(function(){
+    var user_name=$.intercept_url("name");
+    $("#user_name").html(user_name);
+    var school_id=$.intercept_url('school_id');
+    // alert(school_id);
+
+    $("#form").attr("action","/users/"+user_name+"/password");
+
+  })
+
+  function addTab(title, url){
+    var window_num=$(".tabs-inner").size();
+    if(window_num==10){
+      //alert("栏目窗口最多打开10个");
+      event.PReventDefault();
+    }
+    if ($('#tt').tabs('exists', title)){
+      $('#tt').tabs('select', title);
+    } else {
+      var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:750px;" name="abc" id="abc"></iframe>';
+      //document.frames("url").location.reload()
+      //document.frames("abc").location.reload();
+      // document.getElementById("abc").src =+url;
+      //  $('#abc').attr('src', $('#abc').attr('src',url));
+
+      // window.opener.location.reload();
+      $('#tt').tabs('add',{
+        title:title,
+        content:content,
+        closable:true,
+        height:800,
+      });
+    }
+  }
+
+
+  function removeAll(title){
+    alert(title);
+    $(".tabs li").each(function(index, obj) {
+      //获取所有可关闭的选项卡
+      //  var tab = $(".tabs-closable", this).text();
+      $(".easyui-tabs").tabs('close',title);
+    });
+
+  }
+
+  function removeAll2(){
+    $(".tabs li").each(function(index, obj) {
+      //获取所有可关闭的选项卡
+      var tab = $(".tabs-closable", this).text();
+      $(".easyui-tabs").tabs('close',tab);
+    });
+  }
+
+
+  function removeAll3(title){
+    var tab =title;
+    $(".tabs li").each(function(index, obj) {
+      //获取所有可关闭的选项卡
+      //  var tab = $(".tabs-closable", this).text();
+      alert(tab);
+      $(".easyui-tabs").tabs('close',tab);
+    });
+
+  }
+
+
+
+  $("#user_name").on('click',function(){
+    $('#modal_user_name').modal('show');
+
+  })
+
+
+
+  function addHoverDom(treeId, treeNode) {
+    var sObj = $("#" + treeNode.tId + "_span");
+    if ($("#diyBtn_del_"+treeNode.tId).length>0) return;
+
+
+  };
+
+  function addHoverDom2(treeId, treeNode) {
+    var sObj = $("#" + treeNode.tId + "_span");
+    if ($("#diyBtn_del_"+treeNode.tId).length>0) return;
+  };
+
+
+
+  function removeHoverDom(treeId, treeNode) {
+    $("#diyBtn_del_"+treeNode.tId).unbind().remove();
+    $("#diyBtn_add_"+treeNode.tId).unbind().remove();
+    $("#diyBtn_edit_"+treeNode.tId).unbind().remove();
+  };
+  function removeHoverDom2(treeId, treeNode) {
+    $("#diyBtn_del_"+treeNode.tId).unbind().remove();
+    $("#diyBtn_add_"+treeNode.tId).unbind().remove();
+    $("#diyBtn_edit_"+treeNode.tId).unbind().remove();
+  };
+  function selectAll() {
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+    zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
+  };
+
+  function tree_node_del(id,name) {
+    var treeObj = $.fn.zTree.getZTreeObj("tree");
+    $("#delete_id_department").val(id);
+    $("#delete_name_department").val(name);
+
+    $('#delete_department_modal').modal("show");
+  }
+
+  function tree_node_del2(sign,id,name,sort) {
+    var treeObj = $.fn.zTree.getZTreeObj("tree");
+    $("#delete_id_class").val(id);
+    $("#delete_name_class").val(name);
+    $("#delete_sort_class").val(sort);
+    $("#delete_sign_class").val(sign);
+    $('#delete_class_modal').modal("show");
+  }
+
+  $("#nav_add_department").on('click',function(){
+    $("#staff_title").html("部门");
+    $("#add_staff_name").val("");
+    $('#add_staff').modal();
+
+  });
+
+
+  $("#nav_add_class").on('click',function(){
+    $("#staff_title").html("班级");
+    $('#add_class').modal();
+
+  });
+  $("#whole_upgrade").on('click',function(){
+
+    $('#whole_upgrade_modal').modal();
+
+  });
+
+
+
+
+
+
+
+
+  function addhref(title,url){
+    var school_id=$.intercept_url('school_id');
+    addTab(title,url+"&school_id="+school_id);
+    update(title,url+"&school_id="+school_id);
+  }
+
+
+
+  function update(title,url) {
+    var tab = $('#tt').tabs('getSelected');  // get selected panel
+    $('#tt').tabs('update', {
+      tab: tab,
+      options: {
+        title: title,
+        content:'<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:750px;" name="abc" id="abc"></iframe>'
+      }
+    });
+  }
+
+
+
+  function tree2_class(){
+    var school_id=$.intercept_url("school_id");
+    alert(school_id);
+    $.ajax({
+      url: '/classes/'+school_id+'/queryclass',
+      // url: '/classes/queryclass',
+      type: 'get',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+
+      }),
+      success: function (data) {
+
+        var jsondata2=JSON.parse(JSON.stringify(data));
+
+        alert(JSON.stringify(data))
+        // alert(JSON.stringify(jsondata.data.department));
+        alert(JSON.stringify(jsondata2.data.Classes));
+        var jsontree2=jsondata2.data.Classes;
+
+
+        demoIframe = $("#testIframe");
+        demoIframe.bind("load", loadReady);
+
+        t = $.fn.zTree.init($("#tree2"), setting2, jsontree2)
+        var zTree2 = $.fn.zTree.getZTreeObj("tree2");
+        zTree2.expandAll(true);
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+  }
+
+
+
+
+  function tree_department(){
+    var school_id=$.intercept_url('school_id');
+    $.ajax({
+      url: '/users/'+school_id+'/querydepartment',
+      type: 'get',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+
+      }),
+      success: function (data) {
+        var jsondata=JSON.parse(JSON.stringify(data));
+        alert(JSON.stringify(data));
+        alert(JSON.stringify(jsondata.data.Department_Count));
+        var jsontree=jsondata.data.Department_Count;
+        t = $.fn.zTree.init($("#tree"), setting, jsontree);
+
+        demoIframe = $("#testIframe");
+        demoIframe.bind("load", loadReady);
+        var zTree = $.fn.zTree.getZTreeObj("tree");
+        zTree.expandAll(true);
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+  }
+
+  function loadReady() {
+    var bodyH = demoIframe.contents().find("body").get(0).scrollHeight,
+            htmlH = demoIframe.contents().find("html").get(0).scrollHeight,
+            maxH = Math.max(bodyH, htmlH), minH = Math.min(bodyH, htmlH),
+            h = demoIframe.height() >= maxH ? minH:maxH ;
+    if (h < 530) h = 530;
+    demoIframe.height(h);
+  }
+
+  var setting = {
+
+    check: {
+      //   enable: true// zTree 的节点上是否显示 checkbox / radio
+    },
+    view: {
+      addHoverDom: addHoverDom,//用于当鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+      removeHoverDom: removeHoverDom,//用于当鼠标移出节点时，隐藏用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+      dblClickExpand: false,
+      showLine: true,
+      selectedMulti: false,
+      showLine: false
+    },
+    data: {
+      key: {
+        name:"department_name" //设置title提示信息对应的属性名称 也就是节点相关的某个属性
+      },
+      simpleData: {
+        enable:true,
+        idKey: "id",
+        pIdKey: "pId",
+        rootPId: ""
+      }
+    },
+    callback: {
+      onClick: function (event, treeId, treeNode) {
+        alert(treeNode.tId + ",,," + treeNode.department_name+","+treeNode.id);
+        var school_id=$.intercept_url('school_id');
+        addTab(treeNode.department_name,'map_department_list?department_name='+treeNode.department_name+'&school_id='+school_id);
+        update(treeNode.department_name,'map_department_list?department_name='+treeNode.department_name+'&school_id='+school_id);
+      },
+      // beforeClick: function(treeId, treeNode) {
+      //       var zTree = $.fn.zTree.getZTreeObj("tree");
+      //      if (treeNode.isParent) {
+      //          zTree.expandNode(treeNode);
+      //           return false;
+      //       } else {
+      //           demoIframe.attr("src",treeNode.file + ".html");
+      //           return true;
+      //       }
+      //   }
+    }
+  };
+
+  var setting2 = {
+    check: {
+      //   enable: true// zTree 的节点上是否显示 checkbox / radio
+    },
+    view: {
+      addHoverDom: addHoverDom2,//用于当鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+      removeHoverDom: removeHoverDom2,//用于当鼠标移出节点时，隐藏用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮
+      dblClickExpand: false,
+      showLine: true,
+      selectedMulti: false,
+      showLine: false
+    },
+    data: {
+      key: {
+        name:"class_name", //设置title提示信息对应的属性名称 也就是节点相关的某个属性
+        children:"class_one"
+      },
+      simpleData: {
+        enable:true,
+        idKey: "id",
+        pIdKey: "pId",
+        rootPId: ""
+      }
+    },
+    callback: {
+      onClick: function (event, treeId, treeNode) {
+        alert(treeNode.tId + "," + treeNode.class_name+","+treeNode.id);
+        spstr = treeNode.class_name.split("");
+        if(spstr[treeNode.class_name.length-1]=="级"){
+        }else{
+          var school_id=$.intercept_url('school_id');
+
+          addTab(treeNode.class_name,'map_student_parent?class_name='+treeNode.class_name+'&class_id='+treeNode.id+'&school_id='+school_id);
+          update(treeNode.class_name,'map_student_parent?class_name='+treeNode.class_name+'&class_id='+treeNode.id+'&school_id='+school_id);
+        }
+
+        //$("#main").attr("src","school_people_edit.html?id="+treeNode.id);
+      },
+      // beforeClick: function(treeId, treeNode) {
+      //       var zTree = $.fn.zTree.getZTreeObj("tree");
+      //      if (treeNode.isParent) {
+      //          zTree.expandNode(treeNode);
+      //           return false;
+      //       } else {
+      //           demoIframe.attr("src",treeNode.file + ".html");
+      //           return true;
+      //       }
+      //   }
+    }
+  };
+
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

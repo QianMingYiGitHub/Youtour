@@ -1,0 +1,272 @@
+.top_box{
+    width:100%;
+    background-color:#fff;
+    height:70px;
+    float:left;
+
+}
+.top_box_l{
+    width:400px;
+    float:left;
+    height:100%;
+
+}
+.top_logo img{
+    width: 130px;
+    margin-top:14px;
+    margin-left:120px;
+}
+.top_logo span{
+	font-size:22px;
+	font-family: 微软雅黑;
+
+	}
+.top_logo{
+    float:left;
+	margin-top: 21px;
+	margin-left:100px;
+	
+}
+.top_line{
+    width:10px;
+    float:left;
+}
+.top_line img{
+    margin-top:20px;
+    margin-left:10px;
+
+}
+
+.top_size{
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    margin-top: 25px;
+    display: block;
+    margin-left: 15px;
+    float: left;
+    font-family: "微软雅黑";
+}
+
+.top_box_r{
+    width:400px;
+    float:right;
+    height:100%;
+
+}
+.body_box{
+    background-image: url(../images/login_bg.jpg);
+    background-repeat:no-repeat;
+    overflow: hidden;
+    background-size:100%;
+
+}
+.body_box img{
+    width:100%;
+    height:100%;
+    float:left;
+}
+.login_box{
+    width:440px;
+    height:300px;
+    margin-top:14%;
+
+    margin-left:61%;
+    position:absolute;
+    background-color:#FFF;
+    border: 1px solid #C2D9DE;
+    border-radius: 6px;
+    /*-moz-box-shadow:0 0 4px 1px #e6e6e6;*/
+    /*-webkit-box-shadow:0 0 4px 1px #e6e6e6;*/
+    /*box-shadow:0 0 4px 1px #e6e6e6;*/
+}
+.div_user{
+    border: 1px solid #ddd;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+b.ico_one {
+    background: url(../images/user.png) center center no-repeat;
+}
+b.ico_two {
+    background: url(../images/password.png) center center no-repeat;
+}
+b {
+    display: inline-block;
+    width: 40px;
+    height: 36px;
+    vertical-align: middle;
+}
+.login form div	input {
+    display: block;
+    width: 258px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    vertical-align: middle;
+}
+#userName{
+    width: 258px;
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    padding-left: 15px;
+}
+#userPassword{
+    width: 258px;
+    border:0px;
+    outline:none;
+    height: 37px;
+    line-height: 36px;
+    font-size: 14px;
+    padding-left: 15px;
+}
+
+#profile_userName{
+    /*width: 258px;*/
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+#profile_userPassword{
+    /*width: 258px;*/
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+#headmaster_userName{
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+#headmaster_userPassword{
+    /*width: 258px;*/
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+
+.login form div input {
+    border: none !important;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    border: 0px solid #CCC!important;
+}
+webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #000;
+}
+
+.contact_us{
+    float: right;
+    margin-top: 15px;
+    height: 40px;
+    cursor: pointer;
+    margin-right:85px;
+
+}
+
+.contact_us p{
+    float: right;
+    margin-left:10px;
+    line-height:40px;
+    font-weight:bold;
+    color: #4C8DEE;
+    margin-top: 1px;
+}
+.contact_us b{
+    float:left;
+}
+.contact_us span{
+    float:left;
+    margin-left:5px;
+    line-height:40px;
+    font-weight:bold;
+
+}
+.ico_mobile img{
+    margin-top:4px;
+
+}
+.border_box{
+    background-color: #269bd7;
+    width: 100%;
+    height: 10px;
+}
+
+.prompt_box{
+    width: 60%;
+    height: 20px;
+    float: right;
+    text-align: right;
+    color: red;
+}
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    color: #666;
+    z-index: 9999;
+}
+.checkbox_box{
+margin-bottom: 20px;
+}
+:-moz-placeholder
+{
+    /*padding-left: 10px;*/
+}
+::-moz-placeholder
+{
+    /*padding-left: 10px;*/
+
+}
+:-ms-input-placeholder
+{
+    /*padding-left: 10px;*/
+
+}
+::-webkit-input-placeholder
+{
+    /*padding-left: 10px;*/
+
+}
+.checkbox_size{
+    padding-left: 5px;
+    display: block;
+    float: left;
+    height: 25px;
+    margin-bottom: 20px;
+    color: #666;
+}
+.checkbox_box input{
+    float: left;
+}
+
+.footer_yun{
+    width: 100%;
+    height:18%;
+    background-image: url(../images/yun.png);
+    position: absolute;
+    bottom: 0;
+    z-index: 88;
+    /*background-color: #000;*/
+
+}

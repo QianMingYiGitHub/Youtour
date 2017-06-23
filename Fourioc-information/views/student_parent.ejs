@@ -1,0 +1,1343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>编辑</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-table.css"/>
+  <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table-zh-CN.js"></script>
+  <style type="text/css">
+    .main{
+      margin:0 auto 0 auto;
+
+    }
+    .button_top{
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .class_box_l{
+      margin: 0 auto 0 auto;
+      height: 100px;
+      line-height: 34px;
+
+    }
+    .class_box_l b{
+      width: 100%;
+      float: left;
+      font-size: 18px;
+      text-align: center;
+      display: block;
+      margin: 0 auto 0 auto;
+
+    }
+    .class_box_center{
+      width: 100%;
+      margin: 0 auto 0 auto;
+      height: 100%;
+    }
+    .class_box_l span{
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 60px;
+
+
+    }
+    .class_box_l p{
+      float: left;
+      font-size: 16px;
+    }
+    .relatives_example{
+      width: 100%;
+      color: red;
+    }
+    .kong{
+      width: 80px;
+      text-align: center;
+      margin-left: 40px;
+    }
+.modal_box_one {
+  height: 70px;
+  line-height: 40px;
+}
+    .panel-body {
+      padding: 5px 10px 10px 10px;
+    }
+    .magnifier_img{
+      padding-bottom: 3px;
+      margin-right: 7px;
+
+    }
+    .query_button{
+      width: 140px;
+      float: right;
+      margin-right: 5px;
+    }
+    .query_top_box{
+      width: 100%;
+      height: 78px;
+      border: 1px solid #dddddd;
+      padding-top: 20px;;
+    }
+    .button_width{
+      width: 90px;
+    }
+    .line_box{
+      border-top: 1px solid #e5e5e5;
+      margin-bottom: 15px;
+    }
+
+    .col-md-10{
+      padding-left: 0px;
+    }
+    body{
+      font-size: 16px;
+      font-family: "微软雅黑";
+    }
+    .query_column{
+      margin-top: 8px;;
+    }
+    .input-group-addon:last-child {
+      border-left: 0;
+      width: 90px;
+      float: initial;
+    }
+    .input-group{
+      width: 100%;
+    }
+    .btn-primary{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    label{
+      color: #777;
+    }
+    .th-inner{
+      color: #777;
+    }
+    .modal-footer{
+
+    }
+    @media (min-width: 768px) {
+      .modal-dialog {
+
+        margin: 30px auto;
+      }
+    }
+    .modal-header{
+      background-color: #03ACE3;
+      color: #fff;
+      height: 40px;
+      border-top-left-radius:4px;
+      border-top-right-radius:4px;
+    }
+    .modal-content{
+      border-bottom-left-radius:4px;
+      border-bottom-right-radius:4px;
+    }
+    .modal-title{
+      line-height: 10px;
+      font-size: 16px;
+    }
+    .close{
+      color: #fff;
+      opacity: .9;
+      line-height: 0.6;
+    }
+    .modal-footer{
+      padding: 8px 15px 8px 15px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="main">
+  <div class="container-fluid">
+
+    <div class="form-inline" >
+      <div class="col-md-12 query_top_box" >
+
+        <div class="form-group">
+          <label  for="teacher_name">学生姓名：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="student_name" placeholder="请输入学生姓名">
+
+        </div>
+        <div class="form-group">
+          <label class="kong" for="teacher_mobile">手机号：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="student_mobile" placeholder="请输入手机号">
+
+        </div>
+
+        <!--<div class="form-group">-->
+        <!--<label class="kong" for="query_incident_area">案件地区：</label>-->
+
+        <!--<input type="text" class="form-control" style="width: 210px;" id="query_incident_area" placeholder="案件地区">-->
+
+        <!--</div>-->
+        <button  class="btn btn-primary query_button" id="query_case"><img  src="../images/magnifier.png" class="magnifier_img"/>查询</button>
+      </div>
+
+    </div>
+
+    <div class="col-md-10 button_top">
+      <button type="button" class="btn btn-primary" id="add_student">新增</button>
+      <button type="button" class="btn btn-primary" id="edit_student">编辑</button>
+      <button type="button" class="btn btn-primary" id="delete_student">删除</button>
+      <button type="button" class="btn btn-primary" id="class_transfer">学生转班</button>
+    </div>
+
+    <div class="col-md-10">
+    </div>
+    <table id="table">
+
+    </table>
+
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_student_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增学生/家长信息</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">学生姓名</div>
+              <input type="text" class="form-control" id="student_name_txt" placeholder="请输入学生姓名">
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">学生手机号</div>
+              <input type="tel" class="form-control" id="student_mobile_txt" placeholder="请输入学生手机号" onBlur="mobile_verification_student('0')">
+            </div>
+          </div>
+        </div>
+</div>
+
+        <div class="input-group">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">家长姓名</div>
+                <input type="text" class="form-control" id="parent_name_txt" placeholder="请输入家长姓名">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">家长手机号</div>
+                <input type="tel" class="form-control" id="parent_mobile_txt" placeholder="请输入家长手机号" onBlur="mobile_verification_parent('1')">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="add_student_submit">保存</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!-- Moda2 -->
+<div class="modal fade" id="edit_student_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑学生/家长信息</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">学生姓名</div>
+                <input type="text" class="form-control" id="edit_student_name" placeholder="请输入学生姓名" >
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">学生手机号</div>
+                <input type="tel" class="form-control" id="edit_student_mobile" placeholder="请输入学生手机号" onBlur="mobile_verification_student('2')">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">家长姓名</div>
+                <input type="text" class="form-control" id="edit_parent_name" placeholder="请输入家长姓名">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">家长手机号</div>
+                <input type="tel" class="form-control" id="edit_parent_mobile" placeholder="请输入家长手机号" onBlur="mobile_verification_parent('3')">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="edit_student_submit">保存</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!-- Moda3 -->
+<div class="modal fade" id="delete_modal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 450px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+      </div>
+      <div class="modal-body text-center modal_box_one">
+        确定删除学生及其所有信息？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="delete_student_submit">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="class_transfer_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">学生转班</h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="input-group">
+          <span class="input-group-addon">年级</span>
+          <select class="form-control" id="select_grade" name="select_grade" onchange="class_select_grade(this.options[this.options.selectedIndex].value)">
+            <option value="请选择">请选择</option>
+            <option value="0">一年级</option>
+            <option value="1">二年级</option>
+            <option value="2">三年级</option>
+            <option value="3">四年级</option>
+            <option value="4">五年级</option>
+            <option value="5">六年级</option>
+            <option value="6">七年级</option>
+            <option value="7">八年级</option>
+            <option value="8">九年级</option>
+            <option value="9">十年级</option>
+            <option value="10">十一年级</option>
+            <option value="11">十二年级</option>
+          </select>
+
+        </div>
+        </br>
+        <div class="input-group">
+          <span class="input-group-addon">班级</span>
+          <select class="form-control" id="transfer_select_class" name="transfer_select_class">
+            <option value="请选择">请选择</option>
+            <option value="一班">一班</option>
+            <option value="二班">二班</option>
+            <option value="三班">三班</option>
+            <option value="四班">四班</option>
+            <option value="五班">五班</option>
+            <option value="六班">六班</option>
+            <option value="七班">七班</option>
+            <option value="八班">八班</option>
+            <option value="九班">九班</option>
+            <option value="十班">十班</option>
+            <option value="十一班">十一班</option>
+            <option value="十二班">十二班</option>
+            <option value="十三班">十三班</option>
+            <option value="十四班">十四班</option>
+            <option value="十五班">十五班</option>
+            <option value="十六班">十六班</option>
+            <option value="十七班">十七班</option>
+            <option value="十八班">十八班</option>
+            <option value="十九班">十九班</option>
+            <option value="二十班">二十班</option>
+          </select>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="class_transfer_submit">添加</button>
+      </div>
+    </div>
+
+
+  </div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<input id="box_data" type="hidden"/>
+<!--编辑学生-->
+<input  type="hidden" id="edit_id_student"/>
+<!--删除班级ID-->
+<input  type="hidden" id="delete_id_student"/>
+
+<!--编辑 家长原姓名-->
+<input  type="hidden" id="parent_name"/>
+
+<!--编辑 家长原手机号-->
+<input  type="hidden" id="parent_mobile"/>
+
+
+<!--编辑时，原手机号-->
+<input id="edit_mobile" type="hidden"/>
+
+<!--编辑时，原姓名-->
+<input id="edit_name_input" type="hidden"/>
+
+</body>
+<script type="text/javascript">
+//  var class_name=location.href.split("class_id=")[1];
+//  alert(decodeURI(class_name));
+
+  $(function(){
+
+    var class_id=$.intercept_url("class_id");
+  //  alert(class_id);
+
+      $.ajax({
+         url: '/classes/'+class_id+'/querystudent',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+
+        }),
+        success: function (data) {
+          if(data.success==0){
+            var jsondata=JSON.parse(JSON.stringify(data));
+        //   alert(JSON.stringify(data));
+            var content=jsondata.data.Student;
+            //    alert(JSON.stringify(content));
+            $("#box_data").val(JSON.stringify(content));
+            table_data();
+          }else {
+            alert("获取数据失败");
+          }
+
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+      });
+
+
+    })
+
+
+    function table_data() {
+      var table_data = JSON.parse($("#box_data").val());
+      // var  table_data=$("box_data").val();
+      $table = $('#table').bootstrapTable({
+
+        data: table_data,
+        // url: '/table/123',
+        // method: 'post',
+        dataType: "json",
+        //----选填----//
+        //设置高度
+        height: 610,
+
+        pagination: true,
+        pageSize: 13,
+        pageList: [5, 10, 15, 20],
+        sidePagination: "client",
+
+
+        pageNumber: 1,
+        sortable: true,
+        sortOrder: "desc",
+
+        clickToSelect: true,
+        striped: true,
+
+        //功能工具
+        singleSelect: false,
+
+        searchOnEnterKey: false,
+
+//成功时执行函数
+        //       onLoadSuccess:function(data){},
+        onLoadSuccess: function (aa, bb, cc) {
+
+        },
+
+        //错误时执行函数
+        onLoadError: function (status) {
+
+          alert("错误");
+        },
+
+
+        idField: undefined,
+        columns: [
+          //附加表头，
+
+          {
+            formatter: function (value, row, index) {
+              return index + 1;
+            }
+          },
+
+          {
+            //单选
+            radio: true,
+
+            //多选
+            // checkbox:true,
+          },
+          {
+            title: '学生姓名',
+            field: 'student_name',
+            align: 'center',
+            valign: 'middle',
+            //  rowspan: 2
+
+          },
+          {
+            title: '学生手机号',
+            field: 'student_phone',
+            align: 'center',
+            valign: 'middle',
+
+
+          },
+
+          {
+            title: '家长姓名',
+            field: 'parent_name',
+            align: 'center',
+            valign: 'middle',
+          },
+          {
+            title: '家长手机号',
+            field: 'parent_phone',
+            align: 'center',
+            valign: 'middle',
+          },
+
+//            {
+//                title: '根据数字判状态',
+//                field: 'state',
+//                align: 'center',
+//                valign: 'middle',
+//                formatter: function (value, row, index) {
+//                    if (row.state == 1) {
+//                        var e = '<span style="color: red;">没通过</span>';
+//                        return e
+//                    }
+//                    if (row.state == 2) {
+//                        var e = '<span style="color: blue;">已通过</span>;'
+//                        return e
+//                    }
+//                    if (row.state == 3) {
+//                        var e = '<span style="color:green;">审核中</span>;'
+//                        return e
+//                    }
+//                }
+//
+//            },
+
+        ]
+
+      });
+    }
+
+    $("#trial_pieces").click(function(){
+      var selects = $table.bootstrapTable('getSelections');
+      if(selects.length==0){
+        alert("请选择审件信息");
+        return
+      }
+
+      $.map(selects, function (row) {
+        parent.addTab('信息详情','/case_examine/case_examine_one?id='+row.id)
+        //  window.location.href='/case_examine/case_examine_one?id='+row.id;
+
+      })
+
+    })
+
+
+
+
+  $("#query_case").on('click',function(){
+    var class_id=$.intercept_url("class_id");
+    var  student_name=$.filterSpaces($("#student_name").val());
+    var  student_mobile=$.filterSpaces($("#student_mobile").val());
+//    if(student_mobile.length!=0){
+//      if($.cell_phone(student_mobile)==false){
+//        alert("输入手机格式不正确");
+//        return
+//      }
+//    }
+
+
+    if(student_name.length==0&&student_mobile.length==0){
+      alert("请输入查询条件");
+      return false
+    }
+//    alert(student_name);
+//
+//    alert(student_mobile);
+    $.ajax({
+
+      url: '/classes/'+class_id+'/query_student',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        student_name:student_name,
+        student_phone:student_mobile,
+      }),
+
+      success: function(data){
+        $('#table').bootstrapTable('destroy');
+       // alert(data);
+        if(data.success==0){
+
+        //  alert(data.success);
+
+          var jsondata=JSON.parse(JSON.stringify(data));
+        //  alert(JSON.stringify(data));
+          //var   users=jsondata.data.articles;
+          var content=JSON.stringify(jsondata.data.Student);
+          $("#box_data").val(content);
+
+
+          var table_data = JSON.parse($("#box_data").val());
+
+          $table = $('#table').bootstrapTable({
+
+            data:table_data,
+            //url: '/users/queryname?name='+name_text+'&role='+role,
+            //method: 'get',
+            dataType: "json",
+            //----选填----//
+            //设置高度
+            height: 610,
+
+            pagination: true,
+            pageSize: 13,
+            pageList: [2, 4, 6, 8],
+            sidePagination: "client",
+
+            pageNumber: 1,
+            sortable: true,
+            sortOrder: "desc",
+
+            clickToSelect: true,
+            striped: true,
+
+            //功能工具
+            singleSelect: false,
+
+            searchOnEnterKey: false,
+            queryParams: function queryParams(params) {   //设置查询参数
+              var params = {
+                pageNumber: params.pageNumber,
+                pageSize: params.pageSize,
+                name : $("#name_text").val()
+              };
+              return params;
+            },
+            //成功时执行函数
+            //       onLoadSuccess:function(data){},
+            onLoadSuccess: function (aa, bb, cc) {
+
+            },
+
+            //错误时执行函数
+            onLoadError: function (status) {
+
+              alert("错误");
+            },
+
+            idField: undefined,
+            columns: [
+              //附加表头，
+              {
+                formatter: function (value, row, index) {
+                  return index + 1;
+                }
+              },
+
+              {
+                //单选
+                radio: true,
+
+                //多选
+                // checkbox:true,
+              },
+              {
+                title: '学生姓名',
+                field: 'student_name',
+                align: 'center',
+                valign: 'middle',
+                //  rowspan: 2
+
+              },
+              {
+                title: '学生手机号',
+                field: 'student_phone',
+                align: 'center',
+                valign: 'middle',
+
+              },
+
+              {
+                title: '家长姓名',
+                field: 'parent_name',
+                align: 'center',
+                valign: 'middle',
+              },
+              {
+                title: '家长手机号',
+                field: 'parent_phone',
+                align: 'center',
+                valign: 'middle',
+              },
+            ]
+
+          });
+
+        }
+        else{
+          alert(data.desc)
+          alert("提交数据失败1");
+        }
+      },
+      error: function(){
+        alert("提交数据失败2");
+      }
+
+    })
+
+  });
+
+
+  $("#add_student").on('click',function(){
+    var student_name_txt=$("#student_name_txt").val("");
+    var student_mobile_txt=$("#student_mobile_txt").val("");
+    var parent_name_txt=$("#parent_name_txt").val("");
+    var parent_mobile_txt=$("#parent_mobile_txt").val("");
+    $("#add_student_modal").modal('show');
+
+
+  })
+
+  $("#add_student_submit").on('click',function(){
+    var class_id=$.intercept_url("class_id");
+    var school_id=$.intercept_url("school_id");
+      var student_name_txt=$("#student_name_txt").val();
+    var student_mobile_txt=$("#student_mobile_txt").val();
+    var parent_name_txt=$("#parent_name_txt").val();
+    var parent_mobile_txt=$("#parent_mobile_txt").val();
+    if($.cell_phone(student_mobile_txt)==false){
+      alert("输入学生手机格式不正确");
+      return
+    }
+    if($.cell_phone(parent_mobile_txt)==false){
+      alert("输入家长手机格式不正确");
+      return
+    }
+
+//      alert(student_name_txt);
+//    alert(student_mobile_txt);
+//    alert(parent_name_txt);
+//    alert(parent_mobile_txt);
+    if(student_name_txt.length==0||student_mobile_txt.length==0||parent_name_txt.length==0||parent_mobile_txt.length==0){
+      alert("请仔细把四项信息写全");
+      return
+    }
+if(student_mobile_txt==parent_mobile_txt){
+  alert("学生与家长手机号不能重复");
+  return
+}
+
+if(student_mobile_txt.length!=0){
+  $.ajax({
+    url: '/classes/check_student_parent_phone?student_phone='+student_mobile_txt+'&query_type=0&school_id='+school_id,
+    type: 'get',
+    dataType: 'json',
+    contentType: "application/json",
+    data: JSON.stringify({
+
+    }),
+    success: function (data) {
+      if(data.success==1){
+        alert("手机号码重复，请重新输入");
+      } else if(data.success==0){
+        $.ajax({
+          url: '/classes/check_student_parent_phone?student_phone='+parent_mobile_txt+'&query_type=1&school_id='+school_id,
+          type: 'get',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("填写的学生手机号已存在");
+            } else if(data.success==0){
+              $.ajax({
+                url: '/classes/'+class_id+'/addstudent',
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                  student_name:student_name_txt,
+                  student_phone:student_mobile_txt,
+                  parent_name:parent_name_txt,
+                  parent_phone:parent_mobile_txt,
+                  student_ID:class_id
+                }),
+                success: function (data) {
+                  if (data.success == 0) {
+                    // alert(data.success);
+                    class_list();
+                    $("#add_student_modal").modal('hide');
+
+                  } else {
+                    alert("提交失败");
+                  }
+
+                },
+                error: function () {
+                  alert("提交失败");
+                }
+              });
+
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+
+
+      }else {
+        alert("获取数据失败1");
+      }
+
+    },
+    error: function(){
+      alert("获取数据失败2");
+    }
+  });
+}
+
+
+
+
+  });
+
+
+$("#edit_student").on('click',function(){
+  var selects = $table.bootstrapTable('getSelections');
+  if(selects.length==0){
+    alert("请选择操作对象");
+    return
+  }
+  $.map(selects, function (row) {
+    $("#edit_id_student").val(row.id);
+    $("#edit_student_name").val(row.student_name);
+    $("#edit_student_mobile").val(row.student_phone);
+    $("#edit_parent_name").val(row.parent_name);
+    $("#edit_parent_mobile").val(row.parent_phone);
+
+
+    $("#parent_name").val(row.parent_name);
+    $("#parent_mobile").val(row.parent_phone);
+  })
+  $("#edit_student_modal").modal('show');
+
+})
+
+
+$("#edit_student_submit").on('click',function(){
+  var class_id=$.intercept_url("class_id");
+  var school_id=$.intercept_url("school_id");
+var  edit_id_student=$("#edit_id_student").val();
+var  edit_student_name=$("#edit_student_name").val();
+var  edit_student_mobile=$("#edit_student_mobile").val();
+var  edit_parent_name=$("#edit_parent_name").val();
+var  edit_parent_mobile=$("#edit_parent_mobile").val();
+
+  var  parent_name_old=$("#parent_name").val();
+  var  parent_mobile_old=$("#parent_mobile").val();
+  if($.cell_phone(edit_student_mobile)==false){
+    alert("输入学生手机格式不正确");
+    return
+  }
+  if($.cell_phone(edit_parent_mobile)==false){
+    alert("输入家长手机格式不正确");
+    return
+  }
+  if(edit_student_name.length==0||edit_student_mobile.length==0||edit_parent_name.length==0||edit_parent_mobile.length==0){
+    alert("请仔细把四项信息写全");
+    return
+  }
+  if(edit_student_mobile==edit_parent_mobile){
+    alert("学生与家长手机号不能重复");
+    return
+  }
+
+  $.ajax({
+    url: '/classes/check_student_parent_phone?student_phone='+edit_student_mobile+'&query_type=2&school_id='+school_id,
+    type: 'get',
+    dataType: 'json',
+    contentType: "application/json",
+    data: JSON.stringify({
+
+    }),
+    success: function (data) {
+      if(data.success==1){
+        alert("填写的学生手机号已存在");
+      } else if(data.success==0){
+
+        $.ajax({
+          url: '/classes/check_student_parent_phone?student_phone='+edit_parent_mobile+'&query_type=3&school_id='+school_id,
+          type: 'get',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("填写的学生手机号已存在");
+            } else if(data.success==0){
+
+              var modifyname_status=""
+              if(parent_name_old==edit_parent_name){
+                modifyname_status="0";
+              }else {
+                modifyname_status="1";
+              }
+
+
+              var modifyphone_status=""
+              if(parent_mobile_old==edit_parent_mobile){
+                modifyphone_status="0";
+              }else {
+                modifyphone_status="1";
+              }
+
+              $.ajax({
+                url: '/classes/'+edit_id_student+'/modifystudent',
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                  student_name:edit_student_name,
+                  student_phone:edit_student_mobile,
+                  parent_name:edit_parent_name,
+                  parent_phone:edit_parent_mobile,
+                  student_ID:edit_id_student,
+                  modifyname_status:modifyname_status,
+                  modifyphone_status:modifyphone_status,
+                  parent_phone_old:parent_mobile_old,
+                  parent_phone_new:edit_parent_mobile
+                }),
+                success: function (data) {
+                  if(data.success==0){
+                    class_list();
+                    $("#edit_student_modal").modal('hide');
+
+                  }else {
+                    // alert(data.success)
+                    // alert(data.desc)
+                    alert("获取数据失败1");
+                  }
+
+                },
+                error: function(){
+                  alert("获取数据失败2");
+                }
+              });
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+
+
+
+
+
+
+
+
+
+      }else {
+        alert("获取数据失败1");
+      }
+
+    },
+    error: function(){
+      alert("获取数据失败2");
+    }
+  });
+
+
+
+
+
+
+
+})
+
+
+  $("#delete_student").on('click',function(){
+     var selects = $table.bootstrapTable('getSelections');
+     if(selects.length==0){
+        alert("请选择操作对象");
+        return
+      }
+    $.map(selects, function (row) {
+      $("#delete_id_student").val(row.id);
+      $("#delete_modal").modal('show');
+    })
+
+  })
+
+
+  $("#delete_student_submit").on('click',function() {
+ var delete_id_student=$("#delete_id_student").val();
+    var class_id=$.intercept_url("class_id");
+      $.ajax({
+        url: '/classes/'+delete_id_student+'/deletestudent',
+        type: 'delete',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          class_id: class_id
+        }),
+        success: function (data) {
+          if(data.success==0){
+        class_list();
+        $("#delete_modal").modal('hide');
+
+          }else {
+            alert("获取数据失败");
+          }
+
+        },
+        error: function(){
+          alert("获取数据失败");
+        }
+      });
+
+
+
+  })
+
+
+
+$("#class_transfer").on('click',function(){
+  var selects = $table.bootstrapTable('getSelections');
+  if(selects.length==0){
+    alert("请选择操作对象");
+    return
+  }
+  $.map(selects, function (row) {
+    //也是转班学生ID
+    $("#delete_id_student").val(row.id);
+    $("#class_transfer_modal").modal('show');
+  })
+
+})
+
+$("#class_transfer_submit").on('click',function() {
+  var select_grade=$("#select_grade option:selected").val();
+  if(select_grade=="请选择"){
+    alert("请选择年级");
+    return
+  }
+  var transfer_select_class=$("#transfer_select_class option:selected").val();
+  if(transfer_select_class=="请选择"){
+    alert("请选择班级");
+    return
+  }
+//  alert(select_grade);
+//  alert(transfer_select_class);
+
+  var delete_select_grade=$("#select_grade option:selected").text();
+  var delete_select_class=$("#transfer_select_class option:selected").val();
+ var delete_window=delete_select_grade+delete_select_class;
+  //也是转班学生ID
+  var delete_id_student=$("#delete_id_student").val();
+  $.ajax({
+    url: '/classes/modify_class',
+    type: 'post',
+    dataType: 'json',
+    contentType: "application/json",
+    data: JSON.stringify({
+      student_id:delete_id_student,
+      class_id:transfer_select_class
+    }),
+    success: function (data) {
+      if(data.success==0){
+       // alert(data.success)
+        class_list();
+        $("#class_transfer_modal").modal('hide');
+        removeAll(delete_window);
+
+      }else {
+        alert("获取数据失败");
+      }
+
+    },
+    error: function(){
+      alert("获取数据失败");
+    }
+  });
+
+
+
+})
+
+function class_select_grade(val){
+  var school_id=$.intercept_url("school_id");
+
+  document.getElementById("transfer_select_class").innerHTML = "";
+  $.ajax({
+    url: '/classes/querytype_Class',
+    type: 'post',
+    dataType: 'json',
+    contentType: "application/json",
+    data: JSON.stringify({
+      type_grade:val,
+      school_id:school_id
+    }),
+    success: function (data) {
+      var jsondata=JSON.parse(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      //alert(JSON.stringify(jsondata.data.Classes));
+      var  Classes=jsondata.data.Classes;
+      //alert($.key_value(jsondata.data.Classes));
+      if($.key_value(jsondata.data.Classes)>0){
+        var transfer_select_class= document.getElementById('transfer_select_class');
+        for(var i = 0; i < Classes.length;  i++) {
+          transfer_select_class.add(new Option(Classes[i].class,Classes[i].id));
+        }
+      }else{
+        var transfer_select_class= document.getElementById('transfer_select_class');
+        transfer_select_class.add(new Option("暂无班级","暂无班级"));
+      }
+
+    },
+    error: function(){
+      alert("连接服务器失败");
+    }
+  });
+
+}
+  function class_list(){
+    $('#table').bootstrapTable('destroy');
+    var class_id=$.intercept_url("class_id");
+   // alert(class_id);
+    $.ajax({
+      url: '/classes/'+class_id+'/querystudent',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+
+      }),
+      success: function (data) {
+        if(data.success==0){
+          var jsondata=JSON.parse(JSON.stringify(data));
+        //  alert(JSON.stringify(data));
+          var content=jsondata.data.Student;
+          //    alert(JSON.stringify(content));
+          $("#box_data").val(JSON.stringify(content));
+          table_data();
+        }else {
+          alert("获取数据失败");
+        }
+
+      },
+      error: function(){
+        alert("获取数据失败");
+      }
+    });
+
+
+
+  }
+
+
+  function mobile_verification_student(type){
+    var school_id=$.intercept_url("school_id");
+    var student_mobile_txt=$("#student_mobile_txt").val();
+    if(student_mobile_txt.length!=0){
+      if($.cell_phone(student_mobile_txt)==false){
+alert("手机号格式错误");
+        return
+      }else {
+
+        $.ajax({
+          url: '/classes/check_student_parent_phone?student_phone='+student_mobile_txt+'&query_type='+type+'&school_id='+school_id,
+          type: 'get',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("填写的学生手机号已存在");
+            } else if(data.success==0){
+
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+      }
+
+    }else {
+     /////// alert("请填写手机号");
+    }
+  }
+
+
+
+
+function mobile_verification_parent(type){
+  var school_id=$.intercept_url("school_id");
+  var parent_mobile_txt=$("#parent_mobile_txt").val();
+  if(parent_mobile_txt.length!=0){
+    if($.cell_phone(parent_mobile_txt)==false){
+      alert("手机号格式错误");
+      return
+    }else {
+
+      $.ajax({
+        url: '/classes/check_student_parent_phone?student_phone='+parent_mobile_txt+'&query_type='+type+'&school_id='+school_id,
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+
+        }),
+        success: function (data) {
+          if(data.success==1){
+            alert("填写的学生手机号已存在");
+          } else if(data.success==0){
+
+
+          }else {
+            alert("获取数据失败1");
+          }
+
+        },
+        error: function(){
+          alert("获取数据失败2");
+        }
+      });
+    }
+
+  }else {
+    ////////alert("请填写手机号");
+  }
+}
+
+
+
+</script>
+</html>

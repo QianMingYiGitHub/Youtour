@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+
+        .media_desc { /*copy from weui_media_desc*/
+            color: #999;
+            font-size: 13px;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /*-webkit-line-clamp: 2;*/
+        }
+    </style>
+
+    <script>
+        // alert('questionnaire_answer_question.html');
+
+        var corp_id = null;
+        var user_id = null;
+        var identity = null;
+        var questionnaire_id = null;
+        var sid = null;
+
+        var json_obj_detail = null;
+        var questionnaire = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "sid" ) {
+                    sid = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "questionnaire_id" ) {
+                    questionnaire_id = paramObj[i]["value"];
+                }
+            }
+
+            if(!corp_id || !user_id ||!identity || !questionnaire_id) {
+                debug_trace("" + ((!user_id) ? "user_id" :"") + ((!corp_id) ? " corp_id" :"") + ((!identity) ? " identity" :"") + ((!questionnaire_id) ? " questionnaire_id" :"") + " 参数错误");
+            }
+        }
+
+        function get_questionnaire_info() {
+            var req_json = {
+              corpId:corp_id,
+              questionnairId:questionnaire_id,
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/question/get', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj_detail = data;
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+        };
+
+        //
+        if( questionnaire_id && corp_id ) {
+            get_questionnaire_info();
+
+            if(json_obj_detail) {
+                questionnaire = {
+                        corpId:corp_id,
+                        userid:user_id,
+                        identity:identity,
+                        ext:sid,
+                        questionnair:{
+                            id:questionnaire_id,
+                            question:[],
+                        },
+                }
+
+                //
+                for( var i = 0; i < json_obj_detail.data.question.length; i++ ) {
+                    // alert('pics:' + JSON.stringify(json_obj_detail.data.question[i].pics));
+                    questionnaire.questionnair.question.push(
+                        {   id:json_obj_detail.data.question[i].id,
+                            mode:json_obj_detail.data.question[i].mode,
+                            description:json_obj_detail.data.question[i].description,
+                            isMust:1,
+                            optionList:[],
+                            pics:json_obj_detail.data.question[i].pics,
+                        });
+
+                    // for( var j = 0; j < json_obj_detail.data.question[i].optionList.length; j++ ) {
+                    //     questionnaire.questionnair.question[i].optionList.push(
+                    //             {   id:json_obj_detail.data.question[i].optionList[j].id,
+                    //                 optionName:json_obj_detail.data.question[i].optionList[j].optionName,
+                    //                 isWrite:json_obj_detail.data.question[i].optionList[j].isWrite,
+                    //                 writeContent:'',
+                    //             });
+                    // }
+                }
+            }
+        }
+
+        //
+        // alert("call /wxedu/jsconfig/get");
+        $.ajax({
+            url: '/wxedu/jsconfig/get', // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+            }
+        }).done(function(r) {
+
+            // 返回了数字签名对象
+            console.log(r);
+
+            // 开始配置微信JS-SDK
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+        });
+    </script>  
+
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="bd weui_tab_bd" >
+
+        <div class="weui_cells_title" >共&nbsp;<span id="question_cnt"></span>&nbsp;题</div>
+        <!-- <div style="height:5px;width:100%;background-color:white;border-style:none;"></div> -->
+    
+        <div id="question_container">
+<!-- 
+            <div id="dan" name="0">
+                <div class="weui_cells_title">
+                    <p>
+                    aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiii
+                    </p>
+                </div>
+
+                <div class="weui_cells weui_cells_radio">
+                    <label class="weui_cell weui_check_label" for="x11">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>
+                            aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiii
+                            </p>
+                        </div>
+                        <div class="weui_cell_ft">
+                            <input type="radio" class="weui_check" name="radio1" id="x11">
+                            <span class="weui_icon_checked"></span>
+                        </div>
+                    </label>
+
+                    <label class="weui_cell weui_check_label" for="x12">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项2</p>
+                        </div>
+                        <div class="weui_cell_ft">
+                            <input type="radio" name="radio1" class="weui_check" id="x12" checked="checked">
+                            <span class="weui_icon_checked"></span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+ -->
+<!-- 
+            <div id="duo" name="1">
+                <div class="weui_cells_title">
+                    2 多 （最少选 1 题，最多选 2 题）
+                    <br> 
+                    aaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaa
+                </div>
+
+                <div class="weui_cells weui_cells_checkbox">
+                    <label class="weui_cell weui_check_label" for="s11">
+                        <div class="weui_cell_hd">
+                            <input type="checkbox" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                            <i class="weui_icon_checked"></i>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项1</p>
+                        </div>
+                    </label>
+                    <label class="weui_cell weui_check_label" for="s12">
+                        <div class="weui_cell_hd">
+                            <input type="checkbox" name="checkbox1" class="weui_check" id="s12">
+                            <i class="weui_icon_checked"></i>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项2</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+ -->
+<!-- 
+            <div id="wen" name="2">
+                <div class="weui_cells_title">
+                    3 问
+                    <br> 
+                    aaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaa
+                </div>
+
+                <div class="weui_cells weui_cells_checkbox">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea id="content" class="weui_textarea" style="padding-left:15px;padding-right:30px;" placeholder="请输入回答..." maxlength="200" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+ -->            
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <div class="weui_tabbar">
+            <div class="weui_tabbar_item">
+                <a id="commit" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">提交</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script>
+        //
+        function pic_view(pic_container_id, img_id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#' + pic_container_id + ' img').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == img_id ) {
+                    url = value.src;
+                }
+            });
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+        //
+        function init_field() {
+
+            //
+            if( !json_obj_detail ) {
+                return ;
+            }
+
+            $("#question_cnt").html(json_obj_detail.data.question.length);
+
+            var root = $("#question_container");
+            if( !root ) {
+                return ;
+            }
+
+
+            var pic_cnt = 0;
+            for( var i = 0; i < json_obj_detail.data.question.length; i++ ) {
+
+                var strHtml = '';
+                var q = json_obj_detail.data.question[i];
+
+                if( q.mode == 1 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '单选</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_radio" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+
+                        strHtml += '        <label class="weui_cell weui_check_label" for="' + q.id + '_' + o.id + '">';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '            </div>';
+                        strHtml += '            <div class="weui_cell_ft">';
+                        strHtml += '                <input type="radio" class="weui_check" name="radio_' + i +'" id="' + q.id + '_' + o.id + '">';
+                        strHtml += '                <span class="weui_icon_checked"></span>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 2 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '多选&nbsp;&nbsp;（最少选&nbsp;&nbsp;' + q.optionMin + '&nbsp;&nbsp;题，最多选&nbsp;&nbsp;' + q.optionMax + '&nbsp;&nbsp;题）</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+                        strHtml += '        <label class="weui_cell weui_check_label" for="' + q.id + '_' + o.id + '">';
+                        strHtml += '            <div class="weui_cell_hd">';
+                        strHtml += '                <input type="checkbox" class="weui_check" name="checkbox_' + i +'" id="' + q.id + '_' + o.id + '">';
+                        strHtml += '                <i class="weui_icon_checked"></i>';
+                        strHtml += '            </div>';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 3 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '问答</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+                    strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                    strHtml += '                <textarea id="content" class="weui_textarea" style="padding-left:15px;padding-right:30px;" placeholder="请输入回答..." maxlength="200" rows="5"></textarea>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                }
+    
+                if( strHtml.length > 0 ) {
+                    // console.log(strHtml);
+                    root.append(strHtml);
+                }
+            }
+        }
+
+        function check_valid_publish_data() {
+
+            //
+            if( del_space($("#title").val()).length == 0 ) {
+
+                $.toast("请输入问卷标题", "forbidden");
+                return false;
+            }
+
+            //
+            if( del_space($("#content").val()).length == 0 ) {
+
+                $.toast("请输入问卷说明", "forbidden");
+                return false;
+            }
+
+            //
+            var now = new Date();
+            var stop = new Date($("#stop_time").val().replace(/-/g,"/"));
+            if( stop < now ) {
+
+                $.toast("截止时间不能早于当前时间", "forbidden");
+                return false;
+            }
+
+            //
+            if( selected_person_array.length == 0 ) {
+
+                $.toast("请选择调查对象", "forbidden");
+                return false;                
+            }
+
+            //
+            if( questionnaire.question.length == 0 ) {
+
+                $.toast("请添加题目", "forbidden");
+                return false;                
+            }
+
+            return true;
+        }
+
+        $(document).ready(function(){
+
+            //
+            $(document).attr("title","答题");
+
+            init_field();
+
+            //
+            function init_select_person(){
+
+                if( !json_obj_class ) {
+                    return ;
+                }
+
+                //init contacts list
+                var root = null;
+                var flag = null;
+
+                root = $("#person_list_content");
+                flag = 'l';
+
+                // var root = document.getElementById("partner_list_content");
+                // root.empty();
+                if( root[0].children.length > 0 ) {
+                    return ;
+                }
+
+                //全体教职工
+                {
+                    var unionIdx = 0;
+                    var strHtml = '';
+
+                    strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+                    strHtml += '    <div class="weui-col-40"><h4>' + '全体教职工' + '</h4></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + unionIdx + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + unionIdx + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+                    strHtml += '</div>';                    
+                    strHtml += '<div class="weui_cells weui_cells_checkbox" id="' + flag + unionIdx + '">';
+
+                    var selected_person_cnt = 0;
+                    if( json_obj_detail ) {
+                        selected_person_cnt = questionnaire.info.userIds.length;
+                    }
+
+                    for( var personIdx = 0; personIdx < staff_array.length; personIdx++) {
+
+                        var is_checked = false;
+                        if( json_obj_detail ) {
+
+                            for( var i = 0; i < selected_person_cnt; i++ ) {
+
+                                if( json_obj_detail.data.questionnair.info.userIds[i].userid == staff_array[personIdx].userid && json_obj_detail.data.questionnair.info.userIds[i].ext == 0 ) {
+
+                                    is_checked = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        strHtml += '    <label class="weui_cell weui_check_label" for="' + flag +"\u007f" + staff_array[personIdx].userid+"\u007f"+0+"\u007f"+2+'">'
+                        strHtml += '        <div class="weui_cell_hd">';
+                        strHtml += '            <input type="checkbox" class="weui_check" id="' + flag +"\u007f" + staff_array[personIdx].userid+"\u007f"+0+"\u007f"+2+'"';
+                        if( is_checked) {
+                            strHtml += '        checked';
+                        }
+                        strHtml += '            >';
+                        strHtml += '            <i class="weui_icon_checked"></i>';                            
+                        strHtml += '        </div>';
+                        strHtml += '        <img src="' + staff_array[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+                        strHtml += '            <p>' + staff_array[personIdx].name + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    console.log(strHtml);
+                    root.append(strHtml);
+                }
+
+
+                //班级家长
+                for(var unionIdx = 0; unionIdx < json_obj_class.data.class.length; unionIdx++) {
+
+                    var strHtml = '';
+
+                    strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+                    strHtml += '    <div class="weui-col-40"><h4>' + json_obj_class.data.class[unionIdx].name + '</h4></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + (unionIdx+1) + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + (unionIdx+1) + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+                    strHtml += '</div>';                    
+                    strHtml += '<div class="weui_cells weui_cells_checkbox" id="' + flag + (unionIdx+1) + '">';
+
+                    for( var personIdx = 0; personIdx < parents_array[unionIdx].data.parent.length; personIdx++) {
+
+                        var is_checked = false;
+                        if( json_obj_detail ) {
+
+                            var person_cnt = 0;
+                            person_cnt = json_obj_detail.data.questionnair.info.userIds.length;
+
+                            for( var i = 0; i < person_cnt; i++ ) {
+
+                                if( json_obj_detail.data.questionnair.info.userIds[i].ext == parents_array[unionIdx].data.parent[personIdx].sid && 
+                                    json_obj_detail.data.questionnair.info.userIds[i].userid == parents_array[unionIdx].data.parent[personIdx].userid) {
+
+                                    is_checked = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        var str_array = [
+                                    '   <label class="weui_cell weui_check_label" for="',
+                                            flag, "\u007f",
+                                            parents_array[unionIdx].data.parent[personIdx].userid, "\u007f",
+                                            parents_array[unionIdx].data.parent[personIdx].sid, "\u007f",
+                                            1,  '">'
+                                        ].join('');
+                        strHtml += str_array;
+
+                        strHtml += '        <div class="weui_cell_hd">';
+                        str_array = [
+                                    '            <input type="checkbox" class="weui_check" id="',
+                                                flag, "\u007f",
+                                                parents_array[unionIdx].data.parent[personIdx].userid, "\u007f",
+                                                parents_array[unionIdx].data.parent[personIdx].sid, "\u007f",
+                                                1, '"'
+                                    ].join('');
+                        strHtml += str_array;
+                        if( is_checked) { strHtml += '        checked'; }
+                        strHtml += '        >';
+                        strHtml += '            <i class="weui_icon_checked"></i>';                            
+                        strHtml += '        </div>';
+                        strHtml += '        <img src="' + parents_array[unionIdx].data.parent[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+                        strHtml += '            <p>' + parents_array[unionIdx].data.parent[personIdx].bakname + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    console.log(strHtml);
+                    root.append(strHtml);
+                }
+            };
+
+            //
+            $("#select_person").click(function(){
+                init_select_person();
+            });
+
+            $("#commit").click(function(){
+
+                var root = $("#question_container");
+                if( !root ) {
+                    return ;
+                }
+
+                for( var i = 0; i < root[0].children.length; i++ ) {
+
+                    questionnaire.questionnair.question[i].optionList.length = 0;
+
+                    var id = root[0].children[i].getAttribute("id");
+                    var name = root[0].children[i].getAttribute("name");
+
+                    if( name == 1 ) {
+                        $('#' + id + ' input').each(function(key, value) { 
+
+                            console.log("key[" + key +"] value[" + value.id + "]");
+                            if( value.checked ) {
+                                questionnaire.questionnair.question[i].optionList.push({
+                                        id:json_obj_detail.data.question[i].optionList[key].id,
+                                        optionName:json_obj_detail.data.question[i].optionList[key].optionName,
+                                        isWrite:json_obj_detail.data.question[i].optionList[key].isWrite,
+                                        writeContent:'',
+                                    });
+                            }
+                        });
+
+                        if(questionnaire.questionnair.question[i].optionList.length==0) {
+                            $.toast("问题&nbsp;&nbsp;" + (i+1) + "&nbsp;&nbsp;未答", "forbidden");
+                            return ;
+                        }
+                    } else if( name == 2 ) {
+                        $('#' + id + ' input').each(function(key, value) { 
+
+                            console.log("key[" + key +"] value[" + value.id + "]");
+                            if( value.checked ) {
+                                questionnaire.questionnair.question[i].optionList.push({
+                                        id:json_obj_detail.data.question[i].optionList[key].id,
+                                        optionName:json_obj_detail.data.question[i].optionList[key].optionName,
+                                        isWrite:json_obj_detail.data.question[i].optionList[key].isWrite,
+                                        writeContent:'',
+                                    });
+                            }
+                        });
+
+                        if(questionnaire.questionnair.question[i].optionList.length == 0) {
+                            
+                            $.toast("问题&nbsp;&nbsp;" + (i+1) + "&nbsp;&nbsp;未答", "forbidden");
+                            return ;
+                        } else if(questionnaire.questionnair.question[i].optionList.length < json_obj_detail.data.question[i].optionMin || questionnaire.questionnair.question[i].optionList.length > json_obj_detail.data.question[i].optionMax) {
+
+                            $.toast("问题&nbsp;&nbsp;" + (i+1) + "&nbsp;&nbsp;不符合要求", "forbidden");
+                            return ;
+                        }
+                    } else if( name == 3 ) {
+                        $('#' + id + ' textarea').each(function(key, value) { 
+
+                            console.log("key[" + key +"] value[" + value.id + "]");
+                            var txt = del_space(value.value);
+                            if( txt ) {
+                                questionnaire.questionnair.question[i].optionList.push({
+                                        // id:json_obj_detail.data.question[i].optionList[key].id,
+                                        // optionName:json_obj_detail.data.question[i].optionList[key].optionName,
+                                        // isWrite:json_obj_detail.data.question[i].optionList[key].isWrite,
+                                        id:'',
+                                        optionName:'',
+                                        isWrite:1,
+                                        writeContent:encodeURI(encodeURI(value.value)),
+                                    });
+                            }
+                        });
+
+                        if(questionnaire.questionnair.question[i].optionList.length == 0) {
+                            
+                            $.toast("问题&nbsp;&nbsp;" + (i+1) + "&nbsp;&nbsp;未答", "forbidden");
+                            return ;
+                        }
+                    }
+                }
+
+                if( on_commit() ) {
+
+                    $.toast("提交成功");
+                    setTimeout(function() {
+                        window.location = './questionnaire_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&type=3';
+                    }, 2000);
+                }
+            });              
+
+        });
+
+        function on_select_all(flag, idx, is_checked) {
+
+            $('#' + flag + idx + ' input').each(function(key, value) { 
+                // console.log("key[" + key +"] value[" + value.id + "]");
+                value.checked = is_checked;
+            });
+        }
+
+        function on_commit() {
+
+            var ret = false;
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/question/save', // 需要提交的 url
+              data: JSON.stringify(questionnaire),
+              async: false,
+              beforeSend: function(XHR) {
+                  //console.log('beforeSubmit');
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( data.success == 0 ) {
+                        ret = true;
+                    } else {
+                        ret = false;
+                        setTimeout(function() {
+                          window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，无法保存数据'));
+                        }, 2000);
+                    }
+              },
+              error:function(XHR, ErrText, Exception) {
+                    ret = false;
+                    setTimeout(function() {
+                      window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，服务器连接错误'));
+                    }, 2000);
+              }
+            });
+
+            return ret;
+        }
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+.top_box{
+    width:100%;
+    background-color:#fff;
+    height:70px;
+    float:left;
+}
+.top_box_l{
+    width:700px;
+    float:left;
+    height:100%;
+
+}
+.top_logo img{
+    width: 130px;
+
+    margin-left:120px;
+}
+.top_logo span{
+    font-size:22px;
+    font-family: 微软雅黑;
+
+}
+.top_logo{
+    float:left;
+    margin-top: 21px;
+    margin-left:100px;
+
+}
+.top_line{
+    width:10px;
+    float:left;
+}
+.top_line img{
+    margin-top:20px;
+    margin-left:10px;
+
+}
+
+.top_size{
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    margin-top: 25px;
+    display: block;
+    margin-left: 15px;
+    float: left;
+    font-family: "微软雅黑";
+}
+
+.top_box_r{
+    width:400px;
+    float:right;
+    height:100%;
+
+}
+.body_box{
+    width:100%;
+    height:100%;
+
+}
+.body_box img{
+    width:100%;
+    height:100%;
+    float:left;
+}
+.login_box{
+    width:350px;
+    height:255px;
+    margin-top:10%;
+    margin-right:10%;
+    margin-left:70%;
+    position:absolute;
+    background-color:#FFF;
+    border: 1px solid #C2D9DE;
+}
+.div_user{
+    border: 1px solid #ddd;
+    background: #fff;
+    margin-bottom: 15px;
+}
+
+b.ico_one {
+    background: url(../../images/user.png) center center no-repeat;
+}
+b.ico_two {
+    background: url(../../images/password.png) center center no-repeat;
+}
+b {
+    display: inline-block;
+    width: 40px;
+    height: 36px;
+    vertical-align: middle;
+}
+.login form div	input {
+    display: block;
+    width: 258px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    vertical-align: middle;
+}
+#username{
+    width: 258px;
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+#password{
+    width: 258px;
+    border:0px;
+    outline:none;
+    height: 36px;
+    line-height: 36px;
+    font-size: 14px;
+}
+.login form div input {
+    border: none !important;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    border: 0px solid #CCC!important;
+}
+webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #000;
+}
+
+.contact_us{
+    float: right;
+    margin-top: 15px;
+    height: 40px;
+    cursor: pointer;
+    margin-right:85px;
+
+}
+
+.contact_us p{
+    float: right;
+    margin-left:10px;
+    line-height:40px;
+    font-weight:bold;
+    color: #4C8DEE;
+    margin-top: 1px;
+}
+.contact_us b{
+    float:left;
+}
+.contact_us span{
+    float:left;
+    margin-left:5px;
+    line-height:40px;
+    font-weight:bold;
+
+}
+.ico_mobile img{
+    margin-top:4px;
+
+}

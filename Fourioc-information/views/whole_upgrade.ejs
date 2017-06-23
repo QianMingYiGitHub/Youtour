@@ -1,0 +1,493 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>编辑</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-table.css"/>
+  <script type="text/javascript" src="/javascripts/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table-zh-CN.js"></script>
+  <style type="text/css">
+    .main{
+      margin:0 auto 0 auto;
+
+    }
+    .button_top{
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .class_box_l{
+      margin: 0 auto 0 auto;
+      height: 100px;
+      line-height: 34px;
+
+    }
+    .class_box_l b{
+      width: 100%;
+      float: left;
+      font-size: 18px;
+      text-align: center;
+      display: block;
+      margin: 0 auto 0 auto;
+
+    }
+    .class_box_center{
+      width: 100%;
+      margin: 0 auto 0 auto;
+      height: 100%;
+    }
+    .class_box_l span{
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 60px;
+
+
+    }
+    .class_box_l p{
+      float: left;
+      font-size: 16px;
+    }
+    .relatives_example{
+      width: 100%;
+      color: red;
+    }
+    .kong{
+      width: 80px;
+      text-align: center;
+      margin-left: 40px;
+    }
+
+    .panel-body {
+      padding: 5px 10px 10px 10px;
+    }
+    .magnifier_img{
+      padding-bottom: 3px;
+      margin-right: 7px;
+
+    }
+    .query_button{
+      width: 140px;
+      float: right;
+      margin-right: 5px;
+    }
+    .query_top_box{
+      width: 100%;
+      height: 78px;
+      border: 1px solid #dddddd;
+      padding-top: 20px;;
+    }
+    .col-md-10{
+      padding-left: 0px;
+    }
+    body{
+      font-size: 16px;
+      font-family: "微软雅黑";
+    }
+    .query_column{
+      margin-top: 8px;;
+    }
+    .input-group-addon:last-child {
+      border-left: 0;
+      width: 90px;
+      float: initial;
+    }
+    .input-group{
+      width: 100%;
+    }
+    .btn-primary{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    label{
+      color: #777;
+    }
+    .th-inner{
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="main">
+  <div class="container-fluid">
+
+    <div class="form-inline" >
+      <div class="col-md-12 query_top_box" >
+
+        <div class="form-group">
+          <label  for="query_case_number">案件编号2：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="query_case_number" placeholder="案件编号">
+
+        </div>
+        <div class="form-group">
+          <label class="kong" for="query_case_type">案件类型：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="query_case_type" placeholder="案件类型">
+
+        </div>
+
+        <div class="form-group">
+          <label class="kong" for="query_incident_area">案件地区：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="query_incident_area" placeholder="案件地区">
+
+        </div>
+        <button  class="btn btn-primary query_button" id="query_case"><img  src="../images/magnifier.png" class="magnifier_img"/>查询</button>
+      </div>
+
+    </div>
+
+    <div class="col-md-10 button_top">
+      <button type="button" class="btn btn-primary" id="trial_pieces">新增</button>
+      <button type="button" class="btn btn-primary" id="trial_pieces">编辑</button>
+      <button type="button" class="btn btn-primary" id="trial_pieces">删除</button>
+    </div>
+
+    <div class="col-md-10">
+    </div>
+    <table id="table">
+
+    </table>
+
+  </div>
+</div>
+
+<input id="box_data" type="hidden"/>
+
+<script type="text/javascript">
+  var department_name=location.href.split("department_name=")[1];
+  //alert(encodeURI(department_name));
+
+  $(function(){
+
+
+
+
+//    $.ajax({
+//      url: '/users/:department_name/querydeparteacher',
+//      type: 'get',
+//      dataType: 'json',
+//      contentType: "application/json",
+//      data: JSON.stringify({
+//
+//
+//      }),
+//      success: function (data) {
+//        if(data.success==0){
+//          var jsondata=JSON.parse(JSON.stringify(data));
+//          //    alert(JSON.stringify(data));
+//          var content=jsondata.data.Cases;
+//          //    alert(JSON.stringify(content));
+//          $("#box_data").val(JSON.stringify(content));
+//          table_data();
+//        }else {
+//          alert("获取数据失败");
+//        }
+//
+//      },
+//      error: function(){
+//        alert("获取数据失败");
+//      }
+//    });
+
+    function table_data() {
+      var table_data = JSON.parse($("#box_data").val());
+      // var  table_data=$("box_data").val();
+      $table = $('#table').bootstrapTable({
+
+        data: table_data,
+        // url: '/table/123',
+        // method: 'post',
+        dataType: "json",
+        //----选填----//
+        //设置高度
+        height: 500,
+
+        pagination: true,
+        pageSize: 10,
+        pageList: [2, 4, 6, 8],
+        sidePagination: "client",
+
+
+        pageNumber: 1,
+        sortable: true,
+        sortOrder: "desc",
+
+        clickToSelect: true,
+        striped: true,
+
+        //功能工具
+        singleSelect: false,
+
+        searchOnEnterKey: false,
+
+//成功时执行函数
+        //       onLoadSuccess:function(data){},
+        onLoadSuccess: function (aa, bb, cc) {
+
+        },
+
+        //错误时执行函数
+        onLoadError: function (status) {
+
+          alert("错误");
+        },
+
+
+        idField: undefined,
+        columns: [
+          //附加表头，
+
+          {
+            formatter: function (value, row, index) {
+              return index + 1;
+            }
+          },
+
+          {
+            //单选
+            radio: true,
+
+            //多选
+            // checkbox:true,
+          },
+          {
+            title: '案件类型',
+            field: 'case_type',
+            align: 'center',
+            valign: 'middle',
+            //  rowspan: 2
+
+          },
+          {
+            title: '案件简称',
+            field: 'case_name',
+            align: 'center',
+            valign: 'middle',
+            sortable: true,
+            order: "desc",
+
+          },
+
+          {
+            title: '案发时间',
+            field: 'case_start_end',
+            align: 'center',
+            valign: 'middle',
+          },
+          {
+            title: '办案人员',
+            field: 'handling_all',
+            align: 'center',
+            valign: 'middle',
+          },
+
+//            {
+//                title: '根据数字判状态',
+//                field: 'state',
+//                align: 'center',
+//                valign: 'middle',
+//                formatter: function (value, row, index) {
+//                    if (row.state == 1) {
+//                        var e = '<span style="color: red;">没通过</span>';
+//                        return e
+//                    }
+//                    if (row.state == 2) {
+//                        var e = '<span style="color: blue;">已通过</span>;'
+//                        return e
+//                    }
+//                    if (row.state == 3) {
+//                        var e = '<span style="color:green;">审核中</span>;'
+//                        return e
+//                    }
+//                }
+//
+//            },
+
+        ]
+
+      });
+    }
+
+    $("#trial_pieces").click(function(){
+      var selects = $table.bootstrapTable('getSelections');
+      if(selects.length==0){
+        alert("请选择审件信息");
+        return
+      }
+
+      $.map(selects, function (row) {
+        parent.addTab('信息详情','/case_examine/case_examine_one?id='+row.id)
+        //  window.location.href='/case_examine/case_examine_one?id='+row.id;
+
+      })
+
+    })
+
+  });
+
+
+  $("#query_case").on('click',function(){
+    var  query_case_number=$("#query_case_number").val();
+    var  query_case_type=$("#query_case_type").val();
+    var  query_incident_area=$("#query_incident_area").val();
+
+    if(query_case_number.length==0&&query_case_type.length==0&&query_incident_area.length==0){
+      alert("请输入查询条件");
+      return false
+    }
+    $('#table').bootstrapTable('destroy');
+
+    $.ajax({
+      url: '/case_examine/condition_query_case',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        case_number:query_case_number,
+        case_type:query_case_type,
+        incident_area:query_incident_area
+      }),
+
+      success: function(data){
+        alert(data);
+        if(data.success==0){
+
+          alert(data.success);
+
+          var jsondata=JSON.parse(JSON.stringify(data));
+          alert(JSON.stringify(data));
+          //var   users=jsondata.data.articles;
+          //$("#box_data").val(JSON.stringify(users));
+
+          var table_data2 =jsondata.data.Cases;
+          var table_data = JSON.parse($("#box_data").val());
+
+          $table = $('#table').bootstrapTable({
+
+            data:table_data2,
+            //url: '/users/queryname?name='+name_text+'&role='+role,
+            //method: 'get',
+            dataType: "json",
+            //----选填----//
+            //设置高度
+            height: 500,
+
+            pagination: true,
+            pageSize: 10,
+            pageList: [2, 4, 6, 8],
+            sidePagination: "client",
+
+            pageNumber: 1,
+            sortable: true,
+            sortOrder: "desc",
+
+            clickToSelect: true,
+            striped: true,
+
+            //功能工具
+            singleSelect: false,
+
+            searchOnEnterKey: false,
+            queryParams: function queryParams(params) {   //设置查询参数
+              var params = {
+                pageNumber: params.pageNumber,
+                pageSize: params.pageSize,
+                name : $("#name_text").val()
+              };
+              return params;
+            },
+            //成功时执行函数
+            //       onLoadSuccess:function(data){},
+            onLoadSuccess: function (aa, bb, cc) {
+
+            },
+
+            //错误时执行函数
+            onLoadError: function (status) {
+
+              alert("错误");
+            },
+
+            idField: undefined,
+            columns: [
+              //附加表头，
+              {
+                formatter: function (value, row, index) {
+                  return index + 1;
+                }
+              },
+
+              {
+                //单选
+                radio: true,
+
+                //多选
+                // checkbox:true,
+              },
+              {
+                title: '案件类型',
+                field: 'case_type',
+                align: 'center',
+                valign: 'middle',
+                //  rowspan: 2
+
+              },
+              {
+                title: '案件简称',
+                field: 'case_name',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                order: "desc",
+
+              },
+
+              {
+                title: '案发时间',
+                field: 'case_start_end',
+                align: 'center',
+                valign: 'middle',
+              },
+              {
+                title: '办案人员',
+                field: 'handling_all',
+                align: 'center',
+                valign: 'middle',
+              },
+            ]
+
+          });
+
+        }
+        else{
+          alert(data.desc)
+          alert("提交数据失败1");
+        }
+      },
+      error: function(){
+        alert("提交数据失败2");
+      }
+
+    })
+
+  });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+
+        .media_desc { /*copy from weui_media_desc*/
+            color: #999;
+            font-size: 13px;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /*-webkit-line-clamp: 2;*/
+        }
+    </style>
+
+    <script>
+        // alert('questionnaire_view_result.html');
+
+        var corp_id = null;
+        var user_id = null;
+        var identity = null;
+        var questionnaire_id = null;
+        var sid = null;
+
+        var json_obj_detail = null;
+        var questionnaire_info = null;
+        var pic_cnt = 0;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "sid" ) {
+                    sid = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "questionnaire_id" ) {
+                    questionnaire_id = paramObj[i]["value"];
+                }
+            }
+
+            if(!corp_id || !user_id ||!identity || !questionnaire_id) {
+                debug_trace("" + ((!user_id) ? "user_id" :"") + ((!corp_id) ? " corp_id" :"") + ((!identity) ? " identity" :"") + ((!questionnaire_id) ? " questionnaire_id" :"") + " 参数错误");
+            }
+        }
+
+        function get_questionnaire_result() {
+            var req_json = {
+              corpId:corp_id,
+              userid:user_id,
+              identity:parseInt(identity),
+              ext:sid,
+              questionnairId:questionnaire_id,
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/result', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj_detail = data;
+                        // alert('json_obj_detail:'+JSON.stringify(json_obj_detail.data.quesiton[0]));
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+        };
+
+        function get_questionnaire_info() {
+
+            var req_json = {
+              corpId:corp_id,
+              userid:user_id,
+              identity:parseInt(identity),
+              ext:sid,
+              questionnairId:questionnaire_id,
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/info', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        questionnaire_info = data;
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+        };
+
+
+        //
+        if( questionnaire_id && corp_id ) {
+            get_questionnaire_result();
+            get_questionnaire_info();
+        }
+
+        //
+        // alert("call /wxedu/jsconfig/get");
+        $.ajax({
+            url: '/wxedu/jsconfig/get', // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+            }
+        }).done(function(r) {
+
+            // 返回了数字签名对象
+            console.log(r);
+
+            // 开始配置微信JS-SDK
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+        });
+
+    </script>  
+
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="bd weui_tab_bd" >
+
+        <div class="weui_cells_title" >共&nbsp;<span id="question_cnt"></span>&nbsp;题</div>
+        <!-- <div style="height:5px;width:100%;background-color:white;border-style:none;"></div> -->
+    
+        <div id="question_container">
+<!-- 
+            <div id="dan" name="0">
+                <div class="weui_cells_title">
+                    <p>
+                    aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiii
+                    </p>
+                </div>
+
+                <div class="weui_cells weui_cells_radio">
+                    <label class="weui_cell weui_check_label" for="x11">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项1</p>
+
+                            <div class="weui_progress_bar">
+                                <div class="weui_progress_inner_bar js_progress" style="width: 50%;"></div>
+                            </div>
+
+                            <p>选项1111</p>
+                        </div>
+                        <div class="weui_cell_ft">
+                            <input type="radio" class="weui_check" name="radio1" id="x11" disabled>
+                            <span class="weui_icon_checked"></span>
+                        </div>
+                    </label>
+
+                    <label class="weui_cell weui_check_label" for="x12">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项2</p>
+                        </div>
+                        <div class="weui_cell_ft">
+                            <input type="radio" name="radio1" class="weui_check" id="x12" checked="checked" disabled>
+                            <span class="weui_icon_checked"></span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+ -->
+<!-- 
+            <div id="duo" name="1">
+                <div class="weui_cells_title">
+                    2 多 （最少选 1 题，最多选 2 题）
+                    <br> 
+                    aaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaa
+                </div>
+
+                <div class="weui_cells weui_cells_checkbox">
+                    <label class="weui_cell weui_check_label" for="s11">
+                        <div class="weui_cell_hd">
+                            <input type="checkbox" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                            <i class="weui_icon_checked"></i>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项1</p>
+                        </div>
+                    </label>
+                    <label class="weui_cell weui_check_label" for="s12">
+                        <div class="weui_cell_hd">
+                            <input type="checkbox" name="checkbox1" class="weui_check" id="s12">
+                            <i class="weui_icon_checked"></i>
+                        </div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>选项2</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+ -->
+<!-- 
+            <div id="wen" name="2">
+                <div class="weui_cells_title">
+                    3 问
+                    <br> 
+                    aaaaaaaaaaaaaaa
+                    aaaaaaaaaaaaaaa
+                </div>
+
+                <div class="weui_cells weui_cells_checkbox">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea id="content" class="weui_textarea" style="padding-left:15px;padding-right:30px;" placeholder="请输入回答..." maxlength="200" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+ -->            
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <div class="weui_tabbar">
+            <div class="weui_tabbar_item">
+                <!-- href="javascript:window.history.back();" 关闭不刷新 -->
+                <!-- href="javascript:window.location.href=document.referrer;" 关闭并刷新 -->
+                <a id="commit" href="javascript:window.history.back();" class="weui_btn weui_btn_warn" style="margin:10px;">关闭</a>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="view_detail_page" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                <div class="weui-col-30">
+                    <a href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                </div>
+                <div class="weui-col-50"></div>
+            </div>
+
+
+            <div class="weui_tab_bd">
+                <div id="detail_content" name="">
+
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>               
+            </div>
+
+            <div class="weui_tabbar">
+                <div id="pre_question_div" class="weui_tabbar_item">
+                    <a id="pre_question_btn" href="javascript:view_question(-1);" class="weui_btn weui_btn_primary" style="margin:10px;">上一题</a>
+                </div>
+                <div id="next_question_div" class="weui_tabbar_item">
+                    <a id="next_question_btn" href="javascript:view_question(1);" class="weui_btn weui_btn_warn" style="margin:10px;">下一题</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        //
+        function pic_view(pic_container_id, img_id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#' + pic_container_id + ' img').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == img_id ) {
+                    url = value.src;
+                }
+            });
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+        //
+        function view_detail(i, j) {
+
+            if( !json_obj_detail ) {
+                return ;
+            }
+
+            if( i < 0 || i >= json_obj_detail.data.quesiton.length || j < 0 || j >= json_obj_detail.data.quesiton[i].optionList.length ) {
+                return ;
+            }
+
+            if(j==0) {
+                $("#pre_question_div").hide();
+            } else {
+                $("#pre_question_div").show();
+            }
+
+            if(j==json_obj_detail.data.quesiton[i].optionList.length-1) {
+                $("#next_question_div").hide();
+            } else {
+                $("#next_question_div").show();
+            }
+
+            //init contacts list
+            var root = $("#detail_content");
+            root.attr("name",i + '_'+j);
+            root.empty();
+
+            var q = json_obj_detail.data.quesiton[i];
+            var o = q.optionList[j];
+
+            var strHtml = '';
+            strHtml += '        <div class="weui_cells ">';
+            strHtml += '            <div class="weui_cell_bd weui_cell_primary" style="margin:20px">';
+            strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+            strHtml += '                <div class="weui_progress_bar">';
+            strHtml += '                    <div class="weui_progress_inner_bar js_progress" style="width:' + (o.percent*100) + '%;"></div>';
+            strHtml += '                </div>';
+            strHtml += '                <p>选择人数：&nbsp;&nbsp;' + o.answerNum + '，&nbsp;&nbsp;占&nbsp;&nbsp;' + (o.percent*100) + '%</p>';
+            strHtml += '            </div>';
+            strHtml += '        </div>';
+
+            if( questionnaire_info && questionnaire_info.data.anonymous == 0 ) {
+    
+                strHtml += '    <div class="weui_cells_title">';
+                strHtml += '        <p>以下人员选择了此项</p>';
+                strHtml += '    </div>';
+                strHtml += '    <div class="weui_cells" style="padding:10px" >';
+
+                for( var i = 0; i < o.person.length; i++ ) {
+
+                    strHtml += '    <a href="javascript:;" class="weui_tabbar_item" style="float:left;margin:5px">';
+                    strHtml += '        <div>';                
+                    strHtml += '            <img src="' + o.person[i].headPic + '" alt="headPic" style="height:3rem;width:3rem;">';
+                    strHtml += '        </div>';
+                    strHtml += '        <p class="weui_tabbar_label" style="font-size:small;">' + o.person[i].name + '</p>';
+                    strHtml += '    </a>';
+                }
+        
+                strHtml += '    </div>';
+            }
+    
+            
+            if( strHtml.length > 0 ) {
+                // console.log(strHtml);
+                root.append(strHtml);
+            }
+
+        }
+
+        function view_question(dir) {
+            var name = $("#detail_content").attr("name");
+            if( name.length > 0 ) {
+                var id = name.split('_');
+                if( id.length == 2 ) {
+                    view_detail(parseInt(id[0]), parseInt(id[1]) + parseInt(dir));
+                }
+            }
+        }
+
+        function init_field() {
+
+            //
+            if( !json_obj_detail ) {
+                return ;
+            }
+
+            $("#question_cnt").html(json_obj_detail.data.quesiton.length);
+
+            var root = $("#question_container");
+            if( !root ) {
+                return ;
+            }
+
+            for( var i = 0; i < json_obj_detail.data.quesiton.length; i++ ) {
+
+                var strHtml = '';
+                var q = json_obj_detail.data.quesiton[i];
+
+                if( q.mode == 1 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '单选</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_radio" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+                        strHtml += '        <label class="weui_cell weui_check_label open-popup" onclick="javascript:view_detail(' + i + ',' + j + ')" data-target="#view_detail_page">';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '                <div class="weui_progress_bar">';
+                        strHtml += '                    <div class="weui_progress_inner_bar js_progress" style="width:' + (o.percent*100) + '%;"></div>';
+                        strHtml += '                </div>';
+                        strHtml += '                <p>选择人数：&nbsp;&nbsp;' + o.answerNum + '，&nbsp;&nbsp;占&nbsp;&nbsp;' + (o.percent*100) + '%</p>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 2 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '多选</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+                        strHtml += '        <label class="weui_cell weui_check_label open-popup" onclick="javascript:view_detail(' + i + ',' + j + ')" data-target="#view_detail_page">';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '                <div class="weui_progress_bar">';
+                        strHtml += '                    <div class="weui_progress_inner_bar js_progress" style="width:' + (o.percent*100) + '%;"></div>';
+                        strHtml += '                </div>';
+                        strHtml += '                <p>选择人数：&nbsp;&nbsp;' + o.answerNum + '，&nbsp;&nbsp;占&nbsp;&nbsp;' + (o.percent*100) + '%</p>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 3 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '问答</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+                    strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                    strHtml += '                <div style="height:20px;width:100%;background-color:white;border-style:none;"></div>';        
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                }
+    
+                if( strHtml.length > 0 ) {
+                    // console.log(strHtml);
+                    root.append(strHtml);
+                }
+            }
+        }
+
+
+        $(document).ready(function(){
+
+            //
+            $(document).attr("title","答题");
+
+            init_field();
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

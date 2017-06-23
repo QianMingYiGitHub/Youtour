@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap {width: 100%; height:550px; overflow: hidden;}
+        #result {width:100%;font-size:12px;}
+        dl,dt,dd,ul,li{
+            margin:0;
+            padding:0;
+            list-style:none;
+        }
+        p{font-size:12px;}
+        dt{
+            font-size:14px;
+            font-family:"微软雅黑";
+            font-weight:bold;
+            border-bottom:1px dotted #000;
+            padding:5px 0 5px 5px;
+            margin:5px 0;
+        }
+        dd{
+            padding:5px 0 0 5px;
+        }
+        li{
+            line-height:28px;
+        }
+        .eject_box{
+            width: 300px;
+            height: 100px;
+            background-color: #0d151f;
+            opacity:0.4;
+            text-align: center;
+        }
+        .eject_box span{
+            color: #fff;
+            font-size: 28px;
+            text-align: center;
+            line-height: 100px;
+        }
+
+
+
+
+    </style>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=q4thojhBimIbVx7rcAgf4i1qZgDGklX3"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <!--加载检索信息窗口-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+    <!--<script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>-->
+    <script type="text/javascript" src="/javascripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/area.js"></script>
+    <script type="text/javascript" src="/javascripts/china_area.js"></script>
+    <title>百度地图API功能演示</title>
+</head>
+<body>
+<div style="width: 100%;height: 50px;">
+    <button type="button" class="btn btn-primary"  id="one_tool" onclick="draw(BMAP_DRAWING_POLYLINE)">线条</button>
+    <button type="button" class="btn btn-primary" id="two_tool" onclick="draw(BMAP_DRAWING_RECTANGLE)">矩形面积</button>
+    <button type="button" class="btn btn-primary" id="three_tool" onclick="draw(BMAP_DRAWING_POLYGON)">多边行面积</button>
+    <button type="button" class="btn btn-primary" id="delete_teacher" onclick="clearAll()">重画</button>
+    <button type="button" class="btn btn-primary" id="delete_teacher"  onclick="getPoint()">提交</button>
+
+    <div class="demo_main" style="width: 54%; float:right; height: 50px;">
+
+        <!--<div class="demo_content" >-->
+            <!--<div>-->
+                <!--省份：-->
+                <!--<select name="province">-->
+                <!--</select>-->
+                <!--城市：<select name="city">-->
+                <!--</select>-->
+                <!--县区：<select name="county">-->
+                <!--</select>-->
+                <!--<button type="button" class="btn btn-primary" id="delete_teacher"  onclick="address()">确定</button>-->
+            <!--</div>-->
+
+
+        <!--</div>-->
+
+    </div>
+</div>
+
+
+<div id="allmap" style="overflow:hidden;zoom:1;position:relative;">
+    <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;">
+    </div>
+</div>
+<div id="result">
+
+</div>
+<div id="resultShape"></div>
+<!--<div id="shape">坐标为</div>-->
+
+
+<!--<div id="aa" class="eject_box" style="z-index: 999999">-->
+    <!--<span>送审成功</span>-->
+<!--</div>-->
+
+
+
+
+<input type="hidden" id="box_map_id">
+
+<input type="hidden" id="box_longitude">
+<input type="hidden" id="box_latitude">
+
+    <script type="text/javascript">
+
+//        $(function() {
+//
+//            //设置默认值
+//            var option = $("<option>").val("0").text("==请选择省份==");
+//            $("[name='province']").append(option);
+//
+//            option = $("<option>").val("0").text("==请选择城市==");
+//            $("[name='city']").append(option);
+//
+//            option = $("<option>").val("0").text("==请选择县区==");
+//            $("[name='county']").append(option);
+//
+//            //绑定省份
+//            for (var i = 0; i < areas.length; i++) {
+//                if (parseInt(areas[i].level) == 1) {
+//                    option = $("<option>").val(areas[i].code).text(areas[i].name);
+//                    $("[name='province']").append(option);
+//                }
+//            }
+//
+//            //城市联动
+//            $("[name='province']").bind("change", function() {
+//                var code = parseInt($(this).val());
+//
+//                //加载城市
+//                if (code > 0) {
+//                    $("[name='city'] option:gt(0)").remove();
+//                    for (var i = 0; i < areas.length; i++) {
+//                        if (parseInt(areas[i].parentCode) == code) {
+//                            option = $("<option>").val(areas[i].code).text(areas[i].name);
+//                            $("[name='city']").append(option);
+//                        }
+//                    }
+//                }
+//                //绘制地图
+//                if (code > 0) {
+//                    for (var i = 0; i < areas.length; i++) {
+//                        if (parseInt(areas[i].code) == code) {
+//
+//                            var longitude = areas[i].longitude;
+//                            var latitude = areas[i].latitude;
+//
+//                            //loadPlace(longitude, latitude, 10);
+//                            $("#box_longitude").val(longitude);
+//                            $("#box_latitude").val(latitude);
+//
+//                            break;
+//                        }
+//                    }
+//                }
+//            });
+//
+//            //城市联动
+//            $("[name='city']").bind("change", function() {
+//                var code = parseInt($(this).val());
+//
+//                //加载县区
+//                if (code > 0) {
+//                    $("[name='county'] option:gt(0)").remove();
+//                    for (var i = 0; i < areas.length; i++) {
+//                        if (parseInt(areas[i].parentCode) == code) {
+//                            option = $("<option>").val(areas[i].code).text(areas[i].name);
+//                            $("[name='county']").append(option);
+//                        }
+//                    }
+//                }
+//
+//                //绘制地图
+//                if (code > 0) {
+//                    for (var i = 0; i < areas.length; i++) {
+//                        if (parseInt(areas[i].code) == code) {
+//
+//                            var longitude = areas[i].longitude;
+//                            var latitude = areas[i].latitude;
+//
+//                            //loadPlace(longitude, latitude, 12);
+//                            $("#box_longitude").val(longitude);
+//                            $("#box_latitude").val(latitude);
+//                            break;
+//                        }
+//                    }
+//                }
+//
+//            });
+//
+//
+//            //县区联动
+//            $("[name='county']").bind("change", function() {
+//                var code = parseInt($(this).val());
+//
+//                //绘制地图
+//                if (code > 0) {
+//                    for (var i = 0; i < areas.length; i++) {
+//                        if (parseInt(areas[i].code) == code) {
+//
+//                            var longitude = areas[i].longitude;
+//                            var latitude = areas[i].latitude;
+//
+//                            //loadPlace(longitude, latitude);
+//                            $("#box_longitude").val(longitude);
+//                            $("#box_latitude").val(latitude);
+//                            alert(longitude);
+//                            alert(latitude);
+//                            break;
+//                        }
+//                    }
+//                }
+//            });
+//
+//        });
+    </script>
+
+
+
+<script>
+    function setDivCenter(){
+
+        var top = (window.screen.availHeight  -  document.getElementById("aa").offsetHeight)/2;
+        var left = (window.screen.availWidth - document.getElementById("aa").offsetWidth)/2;
+        var scrollTop =  document.documentElement.scrollTop;
+        var scrollLeft = document.documentElement.scrollLeft;
+       // document.getElementById("aa").css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft } ).show();
+        document.getElementById("aa").style.position="absolute";
+        document.getElementById("aa").style.top=top + scrollTop;
+        document.getElementById("aa").style.left=left + scrollLeft;
+        document.getElementById("aa").style.display="";
+
+        //   parent.frames("/articles/final_reviewer").document.location.reload()
+    }
+</script>
+
+<script type="text/javascript">
+    function jQuery(id){
+        return document.getElementById(id);
+    }
+
+//    var map_id=window.location.href.split("id=")[1].split("&longitude=")[0];
+//var cc=window.location.href.split("&longitude=")[1].split("&latitude=")[0];
+//var dd=window.location.href.split("&latitude=")[1];
+
+    var aa=123.432259;
+    var bb=41.811153;
+            // 百度地图API功能
+            var map = new BMap.Map('map');
+    var poi = new BMap.Point(aa,bb);
+            map.centerAndZoom(poi, 13);
+
+            map.addControl(new BMap.NavigationControl());
+            map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));
+            map.enableScrollWheelZoom();
+
+
+    var overlays = [];
+    var overlaycomplete = function(e){
+        overlays.push(e.overlay);
+    };
+    var styleOptions = {
+        strokeColor:"red",    //边线颜色。
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        //enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+        },
+        circleOptions: styleOptions, //圆的样式
+        polylineOptions: styleOptions, //线的样式
+        polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });
+
+    //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+
+//    map.addEventListener("rightclick",function(e){
+//        if(confirm(e.point.lng + "," + e.point.lat)){
+//            $("shape").innerHTML=$("shape").innerHTML+" <br/>("+e.point.lng+","+e.point.lat+")";
+//        }
+//    });
+
+    function draw(type){
+
+        drawingManager.open();
+
+        drawingManager.setDrawingMode(type);
+    }
+
+    function clearAll() {
+        location.reload()
+        for(var i = 0; i < overlays.length; i++){
+            map.removeOverlay(overlays[i]);
+        }
+        overlays.length = 0;
+        document.getElementById("one_tool").removeAttribute("disabled");
+        document.getElementById("two_tool").removeAttribute("disabled");
+        document.getElementById("three_tool").removeAttribute("disabled");
+    }
+    function getPoint(){
+        if(overlays.length==0){
+            alert("请标注学校范围");
+            return
+        }
+if(overlays.length>1){
+alert("只能画取一个面积");
+    return
+}else{
+
+    $("resultShape").innerHTML='';
+    var coordinate=[];
+    for(var i = 0; i < overlays.length; i++){
+        var overlay=overlays[i].getPath();
+        $("resultShape").innerHTML=$("resultShape").innerHTML+overlay.length+'边形:<br/>';
+        for(var j = 0; j < overlay.length; j++){
+            var grid =overlay[j];
+            $("resultShape").innerHTML=$("resultShape").innerHTML+(j+1)+"个点:("+grid.lng+","+grid.lat+");<br/>";
+            //alert("给钱明一,"+grid.lng+","+grid.lat);
+            var person = new Object();
+            person.longitude = grid.lng;
+            person.latitude = grid.lat;
+            coordinate.push(person);
+            alert(JSON.stringify(coordinate));
+        }
+    }
+    var id=getQueryString("id");
+    alert(id);
+    $.ajax({
+        url: '/school/'+id+'/modify_school_Long_latitude',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+            long_latitude_range:coordinate,
+        }),
+        success: function(data) {
+            alert(JSON.stringify(data));
+            if (data.success == 0) {
+             parent.removeAll("学校管理");
+                parent.update("学校管理","/map_school_administration");
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+    }
+    function Editing(state){
+        for(var i = 0; i < overlays.length; i++){
+            state=='enable'?overlays[i].enableEditing():overlays[i].disableEditing();
+        }
+    }
+
+    function  showPolygon(btn){
+        var polygon = new BMap.Polygon([
+            new BMap.Point(113.941853,22.530777),
+            new BMap.Point(113.940487,22.527789),
+            new BMap.Point(113.94788,22.527597),
+            new BMap.Point(113.947925,22.530618)
+        ], styleOptions);  //创建多边形
+        map.addOverlay(polygon);   //增加多边形
+        // overlays.push(polygon); //是否把该图像加入到编辑和删除行列
+        btn.setAttribute('disabled','false');
+        showText();
+    }
+
+    function showText(){
+        var opts = {
+            position : new BMap.Point(113.941853,22.530777),    // 指定文本标注所在的地理位置
+            offset   : new BMap.Size(30, 30)    //设置文本偏移量
+        }
+        var label = new BMap.Label("不可编辑", opts);  // 创建文本标注对象
+        label.setStyle({
+            color : "black",
+            fontSize : "16px",
+            fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        });
+        map.addOverlay(label);
+    }
+
+    drawingManager.addEventListener("overlaycomplete", function(e) {
+        alert(overlays.length);
+        if(overlays.length>0){
+            drawingManager.close();
+            document.getElementById("one_tool").setAttribute("disabled","disabled");
+            document.getElementById("two_tool").setAttribute("disabled","disabled");
+            document.getElementById("three_tool").setAttribute("disabled","disabled");
+        }
+
+
+    });
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+
+function address(){
+    var  address_longitude=$("#box_longitude").val();
+    var  address_latitude=$("#box_latitude").val();
+    var  box_map_id=$("#box_map_id").val();
+    parent.update('添加坐标','/map_add_range?id='+box_map_id+'&longitude='+address_longitude+'&latitude='+address_latitude+'');
+}
+
+
+
+
+
+    function addTab(title, url){
+        var window_num=$(".tabs-inner").size();
+        if(window_num==10){
+            //alert("栏目窗口最多打开10个");
+            event.PReventDefault();
+        }
+        if ($('#tt').tabs('exists', title)){
+            $('#tt').tabs('select', title);
+
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:750px;" name="abc" id="abc"></iframe>';
+            //document.frames("url").location.reload()
+            //document.frames("abc").location.reload();
+            // document.getElementById("abc").src =+url;
+            //  $('#abc').attr('src', $('#abc').attr('src',url));
+
+            // window.opener.location.reload();
+            $('#tt').tabs('add',{
+                title:title,
+                content:content,
+                closable:true,
+                height:800,
+            });
+        }
+    }
+
+
+</script>
+
+
+
+</body>
+</html>  

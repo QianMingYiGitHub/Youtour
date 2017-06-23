@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+        var user_id = null;
+        var homework_id = null;
+        var corp_id = null;
+        var iscopy = null;
+        var json_obj_detail = null;
+        var json_obj_class = null;
+        var parents_array = new Array();
+        var selected_parents_array = new Array();
+        var g_pic_cnt = 0;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "homework_id" ) {
+                    homework_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "iscopy" ) {
+                    iscopy = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                }
+            }
+
+            if(!user_id) {
+                debug_trace("" + ((!user_id) ? "user_id" :"") + ((!corp_id) ? " corp_id" :"") + " 参数错误");
+            }
+        }
+
+        // function get_parents_info(class_id){
+
+        //     var req_json = {
+        //         corpId:corp_id,
+        //         id:class_id
+        //     }
+        //     var ret = false;
+
+        //     $.ajax({
+        //       dataType:'json',
+        //       contentType: "application/json",
+        //       type: 'post', // 提交方式 get/post
+        //       url: '/wxqyh/class/getparent', // 需要提交的 url
+        //       data: JSON.stringify(req_json),
+        //       async: false,
+        //       beforeSend: function(XHR) {
+        //       },
+        //       success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+        //         if( typeof data == "object" ) {
+        //             if( data.success == 0 ) {
+        //                 for( var i = 0; i < data.data.parent.length; i++) {
+        //                     console.log("" + i + " userid: " + data.data.parent[i].userid + " sid: " + data.data.parent[i].sid + " name: " + data.data.parent[i].bakname);
+        //                 }
+
+        //                 parents_array[parents_array.length] = data;
+        //                 ret = true;
+        //             } else {
+        //                 debug_trace("getparent success [" + data.success + "]");
+        //                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，无法取得数据'));
+        //             }
+        //         } else {
+        //             debug_trace("getparent format error");
+        //             window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，格式错误'));
+        //         }
+        //       },
+        //       error:function(XHR, ErrText, Exception) {
+        //         debug_trace("getparent failure. user_id[" + user_id + "], type[" + type +"]");
+        //         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，服务器连接错误'));
+        //       }
+        //     });
+
+        //     return ret;
+        // };
+
+        // function get_class_info(){
+        //     var req_json = {
+        //         corpId:corp_id,
+        //         id:user_id
+        //     }
+
+        //     $.ajax({
+        //       dataType:'json',
+        //       contentType: "application/json",
+        //       type: 'post', // 提交方式 get/post
+        //       url: '/wxqyh/class/get', // 需要提交的 url
+        //       data: JSON.stringify(req_json),
+        //       async: false,
+        //       beforeSend: function(XHR) {
+        //       },
+        //       success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+        //         if( typeof data == "object" ) {
+        //             if( data.success == 0 ) {
+        //                 json_obj_class = data;
+
+        //                 var ret = true;
+        //                 for( var i = 0; i < json_obj_class.data.class.length && ret; i++ ) {
+        //                     ret = get_parents_info(json_obj_class.data.class[i].id);
+        //                 }
+        //             } else {
+        //                 debug_trace("get_class_info success [" + data.success + "] user_id[" + user_id + "]");
+        //                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，无法取得数据'));
+        //             }
+        //         } else {
+        //             debug_trace("get_class_info format error");
+        //             window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，格式错误'));
+        //         }
+        //       },
+        //       error:function(XHR, ErrText, Exception) {
+        //         debug_trace("get_class_info failure. user_id[" + user_id + "], type[" + type +"]");
+        //         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，服务器连接错误'));
+        //       }
+        //     });
+        // };
+
+        // function get_homework_info() {
+        //     var req_json = {
+        //       corpId:corp_id,
+        //       id:homework_id  
+        //     };
+
+        //     $.ajax({
+        //       dataType:'json',
+        //       contentType: "application/json",
+        //       type: 'post', // 提交方式 get/post
+        //       url: '/wxqyh/homework/detail', // 需要提交的 url
+        //       data: JSON.stringify(req_json),
+        //       async: false,
+        //       beforeSend: function(XHR) {
+        //       },
+        //       success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+        //         if( typeof data == "object" ) {
+        //             if( data.success == 0 ) {
+        //                 json_obj_detail = data;
+        //             } else {
+        //                 debug_trace("get_homework_info success [" + data.success + "] desc" + data.desc);
+        //                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+        //             }
+        //         } else {
+        //             debug_trace("get_homework_info format error");
+        //             window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+        //         }
+        //       },
+        //       error:function(XHR, ErrText, Exception) {
+        //         debug_trace("get_homework_info failure. user_id[" + homework_id + "]");
+        //         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+        //       }
+        //     });
+
+        //     //format date_time
+        //     if( json_obj_detail ) {
+
+        //         json_obj_detail.data.createTime = format_date_time(json_obj_detail.data.createTime);
+        //         json_obj_detail.data.editTime = format_date_time(json_obj_detail.data.editTime);
+        //         json_obj_detail.data.beginTime = format_date_time(json_obj_detail.data.beginTime);
+        //         json_obj_detail.data.endTime = format_date_time(json_obj_detail.data.endTime);
+        //     }
+        // };
+
+        // function on_text_area_input(obj) {
+        //     obj.value = String(obj.value).substring(0,200);
+        //     $("#char_cnt").html(obj.value.length);
+        // }
+
+        // //
+        // if( user_id && corp_id ) {
+        //     get_class_info();
+        // }
+
+        // if( homework_id && corp_id ) {
+        //     get_homework_info();
+        // }
+
+        // //
+        // function pic_view(id) {
+
+        //     var url = '';
+        //     var urls = [];
+
+        //     $('#pic_container [name="pic_src"]').each(function(key, value) {
+
+        //         urls.push(value.src);
+
+        //         if( value.id == id ) {
+        //             url = value.src;
+        //         }
+        //     });           
+
+        //     wx.previewImage({
+        //       current: url,
+        //       urls: urls
+        //     });
+        // }
+
+        // //
+        // $.ajax({
+        //     url: '/wxedu/jsconfig/get',
+        //     type: 'post',
+        //     data: {
+        //         corpId:corp_id,
+        //         url: location.href.split('#')[0]
+        //     }
+        // }).done(function(r) {
+
+        //     //alert('jsconfig/get done:' + JSON.stringify(r));
+
+        //     if( r.success != 0 ) {
+        //         return ;
+        //     }
+
+        //     // 开始配置微信JS-SDK
+        //     wx.config({
+        //         debug: false,
+        //         appId: r.data.appId,
+        //         timestamp: r.data.timestamp,
+        //         nonceStr: r.data.nonceStr,
+        //         signature: r.data.signature,
+        //         jsApiList: [
+        //             'checkJsApi',
+        //             'chooseImage',
+        //             'previewImage',
+        //             'uploadImage',
+        //             'downloadImage',
+        //             'getNetworkType',
+        //             'startRecord',
+        //             'stopRecord',
+        //             'onVoiceRecordEnd',
+        //             'playVoice',
+        //             'pauseVoice',
+        //             'stopVoice',
+        //             'onVoicePlayEnd',
+        //             'uploadVoice',
+        //             'downloadVoice'
+        //         ]
+        //     });
+
+        //     // 调用微信API
+        //     wx.ready(function() {
+
+        //         //alert('wx.ready');
+
+        //         //
+        //         $('#pic_add')[0].style.visibility="visible";
+        //         $('#pic_del')[0].style.visibility="visible";
+
+        //         //
+        //         $('#pic_add').on('click', function() {
+
+        //             disp_del_mark(false);
+
+        //             wx.chooseImage({
+
+        //                 success: function(res) {
+
+        //                     // alert('wx.chooseImage success:' + JSON.stringify(res.localIds));
+
+        //                     function upload_medu_image(serverId, i) {
+
+        //                         // alert('upload_medu_image [' + i + '] : ' + serverId);
+
+        //                         $.ajax({
+        //                             url: '/wxedu/upload/image',
+        //                             type: 'post',
+        //                             data: {
+        //                                 corpId:corp_id,
+        //                                 media_id: serverId
+        //                             }
+        //                         }).done(function(r) {
+
+        //                             // alert('upload_medu_image [' + i +'] done:' + JSON.stringify(r));
+
+        //                             if( r.success == 0 ) {
+        //                                 var strHtml = '';
+        //                                 strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+        //                                 strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + r.data.pic_url + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + r.data.pic_url + '">';
+        //                                 strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+        //                                 strHtml += '</li>';
+
+        //                                 $('#pic_add').before(strHtml);
+
+        //                                 g_pic_cnt++;
+        //                             };
+        //                         });
+        //                     };
+
+        //                     $.showLoading("正在上传图片...");
+
+        //                     var localIds = res.localIds;
+        //                     var localId_idx = 0;
+        //                     function upload_wx_image() {
+
+        //                         // alert("call upload_wx_image() " + localId_idx);
+
+        //                         wx.uploadImage({
+
+        //                             localId:localIds[localId_idx],
+        //                             success: function (res) {
+        //                                 localId_idx++;
+        //                                 // alert('已传 res:' + JSON.stringify(res));
+
+        //                                 upload_medu_image(res.serverId, localId_idx);
+
+        //                                 if (localId_idx < localIds.length) {
+        //                                     upload_wx_image();
+        //                                 } else {
+        //                                     $.hideLoading();
+        //                                 }
+        //                             },
+        //                             fail: function (res) {
+        //                                 alert('上传失败：' + JSON.stringify(res));
+        //                             }
+        //                         });
+        //                     };
+
+        //                     if( localIds.length > 0 ) {
+        //                         upload_wx_image();
+        //                     }
+        //                 }
+        //             });
+        //         });
+        //     });
+        // });
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="bd weui_tab_bd" >
+        <div class="weui_cells" style="margin-top:0;border-top:0;padding-top:0;">
+            <div class="weui_cell weui_cell_select weui_select_after">
+                <div class="weui_cell_hd">
+                    <label for="" class="weui_label">任务类型</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select id="homework_type" class="weui_select" >
+                        <option value="0">课后作业</option>
+                        <option value="1">假期作业</option>
+                        <option value="2">日常任务</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="title" class="weui_input" placeholder="请输入任务标题" maxlength="20" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)"/>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">内容</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" placeholder="请输入任务内容" maxlength="200" rows="8"  "></textarea>
+                    <div class="weui_textarea_counter"><span id="char_cnt">0</span>/200</div>
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_select weui_select_after" style="display:none">
+                <div class="weui_cell_hd">
+                    <label for="" class="weui_label">优先级</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select id="priority" class="weui_select">
+                        <option value="0">普通</option>
+                        <option value="1">紧急</option>
+                        <option value="2">非常紧急</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui_cell" style="display:none">
+                <div class="weui_cell_hd"><label for="" class="weui_label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                  <input id="start_time" class="weui_input" type="text" value="">
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_switch" style="display:none">
+                <div class="weui_cell_hd weui_cell_primary">开始前30分钟提醒</div>
+                <div class="weui_cell_ft">
+                    <input id="notify_before" class="weui_switch" type="checkbox" />
+                </div>
+            </div>
+
+            <div class="weui_cell">
+
+                <ul id='pic_container' class="weui_uploader_files">
+
+<!--                     <li class="weui_uploader_file" style='position:relative;'>
+                        <img class="weui_uploader_file" src='http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/' style='position:relative;top:0px;left:0px;' onclick='alert(0)'>
+                        <img name='pic_del_mark' src='../common/pic_del_mark.png' style='position:absolute;top:-5px;left:-5px;display:inline;' onclick='alert(1)'>
+                    </li>
+ -->
+                    <li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);visibility:hidden;"></li>
+                    <li id='pic_del' onclick='on_pic_del()' class="uploader_file " style="background-image:url(../common/pic_del.png);visibility:hidden;"></li>
+
+                </ul>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">截止时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                  <input id="stop_time" class="weui_input" type="text" value="">
+                </div>
+            </div>
+
+            <div class="weui_cell weui_cell_switch" style="display:none">
+                <div class="weui_cell_hd weui_cell_primary">结束前30分钟提醒</div>
+                <div class="weui_cell_ft">
+                    <input id="notify_after" class="weui_switch" type="checkbox" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="weui_cells" >
+            <div class="weui_cells_access">
+                <a id="select_parents" class="weui_cell open-popup" data-target="#contacts_list">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>选择家长</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="selected_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="parents_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+
+    <div class="weui_tabbar">
+        <div class="weui_tabbar_item">
+            <a id="save_draft" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:10px;">存为草稿</a>
+        </div>
+        <div class="weui_tabbar_item">
+            <a id="publish" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">立即发布</a>
+        </div>
+    </div>
+
+
+
+    <div id="contacts_list" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div id="parents_list">
+    <!--                 <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>
+                    </div>                    
+                    <div class="weui_cells weui_cells_checkbox" >
+                        <label class="weui_cell weui_check_label" for="c0p0">
+                            <div class="weui_cell_hd">
+                                <input id="c0p0" type="checkbox" class="weui_check" checked>
+                                <i class="weui_icon_checked"></i>                            
+                            </div>
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+                
+            </div>
+
+            <div class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a id="select_parant_cancel" href="javascript:;" class="weui_btn weui_btn_primary close-popup" style="margin:10px;">取消</a>
+                </div>
+                <div class="weui_tabbar_item">
+                    <a id="select_parant_save" href="javascript:;" class="weui_btn weui_btn_warn close-popup" style="margin:10px;">保存</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        function init_field() {
+
+            //
+            var parents_array=[];
+            var parents_cnt = 0;
+            var json_obj_detail=""
+            for( var i = 0; i < parents_array.length; i++ ) {
+                parents_cnt += parents_array[i].data.parent.length;        
+            }
+
+            $("#parents_cnt").text(parents_cnt);
+
+
+            //
+            if( !json_obj_detail ) {
+
+                $(document).attr("title","新建任务");
+
+                var now = new Date();
+                $("#start_time").val(format_date_time(now));
+
+                now = new Date(now.valueOf() + 1*24*60*60*1000); 
+                $("#stop_time").val(format_date_time(now));
+
+                //init parents count
+                $("#selected_cnt").text(0);
+
+            } else {
+
+                $(document).attr("title","编辑任务");
+
+                $("#homework_type").val(json_obj_detail.data.homeworkType);
+                $("#title").val(decodeURI(decodeURI(json_obj_detail.data.title)));
+                $("#content").html(decodeURI(decodeURI(json_obj_detail.data.content)));
+                $("#priority").val(json_obj_detail.data.priority);
+                $("#start_time").val(json_obj_detail.data.beginTime);
+                $("#notify_before")[0].checked = json_obj_detail.data.isNotifyBeforeBegin;
+                $("#stop_time").val(json_obj_detail.data.endTime);
+                $("#notify_after")[0].checked = json_obj_detail.data.isNotifyBeforeEnd;
+
+                //init parents count
+                $("#selected_cnt").text(json_obj_detail.data.parent.length);
+
+                //
+                for( var i = 0; i < json_obj_detail.data.pics.length; i++ ) {
+                    var strHtml = '';
+                    strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+                    strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + json_obj_detail.data.pics[i] + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + json_obj_detail.data.pics[i] + '">';
+                    strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+                    strHtml += '</li>';
+
+                    $('#pic_add').before(strHtml);
+
+                    g_pic_cnt++;
+                };
+
+                //
+                selected_parents_array.length = 0;
+                for( var i = 0; i < json_obj_detail.data.parent.length; i++ ) {
+
+                    selected_parents_array[selected_parents_array.length] = {
+                        userid:json_obj_detail.data.parent[i].id,
+                        sid:json_obj_detail.data.parent[i].sid
+                    };
+                }
+            }
+        }
+
+        function check_valid_draft_data() {
+
+            //
+            if( del_space($("#title").val()).length == 0 ) {
+
+                $.toast("请输入任务标题", "forbidden");
+                return false;
+            }
+
+            return true;
+        }
+
+        function check_valid_publish_data() {
+
+            //
+            if( del_space($("#title").val()).length == 0 ) {
+
+                $.toast("请输入任务标题", "forbidden");
+                return false;
+            }
+
+            //
+            if( del_space($("#content").val()).length == 0 ) {
+
+                $.toast("请输入任务内容", "forbidden");
+                return false;
+            }
+
+            //
+            var stop = new Date($("#stop_time").val().replace(/-/g,"/"));
+            var now = new Date();
+            if( stop < now ) {
+
+                $.toast("截止时间不能早于当前时间", "forbidden");
+                return false;
+            }
+
+            //
+            // if( selected_parents_array.length == 0 ) {
+
+            //     $.toast("请选择家长", "forbidden");
+            //     return false;                
+            // }
+
+            return true;
+        }
+
+
+        $(document).ready(function(){
+
+            //
+            var homework_id=0;
+            if( homework_id ) {
+                $(document).attr("title","新建");
+            } else {
+                $(document).attr("title","草稿");                
+            }
+
+            //
+            init_field();
+
+            // init datetime
+            $("#start_time").datetimePicker({
+            });
+
+            $("#stop_time").datetimePicker({
+            });
+
+            //
+            $("#select_parents").click(function(){
+                var json_obj_class="";
+                if( !json_obj_class ) {
+                    return ;
+                }
+
+                //init contacts list
+                var root = $("#parents_list");
+                // var root = document.getElementById("parents_list");
+                // root.empty();
+                if( root[0].children.length > 0 ) {
+                    return ;
+                }
+
+
+                for(var unionIdx = 0; unionIdx < json_obj_class.data.class.length; unionIdx++) {
+
+                    var strHtml = '';
+
+                    strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+                    strHtml += '    <div class="weui-col-40"><h4>' + json_obj_class.data.class[unionIdx].name + '</h4></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(' + unionIdx + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(' + unionIdx + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+                    strHtml += '</div>';                    
+                    strHtml += '<div class="weui_cells weui_cells_checkbox" id="c' + unionIdx + '">';
+
+                    for( var personIdx = 0; personIdx < parents_array[unionIdx].data.parent.length; personIdx++) {
+
+                        var is_checked = false;
+                        if( json_obj_detail ) {
+
+                            for( var i = 0; i < json_obj_detail.data.parent.length; i++ ) {
+
+                                if( json_obj_detail.data.parent[i].sid == parents_array[unionIdx].data.parent[personIdx].sid && 
+                                    json_obj_detail.data.parent[i].id == parents_array[unionIdx].data.parent[personIdx].userid) {
+
+                                    is_checked = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        strHtml += '    <label class="weui_cell weui_check_label" for="' + parents_array[unionIdx].data.parent[personIdx].userid+"|"+parents_array[unionIdx].data.parent[personIdx].sid + '">'
+                        strHtml += '        <div class="weui_cell_hd">';
+                        strHtml += '            <input type="checkbox" class="weui_check" id="' + parents_array[unionIdx].data.parent[personIdx].userid+"|"+parents_array[unionIdx].data.parent[personIdx].sid + '"';
+                        if( is_checked) {
+                            strHtml += '        checked';
+                        }
+                        strHtml += '            >';
+                        strHtml += '            <i class="weui_icon_checked"></i>';                            
+                        strHtml += '        </div>';
+                        strHtml += '        <img src="' + parents_array[unionIdx].data.parent[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+                        strHtml += '            <p>' + parents_array[unionIdx].data.parent[personIdx].bakname + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    console.log(strHtml);
+                    root.append(strHtml);
+                }
+            });
+
+            $("#select_parant_cancel").click(function(){
+
+                $('#parents_list input').each(function(key, value) { 
+                    console.log("key[" + key +"] value.id[" + value.id + "]");
+                    value.checked = false;
+                });
+
+                for( var i = 0; i < selected_parents_array.length; i++ ) {
+
+                    // $('"#' + String(selected_parents_array[i]) + '"')[0].checked = true;
+                    document.getElementById(selected_parents_array[i].userid+"|"+selected_parents_array[i].sid).checked = true;
+                }
+            });
+
+            $("#select_parant_save").click(function(){
+
+                selected_parents_array.length = 0;
+
+                $('#parents_list input').each(function(key, value) { 
+                
+                    // console.log("key[" + key +"] value[" + value.id + "]");
+                    if( value.checked ) {
+                        var id = value.id.split('|');
+                        selected_parents_array[selected_parents_array.length] = {userid:id[0],sid:id[1]};
+                        console.log("idx[" + (selected_parents_array.length-1) +"] id[" + selected_parents_array[selected_parents_array.length-1].userid+"|"+ selected_parents_array[selected_parents_array.length-1].sid + "]");
+                    }
+                });
+
+                $("#selected_cnt").text(selected_parents_array.length);
+
+            });              
+
+            $("#save_draft").click(function(){
+
+                if( check_valid_draft_data() ) {
+
+                    if( on_commit(0) ) {
+
+                        $.toast("保存草稿成功");
+                        setTimeout(function() {
+                            window.location = './homework_list.html?user_id=' + user_id + '&type=0' + '&corp_id=' + corp_id;
+                        }, 2000);
+                    } else {
+
+                        $.toast("保存草稿失败", "forbidden");
+                    }
+                }
+            });
+
+            $("#publish").click(function(){
+
+                if( check_valid_publish_data() ) {
+
+                    if( on_commit(1) ) {
+
+                        $.toast("发布成功");
+                        setTimeout(function() {
+                            window.location = './homework_list.html?user_id=' + user_id + '&type=1' + '&corp_id=' + corp_id;
+                        }, 2000);
+                    } else {
+
+                        $.toast("发布失败", "forbidden");
+                    }
+                }
+            });
+
+        });
+
+        function on_select_all(idx, is_checked) {
+
+            $('#c' + idx + ' input').each(function(key, value) { 
+                // console.log("key[" + key +"] value[" + value.id + "]");
+                value.checked = is_checked;
+            });
+        }
+
+        function collectJsonData(state) {
+
+            var pics = [];
+            $('#pic_container [name="pic_src"]').each(function(key, value) {
+                pics.push(value.alt);
+            });
+            alert(2.5)
+            var question_json = {
+                corpId:corp_id,
+                homework:{
+                   // id:(homework_id && (!iscopy))?homework_id:"",
+                    createPerson:user_id,
+                    homeworkType:$("#homework_type").val(),
+                    title:encodeURI(encodeURI($("#title").val())),
+                    content:encodeURI(encodeURI($("#content").val())),
+                    voice:[],
+                    pics:pics,
+                    attachment:[],
+                    teacher:[],
+                    parent:[],
+                    class:[],
+                    beginTime:$("#start_time").val(),
+                    endTime:$("#stop_time").val(),
+                    isNotifyBeforeBegin:$("#notify_before")[0].checked,
+                    isNotifyBeforeEnd:$("#notify_after")[0].checked,
+                    priority:$("#priority").val(),
+                    state:state
+                }
+            };
+              alert(4)
+            for(var i = 0; i < 1; i++) {
+                question_json.homework.teacher.push({id:user_id});
+            }
+
+            for(var i = 0; i < selected_parents_array.length; i++) {
+                question_json.homework.parent.push({id:selected_parents_array[i].userid,sid:selected_parents_array[i].sid});
+            }
+
+            console.log("collectJsonData() ************* json str:" + JSON.stringify(question_json));
+
+            return JSON.stringify(question_json);
+        }
+
+        function on_commit(state) {
+
+            var ret = false;
+            alert(3);
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_addhomework', // 需要提交的 url
+              data: collectJsonData(state),
+              async: false,
+              beforeSend: function(XHR) {
+                  //console.log('beforeSubmit');
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( data.success == 0 ) {
+                      ret = true;
+                    } else {
+                      debug_trace('提交失败！ data.success[' + data.success + '] data.desc[' + data.desc + ']');
+                      ret = false;
+                      window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，无法保存数据'));
+                    }
+              },
+              error:function(XHR, ErrText, Exception) {
+                  debug_trace('提交失败！' + ErrText);
+                  ret = false;
+                  window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，服务器连接错误'));
+              }
+            });
+
+            return ret;
+        }
+
+
+        function disp_del_mark(isShow) {
+            $('#pic_container [name="pic_del_mark"]').each(function(key, value) { 
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if( isShow ) {
+                    value.style.display= "inline";
+                } else {
+                    value.style.display= "none";
+                }
+            });           
+        }
+
+        function is_disp_del_mark() {
+            var node = $('#pic_container [name="pic_del_mark"]:first');
+
+            if( node.length > 0 ) {
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if( node[0].style.display == "inline" ) {
+                    return true;
+                }
+
+                return false;
+            };           
+
+            return false;
+        }
+
+
+        //删除图片
+        function on_pic_del() {
+            if( is_disp_del_mark() ) {
+                disp_del_mark(false);
+            } else {
+                disp_del_mark(true);
+            }
+        }
+
+
+        //删除
+        function on_pic_del_mark(container_id) {
+            var node = $('#' + container_id)[0];
+            node.parentNode.removeChild(node); 
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

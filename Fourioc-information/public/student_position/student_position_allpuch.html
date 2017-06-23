@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>历史考勤</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/jquery-weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/demos.css">
+
+    <!--无外联样式-->
+    <style type="text/css">
+        .weui_cells{
+            margin-top: 0;
+
+        }
+        .code_img{
+            margin-right:8px;
+        }
+        .weui_cell{
+            font-size:14px;
+            padding: 12px 15px;
+        }
+        .weui_cell span{
+            font-size:14px;
+
+        }
+        .weui_cell p{
+            font-size:12px;
+            color: #666;
+        }
+        .weui_cell_ft{
+            font-size:14px;
+            color: #666;
+        }
+        .week{
+            color: #666;
+            margin-left:52px;
+        }
+        .time{
+            font-size:12px;
+            float: left;
+        }
+        .name{
+            font-weight: bold;
+        }
+        .explain{
+            padding-top: 47%;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body ontouchstart>
+
+<div class="bd" id="explain">
+
+    <div class="weui_cells" id="attendance_list">
+
+        <!--<div class="weui_cell">-->
+        <!--<div class="weui_cell_bd weui_cell_primary">-->
+        <!--<span>王海洋</span> <span  class="week">周一</span>-->
+        <!--<div><p class="time">2015.12.16</p><p class="time" style="margin-left: 15px">18:25:56</p></div>-->
+        <!--</div>-->
+        <!--<div class="weui_cell_ft">进校</div>-->
+        <!--</div>-->
+
+        <!--<div class="weui_cell">-->
+
+        <!--<div class="weui_cell_bd weui_cell_primary">-->
+        <!--<span>钱明一</span><span class="week">周一</span>-->
+        <!--<div><p class="time">2015.12.16</p><p class="time" style="margin-left: 15px">18:25:56</p></div>-->
+
+        <!--</div>-->
+        <!--<div class="weui_cell_ft">出校</div>-->
+        <!--</div>-->
+
+    </div>
+
+
+    <!--<div class="weui_btn_area">-->
+    <!--<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">添加收款码</a>-->
+    <!--</div>-->
+
+
+
+</div>
+
+
+
+</body>
+
+<script src="../javascripts/jquery-2.1.1-youtu.js"></script>
+<script src="../javascripts/jquery-weui.min.js"></script>
+<script type="text/javascript">
+
+    var user_id=$.intercept_url("user_id");
+   // alert(user_id);
+    var uid=123;
+    var name=null;
+    var mobile=null;
+    var id_card=null;
+
+
+    $.ajax({
+        url:'/school/get_student_position_allpuch',
+        type:"post",
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify({
+            user_id:user_id
+        }),
+        beforeSend: function () {
+            $.showLoading("正在加载...");
+        },
+        success: function (data){
+            $.hideLoading();
+            if(data.success==0){
+               // alert(JSON.stringify(data));
+                var jsondata=JSON.parse(JSON.stringify(data));
+                var fordata=jsondata.data;
+                $("#attendance_list").html("");
+
+               // alert($.attributeCount(fordata));
+                if($.attributeCount(fordata)==0){
+                    $("#explain").append('<div class="explain"><p>该学生暂无打卡信息</p></div>');
+                }else {
+                    var html='';
+                    for(c=0;c<jsondata.data.length;c++){
+                        for(i=0;i<jsondata.data[c].data.length;i++){
+                            html+='<div class="weui_cell">';
+                            html+='<div class="weui_cell_bd weui_cell_primary">';
+                            html+='<span class="name">'+jsondata.data[c].name+'</span> <span class="week">'+jsondata.data[c].week+'</span>';
+                            html+='<div><p class="time">'+jsondata.data[c].data[i].puch_time_one+'</p><p class="time" style="margin-left: 15px">'+jsondata.data[c].data[i].puch_time_two+'</p></div>';
+                            html+='</div>';
+                            html+='<div class="weui_cell_ft">'+jsondata.data[c].data[i].inout_name+'</div>';
+                            html+='</div>';
+                        }
+                    }
+                    $("#attendance_list").append(html);
+
+
+
+//                    var html='';
+//                    for(i=0;i<jsondata.data.length;i++){
+//                        html+='<div class="weui_cell">';
+//                        html+='<div class="weui_cell_bd weui_cell_primary">';
+//                        html+='<span class="name">'+jsondata.data[i].name+'</span> <span class="week">'+jsondata.data[i].week+'</span>';
+//                        for(j=0;j<jsondata.data[i].data.length;j++){
+//                            html+='<div><p class="time">'+jsondata.data[i].data[j].puch_time_one+'</p><p class="time" style="margin-left: 15px">'+jsondata.data[i].data[j].puch_time_two+'</p></div>';
+//                            html+='</div>';
+//                            html+='<div class="weui_cell_ft">'+jsondata.data[i].data[j].inout_name+'</div>';
+//                            html+='</div>';
+//                        }
+//                        $("#attendance_list").append(html);
+//                    }
+
+
+
+
+
+
+                }
+            }
+            else{
+                $.hideLoading();
+                $.toast("获取数据失败","forbidden");
+            }
+        },
+        error:function(){
+            $.hideLoading();
+            $.toast("获取数据失败","forbidden");
+        }
+    })
+
+
+
+</script>
+</html>

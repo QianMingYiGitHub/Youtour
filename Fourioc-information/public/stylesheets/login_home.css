@@ -1,0 +1,280 @@
+body{
+    font-family: "微软雅黑";
+}
+.body_box{
+    background-image: url(../images/login_home.jpg);
+    background-repeat:no-repeat;
+    overflow: hidden;
+    background-size:100%;
+    /*background-position:center;*/
+ /*width: 100%;*/
+    /*height: 1000px;*/
+}
+.login_admin{
+    width: 230px;
+    height: 150px;
+    float: right;
+
+}
+/*.login_admin span{*/
+    /*width: 100px;*/
+    /*height: 40px;*/
+    /*float: left;*/
+/*}*/
+
+.triangle_border_up{
+    width:0;
+    height:0;
+    border-width:0 10px 10px;
+    border-style:solid;
+    border-color:transparent transparent #fff;/*透明 透明  灰*/
+    margin-left: 70px;
+    /*margin:40px auto;*/
+    /*position: absolute;*/
+    /*top: 7px;*/
+    /*font-size: 20px;*/
+    /*right: 90px;*/
+}
+
+.login_admin_symbol{
+    margin-left: 45px;
+}
+li, ul {
+    list-style: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    margin-top: 15px;
+}
+.title_up{
+    width: 120px;
+    height: 50px;
+    margin-left: 45px;
+}
+.main8, .hmain8 {
+    width: 230px;
+    font-size: 20px;
+    padding-top: 8px;
+}
+
+.main8 a, .hmain8 a {
+    color: #fff;
+}
+.main8 a:hover, .hmain8 a:hover {
+    color: #fff;
+}
+.main8 a:active{
+    color: #fff;
+    text-decoration: none;
+}
+.main8 li a, .hmain8 li a {
+    color: black;
+    background-image: none;
+}
+
+.main8 ul, .hmain8 ul {
+
+}
+
+.hmain8 {
+    float: left;
+    margin-right: 1px;
+}
+.eject_box{
+    width: 170px;
+    height: 120px;
+    /*position: absolute;*/
+    top: 47px;
+    right: 40px;
+    text-decoration: none;
+}
+.admin_box{
+    width: 245px;
+    position: absolute;
+    right: 15px;
+    top: 58px;
+    z-index: 99999;
+}
+
+.admin_box a{
+    display: block;
+    background: #efefef;
+    border-radius: 3px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin-bottom: 10px;
+
+    font-size: 16px;
+}
+.admin_box a:hover{
+    text-decoration: none;
+    color: #000;
+}
+.admin_box a:active{
+    color:#00B7FF;
+    text-decoration: none;
+}
+.admin_box a:visited{
+    color:#000;
+    text-decoration: none;
+}
+.login_content {
+    color: #fff;
+    z-index: 9999;
+    position: absolute;
+}
+.login_content ul {
+    width: 190px;
+    margin: 10px 0 0 20px;
+}
+.login_content h2 {
+    font-size: 17px;
+    display: block;
+    text-align: center;
+    line-height: 30px;
+    margin-top: 15px;
+}
+.login_content .close_2 {
+    position: absolute;
+    left: 215px;
+    top: -10px;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+.login_content .close_2 a {
+    background: #c00;
+    color: #fff;
+    font-size: 22px;
+    display: block;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    line-height: 23px;
+    border-radius: 15px;
+}
+.jiaz_list a{
+    display: block;
+    background: #efefef;
+    border-radius: 3px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin-bottom: 10px;
+
+    font-size: 16px;
+}
+.jiaz_list a:hover {
+    background-color: #06afe6;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 2px 2px #444;
+    text-decoration: none;
+}
+.login_con_bg {
+    width: 230px;
+    min-height: 280px;
+    border-radius: 5px;
+    background: #000;
+    opacity: .7;
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.icon_box{
+    /*position: absolute;*/
+    width: 960px;
+    height: 200px;
+
+}
+/*@media screen and (max-height: 1000px) {*/
+    /*.icon_box{*/
+        /*position: absolute;*/
+        /*width: 100%;*/
+        /*height: 200px;*/
+        /*top: 10%;*/
+        /*padding-left: 16%;*/
+    /*}*/
+/*}*/
+.icon_two{
+    float: left;
+    text-align: center;
+    position: relative;
+}
+.icon_two span{
+
+    float: left;
+    color: #fff;
+    font-size: 22px;
+    position: absolute;
+
+    top: 175px;
+    width: 190px;
+    left: 0;
+}
+.icon{
+    float: left;
+    margin-left: 40px;
+    height: 200px;
+    padding-top: 50px;
+    text-align: center;
+    width: 120px;
+
+}
+.icon img{
+    float: left;
+}
+
+.icon span{
+    width: 100%;
+    float: left;
+    color: #fff;
+    font-size: 22px;
+}
+
+
+.icon_box_two{
+    /*position: absolute;*/
+    width: 960px;
+    height: 200px;
+    top: 400px;
+
+}
+
+.icon_div{
+    width: 190px;
+    height: 200px;
+    float: left;
+    cursor:pointer;
+    /*background-color: #00AA91;*/
+}
+
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    color: #fff;
+
+}
+.edition_box{
+    border: 2px solid #e6e6e6;
+    width: 100%;
+    height: 40px;
+    line-height:40px;
+    margin-top: 10px;
+    cursor:pointer;
+}
+.icon_main{
+    width: 960px;
+    margin-top: 50px;
+    margin: 0 auto;
+    height: 400px;
+}

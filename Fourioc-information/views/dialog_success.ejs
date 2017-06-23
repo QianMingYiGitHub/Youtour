@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>无标题文档</title>
+  <script type="text/javascript" src="../javascripts/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="../javascripts/youtu.js"></script>
+  <style type="text/css">
+    ol, ul, li {
+      list-style: none;
+    }
+    body{
+
+
+    }
+    body{
+      font-size: 16px;
+      background-color: #fff;
+    }
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+      word-wrap: break-word;
+      margin: 0px;
+      padding: 0px;
+    }
+    a{
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:underline;
+    }
+    .top_title{
+      width:100%;
+      height:40px;
+      background-color:#428bca;
+
+    }
+    .btnClose{
+      float:right;
+      color:#FFF;
+      font-weight:bold;
+      line-height:40px;
+      margin-right:5px;
+      text-decoration:none;
+    }
+
+    .kc_nsz p {
+      font-size: 16px;
+      margin-top: 10%;
+
+      margin-left: 32%;
+    }
+
+    .select_kc_shuang li {
+      width: 47%;
+      margin-right: 10px;
+      margin-top: 5px;
+      float: left;
+      border: 1px solid #efefef;
+      text-align: left;
+      height: 30px;
+      line-height: 30px;
+      background: #fff;
+      border-radius: 2px;
+    }
+    .select_kc_shuang li a {
+      height: 25px;
+      line-height: 25px;
+    }
+    .select_kc_shuang li:hover {
+      background: #0096d6;
+      color: #fff;
+      text-decoration:none;
+    }
+    .select_kc_shuang a:hover{
+      text-decoration:none;
+    }
+    span a.del3, span a.del3:visited {
+      float: right;
+      background: url(../images/del.png) no-repeat 0 0;
+      width: 20px;
+      height: 20px;
+      display: block;
+      font-size: 0;
+      background-position: 0 0px;
+    }
+    span a.del3:hover {
+      background-position: 0 -20px;
+      text-decoration:none;
+    }
+
+    .class_kc li label {
+      display: block;
+      width: 6%;
+      float: left;
+      font-weight: bold;
+      text-align: left;
+      color: #888;
+      padding-top: 7px;
+    }
+    .class_kc li span {
+      float: right;
+      width: 92%;
+      margin-right: 5px;
+    }
+    .class_kc li span a, .class_kc li span a:visited {
+      padding: 0px 7px;
+      margin: 2px 0;
+      display: inline-block;
+      color: #888;
+      border-radius: 2px;
+      border: 1px solid #efefef;
+      background: #fff;
+    }
+    .class_kc li span a.cur2, .class_kc li span a.cur2:visited {
+      background: #269bd7;
+      color: #fff;
+    }
+    .class_kc li span.two_pai {
+      overflow-y: auto;
+      height: 125px;
+    }
+    .class_kc li span.two_pai a {
+      width: 280px;
+    }
+
+    .aui_buttons button:hover {
+      color: #032b3e;
+      border-color: #666;
+    }
+    .aui_buttons button {
+      width: 63px;
+      height: 27px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      background: #269bd7;
+      padding: 0 0 3px;
+      padding: 0\9;
+      border: 0;
+    }
+  </style>
+</head>
+
+<body>
+<div class="top_title">
+  <div class="btnClose">
+    <a href="javascript:void(0);" id="btnClose" class="btnClose">关闭</a>
+
+  </div>
+
+</div>
+
+
+<div class="kc_nsz">
+
+<p>添加书签成功</p>
+
+
+
+
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    // parent.SetHeight($(".panel-primary").height());
+    $("#btnClose").click(function () {
+      alert("111111");
+      parent.$("#bg,#bgiframe").remove();
+    });
+
+  });
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+
+<style> 
+
+
+#voice_ani
+{
+    width:60px;
+    height:60px;
+    background:red;
+    position:relative;
+    animation:mymove 1s infinite;
+    /*animation-play-state:paused;*/
+
+    -webkit-animation:mymove 1s infinite;
+    -webkit-animation-timing-function:linear;
+    /*-webkit-animation-play-state:paused;*/
+}
+
+@keyframes mymove
+{
+    0%   {background-image: url(./voice_1.PNG);}
+    25%  {background-image: url(./voice_2.PNG);}
+    50%  {background-image: url(./voice_3.PNG);}
+    75%  {background-image: url(./voice_4.PNG);}
+    100% {background-image: url(./voice_1.PNG);}
+}
+
+@-webkit-keyframes mymove /* Safari and Chrome */
+{
+    0%   {background-image: url(./voice_1.PNG);}
+    25%  {background-image: url(./voice_2.PNG);}
+    50%  {background-image: url(./voice_3.PNG);}
+    75%  {background-image: url(./voice_4.PNG);}
+    100% {background-image: url(./voice_1.PNG);}
+}
+</style>
+</head>
+<body>
+
+<p><strong>注意：</strong> Internet Explorer 9 及更早 IE 版本浏览器不支持 animation-iteration-count 属性。</p>
+
+<div id="voice_container">
+        <div id="voice_ani" onclick="on_click()" style="
+            width:60px;
+            height:60px;
+            background:red;
+            position:relative;
+            animation:mymove 1s infinite;
+            /*animation-play-state:paused;*/
+
+            -webkit-animation:mymove 1s infinite;
+            -webkit-animation-timing-function:linear;
+            /*-webkit-animation-play-state:paused;*/
+
+        @keyframes mymove
+        {
+            0%   {background-image: url(./voice_1.PNG);}
+            25%  {background-image: url(./voice_2.PNG);}
+            50%  {background-image: url(./voice_3.PNG);}
+            75%  {background-image: url(./voice_4.PNG);}
+            100% {background-image: url(./voice_1.PNG);}
+        }
+
+        @-webkit-keyframes mymove /* Safari and Chrome */
+        {
+            0%   {background-image: url(./voice_1.PNG);}
+            25%  {background-image: url(./voice_2.PNG);}
+            50%  {background-image: url(./voice_3.PNG);}
+            75%  {background-image: url(./voice_4.PNG);}
+            100% {background-image: url(./voice_1.PNG);}
+        }"
+        >
+        </div>
+</div>
+
+<script>
+    var is_running = true;
+    function on_click() {
+
+        // console.log(document.getElementById("voice_ani").style.animationPlayState);
+
+        is_running = !is_running;
+
+        var strHtml = '';
+
+        if( is_running ) {
+           // document.getElementById("voice_ani").style.animationPlayState="running";
+
+           $("#voice_ani").remove();
+        strHtml += '<div id="voice_ani" onclick="on_click()" style="';
+        strHtml += '    width:60px;';
+        strHtml += '    height:60px;';
+        strHtml += '    background:red;';
+        strHtml += '    position:relative;';
+        strHtml += '    animation:mymove 1s infinite;';
+        // strHtml += '    animation-play-state:paused;';
+
+        strHtml += '    -webkit-animation:mymove 1s infinite;';
+        strHtml += '    -webkit-animation-timing-function:linear;';
+        // strHtml += '    -webkit-animation-play-state:paused;';
+
+        strHtml += '@keyframes mymove';
+        strHtml += '{';
+        strHtml += '    0%   {background-image: url(./voice_1.PNG);}';
+        strHtml += '    25%  {background-image: url(./voice_2.PNG);}';
+        strHtml += '    50%  {background-image: url(./voice_3.PNG);}';
+        strHtml += '    75%  {background-image: url(./voice_4.PNG);}';
+        strHtml += '    100% {background-image: url(./voice_1.PNG);}';
+        strHtml += '}';
+
+        strHtml += '@-webkit-keyframes mymove';
+        strHtml += '{'
+        strHtml += '    0%   {background-image: url(./voice_1.PNG);}';
+        strHtml += '    25%  {background-image: url(./voice_2.PNG);}';
+        strHtml += '    50%  {background-image: url(./voice_3.PNG);}';
+        strHtml += '    75%  {background-image: url(./voice_4.PNG);}';
+        strHtml += '    100% {background-image: url(./voice_1.PNG);}';
+        strHtml += '}';
+        strHtml += '">';
+        strHtml += '</div>';
+
+        } else {
+           // document.getElementById("voice_ani").style.animationPlayState="paused";
+           // document.getElementById("voice_ani").style.backgroundImage = "url(./voice_2.PNG)";
+           // document.getElementById("voice_ani").animate({backgroundImage: "./voice_1.PNG"});
+           // $("#voice_ani").animate({backgroundImage: "./voice_1.PNG"});
+           $("#voice_ani").remove();
+
+        strHtml += '<div id="voice_ani" onclick="on_click()" style="';
+        strHtml += '    width:60px;';
+        strHtml += '    height:60px;';
+        strHtml += '    background:red;';
+        strHtml += '    position:relative;';
+        strHtml += '    animation:mymove 1s infinite;';
+        strHtml += '    animation-play-state:paused;';
+
+        strHtml += '    -webkit-animation:mymove 1s infinite;';
+        strHtml += '    -webkit-animation-timing-function:linear;';
+        strHtml += '    -webkit-animation-play-state:paused;';
+
+        strHtml += '@keyframes mymove';
+        strHtml += '{';
+        strHtml += '    0%   {background-image: url(./voice_1.PNG);}';
+        strHtml += '    25%  {background-image: url(./voice_2.PNG);}';
+        strHtml += '    50%  {background-image: url(./voice_3.PNG);}';
+        strHtml += '    75%  {background-image: url(./voice_4.PNG);}';
+        strHtml += '    100% {background-image: url(./voice_1.PNG);}';
+        strHtml += '}';
+
+        strHtml += '@-webkit-keyframes mymove';
+        strHtml += '{'
+        strHtml += '    0%   {background-image: url(./voice_1.PNG);}';
+        strHtml += '    25%  {background-image: url(./voice_2.PNG);}';
+        strHtml += '    50%  {background-image: url(./voice_3.PNG);}';
+        strHtml += '    75%  {background-image: url(./voice_4.PNG);}';
+        strHtml += '    100% {background-image: url(./voice_1.PNG);}';
+        strHtml += '}';
+        strHtml += '">';
+        strHtml += '</div>';
+
+        }
+
+
+
+
+        $("#voice_container").append(strHtml);
+
+    }
+</script>
+
+</body>
+</html>

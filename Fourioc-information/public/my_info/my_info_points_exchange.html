@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分查兑</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <style>
+      .grey_font{color:grey;}
+      .blue_font{color:rgb(87,107,149);}
+
+
+      .font_3{font-size:30%;}
+      .font_4{font-size:40%;}
+      .font_5{font-size:50%;}
+      .font_6{font-size:60%;}
+      .font_7{font-size:70%;}
+      .font_8{font-size:80%;}
+      .font_9{font-size:90%;}
+      .font_10{font-size:100%;}
+      .font_15{font-size:150%;}
+      .font_20{font-size:200%;}
+      .font_30{font-size:300%;}
+
+      .pos_2{ 
+        position:fixed;
+        left:5%;
+        top:3%;
+        /*margin-left:width/2;*/
+        /*margin-top:height/2;*/
+        width: 90%;
+        /*height: 40%;*/
+        /*background:rgb(0,0,0);*/
+        /*color:#000;*/
+        text-align: right;
+      }
+      .pos_3{ 
+        position:fixed;
+        left:0%;
+        bottom:30%;
+        /*margin-left:width/2;*/
+        /*margin-top:height/2;*/
+        width: 100%;
+        /*height: 40%;*/
+        /*background:rgb(0,0,0);*/
+        /*color:#000;*/
+      }
+      #bg_container:before
+      {
+        content: ""; 
+        display: block; 
+        padding-top: 45%; 
+      }
+    </style>
+
+    <script>
+        var g_points_info = null;
+
+        $(function(){
+
+            var req_json = {
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'get', // 提交方式 get/post
+              url: '/api/v1/personal_info/scores', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                alert("data:" + JSON.stringify(data));
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        g_points_info = data;
+                        alert("g_points_info:" + JSON.stringify(g_points_info));
+                    } else {
+                        debug_trace("personal_info/scores success [" + data.success + "] desc" + data.desc);
+                        // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("personal_info/scores error");
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("personal_info/scores failure.");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+              }
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+  <!-- 背景 -->
+  <div id="bg_container" style="background-size: 100% auto; background-repeat: no-repeat; background-image: url(points_bg.png); ">
+  </div>
+
+  <!-- 1 -->
+  <div style="width: 80%;margin: 10%;;position: absolute;top: 0; color:white;">  
+    <div style="float:left;width: 100%; text-align: center; margin:5px;">  
+      <span class="font_15">您的可用积分</span>
+    </div>  
+    <div style="float:left;width: 100%; text-align: center; margin:5px;">  
+      <div style="width:60%;height:1px;margin:0px auto;padding:0px;background-color:#D5D5D5;overflow:hidden;"></div>
+    </div>  
+    <div style="float:left;width: 100%; text-align: center; margin:5px;">
+      <span id="total_points" class="font_15"></span>
+    </div>  
+  </div>  
+
+  <!-- 2 -->
+  <div class="pos_2" >
+      <a href="javascript:window.location='./my_info_points_detail.html';" class="font_10" style="color:white;">明细</a>
+  </div>
+
+  <!-- 3 -->
+  <div class="pos_3">
+      <a href="javascript:window.location='./my_info_shop.html';" class="weui_btn weui_btn_primary" style="margin:10px;">积分换好礼</a>
+  </div>
+
+</body>
+
+<script>
+    $(document).ready(function(){
+        
+        //
+        if( g_points_info ) {
+
+            $("#total_points").html(g_class_info.data.scores);
+        }
+
+    });
+</script>
+
+</html>
+
+
+
+

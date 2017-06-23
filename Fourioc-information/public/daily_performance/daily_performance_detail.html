@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+        var corp_id = null;
+        var user_id = null;
+        var rate_id = null;
+        var identity = null;
+        var sid = null;
+        var type = null;
+
+        var json_obj = null;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "rate_id" ) {
+                    rate_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "sid" ) {
+                    sid = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                }
+            }
+
+            if(!corp_id || !user_id || !rate_id || !identity) {
+                debug_trace("" + ((!corp_id) ? " corp_id" :"") + ((!user_id) ? " user_id" :"") + ((!rate_id) ? "rate_id" :"") + ((!identity) ? " identity" :"") + " 参数错误");
+            }
+        }
+
+        $(function(){
+
+            var req_json = {
+              corpId:corp_id,
+              info:{
+                rateId:rate_id,
+                identity:parseInt(identity),
+                ext:{
+                    id:user_id,
+                    sid:sid,
+                }
+              }
+            };
+            alert(JSON.stringify(req_json));
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/rate/get', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    alert(JSON.stringify(data));
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                       alert(JSON.stringify(json_obj.data));
+                        alert(JSON.stringify(json_obj.data.rate.pics));
+                    } else {
+                        debug_trace("get_daily_performance_info success [" + data.success + "] desc " + data.desc);
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("get_daily_performance_info error");
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("get_daily_performance_info failure. user_id[" + "" + "]");
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得作业数据失败，服务器连接错误'));
+              }
+            });
+
+            //format date_time
+            if( json_obj ) {
+
+                json_obj.data.rate.editTime = format_date_time(json_obj.data.rate.editTime);
+            }
+
+        });
+
+        //
+        alert(1)
+        $.ajax({
+            url: '/wxedu/jsconfig/get', // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+            }
+        }).done(function(r) {
+
+            // 返回了数字签名对象
+            console.log(r);
+
+            // 调用微信API
+            wx.ready(function() {
+
+                //alert("wx.ready()");
+            });
+
+            // 开始配置微信JS-SDK
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+        });
+    </script>  
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="weui_tab_bd" >
+        <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+                        <img id="person_pic" class="weui_media_appmsg_thumb" src="" alt="head">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 id="person_name" class="weui_media_title"></h4>
+                        <p class="weui_media_desc ">
+                            <span id="edit_time"></span>
+                            <!-- <a id="copy_homework" href="javascript:;" style="display:none">复制作业</a> -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui_cells" >
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">评价</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a name="0" class="star_pic" href="javascript:;"></a>
+                    <a name="1" class="star_pic" href="javascript:;"></a>
+                    <a name="2" class="star_pic" href="javascript:;"></a>
+                    <a name="3" class="star_pic" href="javascript:;"></a>
+                    <a name="4" class="star_pic" href="javascript:;"></a>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" maxlength="200" rows="8" readonly></textarea>
+                    <ul id='pic_container' class="weui_uploader_files">
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <div id="relate_parents_cell" class="weui_cells" style="display:none;" >
+            <div class="weui_cells_access">
+                <a id="relate_parents" class="weui_cell open-popup" data-target="#contacts_list">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>相关家长</p>
+                    </div>
+                    <div class="weui_cell_ft"><span id="parents_cnt"></span></div>
+                </a>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <div id="footer" class="weui_tabbar" style="display:none">
+        <div id="revoke_div" class="weui_tabbar_item" style="display:none">
+            <a id="revoke" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">撤销</a>
+        </div>
+    </div>
+  
+    <div id="contacts_list" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                    <div class="weui-col-30">
+                        <a id="save_draft" href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                    </div>
+                    <div class="weui-col-50"></div>
+                </div>
+
+                <div id="parents_list" style="margin-top:10px;">
+    <!-- 
+                    <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                    </div>                    
+                    <div class="weui_cells " >
+                        <label class="weui_cell weui_check_label">
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>               
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        //
+        function pic_view(id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#pic_container img').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == id ) {
+                    url = value.src;
+                }
+            });
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+        //star_显示当前第几颗
+        function star_current(idx) {
+
+            // console.log($(".star_pic").eq(1).css("backgroundPosition"));
+
+            var is_sigle = (idx==0) && ($(".star_pic").eq(1).css("backgroundPosition") == "0px -20px");
+            console.log(is_sigle);
+
+            $(".star_pic").each(function(index,data) {
+
+                if(index==0 && is_sigle) {
+                    if($(data).css("backgroundPosition") == "0px 0px" ) {
+                        $(data).css({ "backgroundPosition":"0px -20px" });
+                    } else {
+                        $(data).css({ "backgroundPosition":"0px 0px" });
+                    }
+                } else {
+                    if(index <= idx) {
+                        $(data).css({ "backgroundPosition":"0px 0px" });
+                    } else {
+                        $(data).css({ "backgroundPosition":"0px -20px" });
+                    }
+                }
+            })
+        }
+
+        function init_data_field() {
+
+            if( json_obj == null ) {
+                return ;
+            }
+
+            $("#person_name").text(json_obj.data.creator.name);
+            $("#edit_time").text(json_obj.data.rate.editTime);
+            $("#person_pic").attr("src",json_obj.data.creator.pic);
+
+            star_current(json_obj.data.rate.star - 1);
+            $("#content").html(decodeURI(decodeURI(json_obj.data.rate.content)));
+
+            //
+            var pic_cnt = 0;
+
+            json_obj.data.rate.pics.forEach(function(v, i) {
+
+                var strHtml = '';
+                strHtml += '<li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                strHtml += '    <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                strHtml += '</li>';
+
+                $('#pic_container').append(strHtml);
+
+                pic_cnt++;
+            });
+
+
+
+
+
+
+        }
+
+        $(document).ready(function(){
+            
+            //
+            if(identity==1) {
+                switch(parseInt(type)) {
+                    case 0 :
+                        $(document).attr("title","草稿");
+                        break;
+                    case 1 :
+                        $(document).attr("title","已发布");
+                        break;
+                    case 2 :
+                        $(document).attr("title","已撤销");
+                        break;
+                    default :
+                        debug_trace("无效type[" + type + "]");
+                        break;
+                }
+            } else if(identity==2) {
+                switch(parseInt(type)) {
+                    case 0 :
+                        $(document).attr("title","未阅");
+                        break;
+                    case 1 :
+                        $(document).attr("title","已阅");
+                        break;
+                    case 2 :
+                        $(document).attr("title","已撤销");
+                        break;
+                    default :
+                        debug_trace("无效type[" + type + "]");
+                        break;
+                }
+            }
+
+            //
+            if( (json_obj != null) && (json_obj.data.creator.id == user_id) ) {
+
+                $('#revoke_div').show();
+                $('#footer').show(); 
+                $('#relate_parents_cell').show();
+                $("#parents_cnt").text(json_obj.data.rate.parent.length);
+            }
+
+            $(".star_pic").each(function(index,data) { 
+
+                $(data).css({ "float":"left", "width":"26px", "height":"20px", "background":"url(star.png) 0px -20px no-repeat"}); 
+           })
+
+            //
+            init_data_field();
+
+            //
+            $("#relate_parents").click(function(){
+                //init contacts list
+                var root = $("#parents_list");
+                root.empty();
+
+                if( json_obj == null ) {
+                    return ;
+                }
+
+                for(var unionIdx = 0; unionIdx < 1; unionIdx++) {
+
+                    var strHtml = '';
+
+                    // strHtml += '<div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">';
+                    // strHtml += '    <div class="weui-col-50"><h3>' + '1年' + (unionIdx+1) + '班</h3></div>';
+                    // strHtml += '</div>';                   
+                    strHtml += '<div class="weui_cells">';
+
+                    for( var personIdx = 0; personIdx < json_obj.data.rate.parent.length; personIdx++) {
+
+                        strHtml += '    <label class="weui_cell weui_check_label">';
+                        strHtml += '        <img src="' + json_obj.data.rate.parent[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+                        strHtml += '            <p>' + json_obj.data.rate.parent[personIdx].bakname + '</p>';
+                        strHtml += '        </div>';
+                        strHtml += '    </label>';
+                    }
+
+                    strHtml += '</div>';
+                    strHtml += '';
+
+                    root.append(strHtml);
+                }
+            });
+
+            $("#revoke").click(function(){
+
+                $.confirm("确定要撤销吗？", "", 
+                function() {
+                    //
+                    var req_json = {
+                      corpId:corp_id,
+                      info:{
+                        rateId:rate_id,
+                        identity:parseInt(identity),
+                      }
+                    };
+
+                    $.ajax({
+                      dataType:'json',
+                      contentType: "application/json",
+                      type: 'post', // 提交方式 get/post
+                      url: '/wxqyh/rate/cancel', // 需要提交的 url
+                      data: JSON.stringify(req_json),
+                      async: false,
+                      beforeSend: function(XHR) {
+                      },
+                      success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                        if( typeof data == "object" ) {
+                            if( data.success == 0 ) {
+                                $.toast("撤销成功");
+                                setTimeout(function() {
+                                    window.location = './daily_performance_list.html?user_id=' + '&corp_id=' + corp_id + '&user_id=' + user_id + '&identity=' + identity + '&type=' + type ;
+                                }, 2000);
+                            } else {
+                                debug_trace("json data success [" + data.success + "] desc [" + data.desc + "]");
+                                $.toast("撤销失败，数据错误", "forbidden");
+                            }
+                        } else {
+                            debug_trace("json format error");
+                            $.toast("撤销失败，格式错误", "forbidden");
+                        }
+                      },
+                      error:function(XHR, ErrText, Exception) {
+                        debug_trace("get daily performance detail failure. user_id[" + user_id + "]");
+                        $.toast("撤销失败，服务器连接错误", "forbidden");
+                      }
+                    });
+                }, 
+                function() {
+                  //取消操作
+                });
+            });
+        });
+
+    </script>
+
+
+
+
+
+</body>
+</html>

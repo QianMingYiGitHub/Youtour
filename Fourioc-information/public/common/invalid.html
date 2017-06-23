@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script>
+        var msg = null; 
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "msg" ) {
+                    msg = decodeURI(decodeURI(paramObj[i]["value"]));
+                }
+            }
+        }
+
+    </script>  
+
+</head>
+
+
+<body style="font-family:Helvetica,Arial,sans-serif;margin:0;background-color:#EFEFF4;background:-webkit-linear-gradient(#EFEFF4,#EFEFF4);background-attachment:fixed;">
+
+    <div style="padding:40px;">    
+        <div style="background-color:white;color:black;font-size:10pt;line-height:18px;margin:auto;max-width:800px;border-radius:5px;-webkit-box-shadow:2px 5px 12px#555;padding:20px;">    
+            <p id="msg" style="text-align: center;"></p>  
+        </div>    
+    </div>    
+
+    <script>
+        $(document).ready(function(){
+
+            if( msg ) {
+                $("#msg").html(msg);
+            } else {
+                $("#msg").html("暂时没有数据");
+            }
+        });
+    </script>  
+
+</body>
+</html>

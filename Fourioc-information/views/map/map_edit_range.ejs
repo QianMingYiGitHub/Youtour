@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap {width: 100%; height:550px; overflow: hidden;}
+        #result {width:100%;font-size:12px;}
+        dl,dt,dd,ul,li{
+            margin:0;
+            padding:0;
+            list-style:none;
+        }
+        p{font-size:12px;}
+        dt{
+            font-size:14px;
+            font-family:"微软雅黑";
+            font-weight:bold;
+            border-bottom:1px dotted #000;
+            padding:5px 0 5px 5px;
+            margin:5px 0;
+        }
+        dd{
+            padding:5px 0 0 5px;
+        }
+        li{
+            line-height:28px;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=q4thojhBimIbVx7rcAgf4i1qZgDGklX3"></script>
+    <!--加载鼠标绘制工具-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <!--加载检索信息窗口-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <title>百度地图API功能演示</title>
+</head>
+<body>
+<div style="width: 100%;height: 50px;">
+    <button type="button" class="btn btn-primary" disabled="disabled" id="one_tool" onclick="draw(BMAP_DRAWING_POLYLINE)">线条</button>
+    <button type="button" class="btn btn-primary" disabled="disabled" id="two_tool" onclick="draw(BMAP_DRAWING_RECTANGLE)">矩形面积</button>
+    <button type="button" class="btn btn-primary" disabled="disabled" id="three_tool" onclick="draw(BMAP_DRAWING_POLYGON)">多边行面积</button>
+    <button type="button" class="btn btn-primary"  id="delete_teacher" onclick="clearAll()">重画</button>
+    <button type="button" class="btn btn-primary" id="delete_teacher"  onclick="getPoint()">提交</button>
+    <!--<button type="button" class="btn btn-primary" id="delete_teacher"  onclick="alert(overlays.length)">提交</button>-->
+
+</div>
+
+
+<div id="allmap" style="overflow:hidden;zoom:1;position:relative;">
+    <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;">
+    </div>
+</div>
+
+
+
+<div id="result">
+
+</div>
+<div id="resultShape"></div>
+<!--<div id="shape">坐标为</div>-->
+
+<input type="hidden" id="dimension_box"/>
+
+<script type="text/javascript">
+    var map = new BMap.Map('map');
+    map.addControl(new BMap.NavigationControl());
+    map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT}));
+    map.enableScrollWheelZoom();
+
+
+    var id=getQueryString("id");
+    alert(id);
+
+    $.ajax({
+        url: '/school/'+id+'/get_school_Long_latitude',
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+        }),
+        success: function (data) {
+            if(data.success==0){
+                var jsondata=JSON.parse(JSON.stringify(data));
+               alert(JSON.stringify(data));
+                var content=jsondata.data.long_latitude_range;
+               alert(JSON.stringify(content));
+                function jQuery(id){
+                    return document.getElementById(id);
+                }
+                // 百度地图API功能
+
+
+                var point = new BMap.Point(content[0].longitude,content[0].latitude);
+                map.centerAndZoom(point, 19);
+                var points = [];  // 添加海量点数据
+                for (var i = 0; i < content.length; i++) {
+                    var p = new BMap.Point(content[i].longitude, content[i].latitude);
+
+                    points.push(p);
+                }
+
+                var pointCollection = new BMap.Polygon(points,options);  // 初始化
+
+
+                map.addOverlay(pointCollection);
+
+
+
+
+            }else {
+                alert("获取数据失败");
+            }
+
+        },
+        error: function(){
+            alert("获取数据失败");
+        }
+    });
+
+    var aa=116.394622;
+    var bb=39.9303
+
+
+
+
+
+    var overlays = [];
+    var overlaycomplete = function(e){
+        overlays.push(e.overlay);
+    };
+    var styleOptions = {
+        strokeColor:"red",    //边线颜色。  
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。  
+        strokeWeight: 3,       //边线的宽度，以像素为单位。  
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。  
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。  
+        strokeStyle: 'solid' //边线的样式，solid或dashed。  
+    }
+
+    //实例化鼠标绘制工具  
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式  
+        //enableDrawingTool: true, //是否显示工具栏  
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置  
+            offset: new BMap.Size(5, 5), //偏离值  
+        },
+        circleOptions: styleOptions, //圆的样式  
+        polylineOptions: styleOptions, //线的样式  
+        polygonOptions: styleOptions, //多边形的样式  
+        rectangleOptions: styleOptions //矩形的样式  
+    });
+
+    //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+
+//    map.addEventListener("rightclick",function(e){
+//        if(confirm(e.point.lng + "," + e.point.lat)){
+//            $("shape").innerHTML=$("shape").innerHTML+" <br/>("+e.point.lng+","+e.point.lat+")";
+//        }
+//    });
+
+    function draw(type){
+
+        drawingManager.open();
+
+        drawingManager.setDrawingMode(type);
+    }
+
+    function clearAll() {
+
+        map.clearOverlays();
+        for(var i = 0; i < overlays.length; i++){
+            map.removeOverlay(overlays[i]);
+        }
+        overlays.length = 0;
+        document.getElementById("one_tool").removeAttribute("disabled");
+        document.getElementById("two_tool").removeAttribute("disabled");
+        document.getElementById("three_tool").removeAttribute("disabled");
+    }
+    function getPoint(){
+if(overlays.length>1){
+alert("只能画取一个面积");
+    return
+}else{
+
+    $("resultShape").innerHTML='';
+    var coordinate=[];
+    for(var i = 0; i < overlays.length; i++){
+        var overlay=overlays[i].getPath();
+        $("resultShape").innerHTML=$("resultShape").innerHTML+overlay.length+'边形:<br/>';
+        for(var j = 0; j < overlay.length; j++){
+            var grid =overlay[j];
+            $("resultShape").innerHTML=$("resultShape").innerHTML+(j+1)+"个点:("+grid.lng+","+grid.lat+");<br/>";
+            //alert("给钱明一,"+grid.lng+","+grid.lat);
+            var person = new Object();
+            person.longitude = grid.lng;
+            person.latitude = grid.lat;
+            coordinate.push(person);
+            alert(JSON.stringify(coordinate));
+
+        }
+    }
+
+    var id=getQueryString("id");
+    alert(id);
+    $.ajax({
+        url: '/school/'+id+'/modify_school_Long_latitude',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+
+            long_latitude_range:coordinate,
+
+        }),
+
+        success: function(data) {
+            alert(data);
+            if (data.success == 0) {
+                parent.removeAll("学校管理");
+                parent.removeAll("添加坐标");
+            }
+        }
+    });
+
+
+
+}
+    }
+    function Editing(state){
+        for(var i = 0; i < overlays.length; i++){
+            state=='enable'?overlays[i].enableEditing():overlays[i].disableEditing();
+        }
+    }
+
+    function  showPolygon(btn){
+        var polygon = new BMap.Polygon([
+            new BMap.Point(113.941853,22.530777),
+            new BMap.Point(113.940487,22.527789),
+            new BMap.Point(113.94788,22.527597),
+            new BMap.Point(113.947925,22.530618)
+        ], styleOptions);  //创建多边形
+        map.addOverlay(polygon);   //增加多边形
+        // overlays.push(polygon); //是否把该图像加入到编辑和删除行列
+        btn.setAttribute('disabled','false');
+        showText();
+    }
+
+    function showText(){
+        var opts = {
+            position : new BMap.Point(113.941853,22.530777),    // 指定文本标注所在的地理位置
+            offset   : new BMap.Size(30, 30)    //设置文本偏移量
+        }
+        var label = new BMap.Label("不可编辑", opts);  // 创建文本标注对象
+        label.setStyle({
+            color : "black",
+            fontSize : "16px",
+            fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        });
+        map.addOverlay(label);
+    }
+
+    drawingManager.addEventListener("overlaycomplete", function(e) {
+        alert(overlays.length);
+        if(overlays.length>0){
+            drawingManager.close();
+            document.getElementById("one_tool").setAttribute("disabled","disabled");
+            document.getElementById("two_tool").setAttribute("disabled","disabled");
+            document.getElementById("three_tool").setAttribute("disabled","disabled");
+        }
+    });
+
+
+
+//    var polyline = new BMap.Polyline([
+//        new BMap.Point(116.399, 39.910),
+//        new BMap.Point(116.405, 39.920),
+//        new BMap.Point(116.425, 39.900)
+//    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
+//
+//    var circle = new BMap.Circle(point,500,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5}); //创建圆
+//
+//    var polygon = new BMap.Polygon([
+//        new BMap.Point(116.387112,39.920977),
+//        new BMap.Point(116.385243,39.913063),
+//        new BMap.Point(116.394226,39.917988),
+//        //new BMap.Point(116.401772,39.921364),
+//        //new BMap.Point(116.41248,39.927893)
+//    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形
+//
+//    var pStart = new BMap.Point(116.392214,39.918985);
+//    var pEnd = new BMap.Point(116.41478,39.911901);
+//    var rectangle = new BMap.Polygon([
+//        new BMap.Point(pStart.lng,pStart.lat),
+//        new BMap.Point(pEnd.lng,pStart.lat),
+//        new BMap.Point(pEnd.lng,pEnd.lat),
+//        new BMap.Point(pStart.lng,pEnd.lat)
+//    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建矩形
+
+
+
+
+    var options = {
+        size: BMAP_POINT_SIZE_SMALL,
+        shape: BMAP_POINT_SHAPE_STAR,
+        color: '#d340c3',
+        fillColor:'#3385ff',
+        strokeColor:"#3385ff",
+        strokeOpacity:0.8,
+        FillOpacity:0.01
+    }
+
+
+
+
+
+    //添加覆盖物
+    function add_overlay(){
+        //map.addOverlay(marker);            //增加点
+        //map.addOverlay(polyline);          //增加折线
+        //map.addOverlay(circle);            //增加圆
+        //map.addOverlay(polygon);           //增加多边形
+        //map.addOverlay(rectangle);         //增加矩形
+        map.addOverlay(pointCollection);  // 添加Overlay
+    }
+    //清除覆盖物
+    function remove_overlay(){
+        map.clearOverlays();
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        alert(r);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+
+
+</script>
+</body>
+</html>  

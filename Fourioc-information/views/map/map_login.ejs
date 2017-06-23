@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/map/map_login.css">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="lib/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <style type="text/css">
+        p{
+            margin:0px;
+        }
+        .btn-default{
+            width:310px;
+        }
+        .input-group-addon{
+            background-color:#FFF;
+            padding: 5px 12px;
+        }
+        h4{
+            font-size: 16px;
+            color: #4C8DEE;
+            padding: 10px 20px 5px;
+            font-weight:bold;
+        }
+
+        .form-horizontal{
+            margin: 25px 20px 0;
+        }
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+<div class="top_box">
+    <div class="top_box_l">
+        <div class="top_logo">
+            <img  src="images/logo.png"/>
+            <span></span>
+        </div>
+        <div class="top_line">
+            <img src="images/line.png" width="2" height="34">
+        </div>
+        <span class="top_size"><img src=""/></span>
+    </div>
+
+
+    <div class="top_box_r">
+        <div class="contact_us">
+            <b class="ico_mobile"><img src="images/mobile.png" width="32" height="32"></b>
+            <span class="txt_r">客服电话：</span>
+            <p>400-000-110</p>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="body_box">
+    <img src="images/login_bg.png">
+
+
+
+    <div  class="login_box">
+        <h4>登录</h4>
+
+        <div>
+            <div class="form-horizontal">
+
+
+                <div class="div_user">
+                    <b class="ico_one"></b>
+                    <input id="username" type="text" name="username" data-nullmsg="请输入用户名">
+
+                </div>
+                <div class="div_user">
+                    <b class="ico_two"></b>
+                    <input id="password" type="password" name="password" data-nullmsg="请输入用户名">
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <!-- <div class="checkbox">
+                          <label>
+                           <input type="checkbox"> Remember me
+                          </label>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10" style="width:100%">
+                        <button  class="btn btn-primary btn-lg btn-block" id="login">登录</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script src="/javascripts/jquery-2.1.1-youtu.js"></script>
+
+
+<script>
+
+//    function checkUser() {
+//        var username = $("#username").val();
+//        if (username == "" || username == null) {
+//            //alert("账号不能为空");
+//            return false;
+//        }
+//
+//        else if (letterNum(username) == false) {
+//            //alert("账号不能为汉字");
+//            return false;
+//        }
+//
+//        var password = $("#password").val();
+//        if (password == "" || password == null) {
+//            //alert("密码不能为空");
+//            return false;
+//        }
+//        else if (password.length < 6) {
+//            //alert("密码不能为汉字");
+//            return false;
+//        }
+//
+//        else if (letterNum(password) == false) {
+//            //alert("密码不能为汉字");
+//            return false;
+//        }
+//    }
+
+
+
+$("#login").on('click',function(){
+    alert("111111");
+    var username = $("#username").val();
+    if (username == "" || username == null) {
+        //alert("账号不能为空");
+        return ;
+    }
+
+    else if ($.num_abc(username) == false) {
+        //alert("账号不能为汉字");
+        return;
+    }
+
+    var password = $("#password").val();
+    if (password == "" || password == null) {
+        //alert("密码不能为空");
+        return ;
+    }
+    else if (password.length < 5) {
+        //alert("密码不能为汉字");
+        return
+    }
+    else if ($.num_abc(password) == false) {
+        //alert("密码不能为汉字");
+        return
+    }
+    alert("ajax");
+    $.ajax({
+        url: '/admin_login',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+            username:username,
+            password:password,
+           // name:name,
+           // role:"editor",
+
+
+        }),
+        success: function(data){
+            if(data.success==0){
+                var jsondata=JSON.parse(JSON.stringify(data));
+           var login_name=jsondata.data.Info.username
+                window.location.href = "/map_home?username="+login_name;
+
+            }
+            else{
+                alert("用户名重复");
+                //alert("提交数据失败");
+
+            }
+
+
+        },
+        error: function(){
+            alert("提交数据失败");
+        }
+
+    })
+
+})
+
+
+</script>
+
+
+</body>
+</html>

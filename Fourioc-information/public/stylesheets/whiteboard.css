@@ -1,0 +1,269 @@
+.main{
+    margin:0 auto 0 auto;
+
+}
+
+.button_top{
+    width: 100%;
+    margin-top: 15px;
+
+}
+.nav_button{
+    float: right;
+    height: 370px;
+    width: 100px;
+
+    position: fixed;
+    z-index: 99999;
+    bottom: 20px;
+    right: 20px;
+
+}
+.btnClose{
+    float:right;
+    color:#FFF;
+    font-weight:bold;
+    line-height:40px;
+
+    text-decoration:none;
+}
+.title_top{
+    width: 100%;
+    padding-left: 15px;
+}
+.out{
+    width: 100px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    background-image:url(../images/out_button.png);
+
+}
+.out a{
+    color: #fff;
+}
+.out a:hover{
+    text-decoration: none;
+}
+.title_top{
+    width: 100%;
+    float: left;
+}
+.title_top_box{
+
+    float: left;
+    margin-left: 24px;
+
+}
+.title_top_box p{
+    float: left;
+}
+.title_top_box span{
+    float: left;
+}
+.student_name{
+    height: 260px;
+    float: left;
+    overflow-y:scroll;
+    width: 538px;
+}
+
+.student_name a{
+    display: block;
+    width: 58px;
+    height: 32px;
+    line-height: 32px;
+    float: left;
+    background-color: #e6e6e6;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    color: #000;
+}
+.explain_foot{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    float: left;
+    border: 1px #eee solid;
+}
+.explain_foot a{
+    width: 10px;
+    height: 10px;
+    float: left;
+    display: block;
+    margin-left: 10px;
+    margin-top: 12px;
+}
+.explain_foot span{
+    float: left;
+    margin-left: 5px;
+}
+.green{
+    background-color: #4cae4c;
+}
+.red{
+    background-color: tomato;
+}
+.blue{
+    background-color: #00B7FF;
+}
+.gray{
+    background-color: #9d9d9d;
+}
+
+button{
+    outline:none;
+}
+.content_main{
+height: 100%;
+}
+
+
+
+.btn-primary_two{
+    background-image:url(../images/button_nav.png);
+
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_two:hover{
+    background-image:url(../images/button_nav.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_two:focus, .btn-primary_two.focus, .btn-primary_two:active{
+    background-image:url(../images/button_nav.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    outline:none;
+    border: 0px;
+}
+
+
+
+
+
+.btn-primary_l{
+    width: 50%;
+    float: left;
+
+
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_l:hover{
+    width: 50%;
+    float: left;
+    background-image:url(../images/button_nav_l.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_l:focus, .btn-primary_l.focus, .btn-primary_l:active{
+    width: 50%;
+    float: left;
+    background-image:url(../images/button_nav_l.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    outline:none;
+    border: 0px;
+}
+
+
+.btn-primary_r{
+    width: 50%;
+    float: left;
+
+
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_r:hover{
+    width: 50%;
+    float: left;
+    background-image:url(../images/button_nav_r.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    border: 0px;
+}
+.btn-primary_r:focus, .btn-primary_r.focus, .btn-primary_r:active{
+    width: 50%;
+    float: left;
+    background-image:url(../images/button_nav_r.png);
+    background-color: #fff;
+    border-color: #fff;
+    color: #fff;
+    outline:none;
+    border: 0px;
+}
+.btn_two{
+    padding:0px;
+    width: 100px;
+    height: 45px;
+    font-weight: bold;
+}
+.btn_two_l{
+    padding:0px;
+    width: 50px;
+    height: 45px;
+    font-weight: bold;
+}
+.btn_two_r{
+    padding:0px;
+    width: 50px;
+    height: 45px;
+    font-weight: bold;
+}
+
+.button_box{
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+}
+.title_graphical{
+    width: 300px;
+    height: 25px;
+    margin: 0 auto 0 auto;
+}
+
+.title_graphical span{
+    float: left;
+    color: #ec971f;
+}
+.title_graphical p{
+    float: left;
+
+}
+.type_title{
+    width: 100%;
+    height: 40px;
+    /*text-align: center;*/
+    font-size: 30px;
+}
+.type_title span{
+    color:#0895c0;
+    font-family: "微软雅黑";
+}
+.number_of{
+font-size: 24px;
+font-weight: bold;
+margin-left: 8px;
+}
+.number_of_box{
+text-align: center;
+    padding-right:16px;
+}

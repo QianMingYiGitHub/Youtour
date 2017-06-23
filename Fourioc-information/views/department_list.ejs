@@ -1,0 +1,2580 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>编辑</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-table.css"/>
+  <script type="text/javascript" src="/javascripts/jquery-2.1.1-youtu.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table.js"></script>
+  <script type="text/javascript" src="/javascripts/bootstrap-table-zh-CN.js"></script>
+  <style type="text/css">
+    .main{
+      margin:0 auto 0 auto;
+
+    }
+    .button_top{
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .class_box_l{
+      margin: 0 auto 0 auto;
+      height: 100px;
+      line-height: 34px;
+
+    }
+    .class_box_l b{
+      width: 100%;
+      float: left;
+      font-size: 18px;
+      text-align: center;
+      display: block;
+      margin: 0 auto 0 auto;
+
+    }
+    .class_box_center{
+      width: 100%;
+      margin: 0 auto 0 auto;
+      height: 100%;
+    }
+    .class_box_l span{
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      margin-left: 60px;
+
+    }
+    .class_box_l p{
+      float: left;
+      font-size: 16px;
+    }
+    .relatives_example{
+      width: 100%;
+      color: red;
+    }
+    .kong{
+      width: 80px;
+      text-align: center;
+      margin-left: 40px;
+    }
+    .modal_box_one {
+      height: 70px;
+      line-height: 40px;
+    }
+    .explain_foot{
+      width: 545px;
+      height: 35px;
+      line-height: 35px;
+      float:right;
+      border: 1px #eee solid;
+    }
+    .explain_foot a{
+      width: 10px;
+      height: 10px;
+      float: left;
+      display: block;
+      margin-left: 10px;
+      margin-top: 12px;
+    }
+    .explain_foot span{
+      float: left;
+      margin-left: 5px;
+    }
+
+
+    .green{
+      background-color: #4cae4c;
+    }
+    .red{
+      background-color: tomato;
+    }
+    .blue{
+      background-color: #00B7FF;
+    }
+    .gray{
+      background-color: #9d9d9d;
+    }
+
+
+
+
+    .panel-body {
+      padding: 5px 10px 10px 10px;
+    }
+    .magnifier_img{
+      padding-bottom: 3px;
+      margin-right: 7px;
+
+    }
+    .query_button{
+      width: 140px;
+      float: right;
+      margin-right: 5px;
+    }
+    .query_top_box{
+      width: 100%;
+      height: 78px;
+      border: 1px solid #dddddd;
+      padding-top: 20px;;
+    }
+    .button_width{
+      width: 90px;
+    }
+
+
+    .col-md-10{
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+    body{
+      font-size: 16px;
+      font-family: "微软雅黑";
+    }
+    .query_column{
+      margin-top: 8px;;
+    }
+    .input-group-addon:last-child {
+      border-left: 0;
+      width: 90px;
+      float: initial;
+    }
+    .input-group{
+      width: 100%;
+    }
+    .btn-primary{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus{
+      background-color: #06afe6;
+      border-color: #06afe6;
+    }
+    label{
+      color: #777;
+    }
+    .th-inner{
+      color: #777;
+    }
+    .modal-footer{
+
+    }
+    @media (min-width: 768px) {
+      .modal-dialog {
+
+        margin: 30px auto;
+      }
+    }
+    .modal-header{
+      background-color: #03ACE3;
+      color: #fff;
+      height: 40px;
+      border-top-left-radius:4px;
+      border-top-right-radius:4px;
+    }
+    .modal-content{
+      border-bottom-left-radius:4px;
+      border-bottom-right-radius:4px;
+    }
+    .modal-title{
+      line-height: 10px;
+      font-size: 16px;
+    }
+    .close{
+      color: #fff;
+      opacity: .9;
+      line-height: 0.6;
+    }
+    .modal-footer{
+      padding: 8px 15px 8px 15px;
+    }
+    .table>thead>tr>th{
+      border-bottom:0px;
+    }
+    .col-md-6{
+      padding-left: 0px;
+      padding-right: 5px;
+    }
+    .col-md-7{
+      padding-left: 0px;
+      padding-right: 5px;
+    }
+    .col-md-5{
+      padding-left: 0px;
+      padding-right: 5px;
+    }
+    .table{
+      margin-bottom: 10px;
+    }
+    .table th, .table td {
+
+      vertical-align: middle!important;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="main">
+  <div class="container-fluid">
+
+    <div class="form-inline" >
+      <div class="col-md-12 query_top_box" >
+
+        <div class="form-group">
+          <label  for="teacher_name">教师姓名：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="teacher_name" placeholder="请输入教师姓名">
+
+        </div>
+        <div class="form-group">
+          <label class="kong" for="teacher_mobile">手机号：</label>
+
+          <input type="text" class="form-control" style="width: 210px;" id="teacher_mobile" placeholder="请输入手机号">
+
+        </div>
+
+        <!--<div class="form-group">-->
+          <!--<label class="kong" for="query_incident_area">案件地区：</label>-->
+
+          <!--<input type="text" class="form-control" style="width: 210px;" id="query_incident_area" placeholder="案件地区">-->
+
+        <!--</div>-->
+        <button  class="btn btn-primary query_button" id="query_case"><img  src="../images/magnifier.png" class="magnifier_img"/>查询</button>
+      </div>
+
+    </div>
+
+    <div class="col-md-10 button_top">
+      <button type="button" class="btn btn-primary" id="add_teacher">新增</button>
+      <button type="button" class="btn btn-primary" id="edit_teacher">编辑</button>
+      <button type="button" class="btn btn-primary" id="delete_teacher">删除</button>
+
+
+      <!--<div class="explain_foot">-->
+        <!--<a class="green"></a><span>绿色代表答对</span>-->
+        <!--<a class="red"></a><span>红色代表答错</span>-->
+        <!--<a class="blue"></a><span>蓝色代表无效作答</span>-->
+        <!--<a class="gray"></a><span>灰色代表未作答</span>-->
+      <!--</div>-->
+
+    </div>
+
+
+
+
+
+    <div class="col-md-10">
+    </div>
+    <table id="table">
+
+    </table>
+
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增教师</h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">教师姓名</div>
+              <input type="text" class="form-control" id="add_teacher_name" placeholder="请输入教师姓名">
+
+                </div>
+              </div>
+            </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+              <div class="input-group-addon">手机号</div>
+              <input type="tel" class="form-control" id="add_teacher_mobile" onblur="mobile_teacher()" placeholder="请输入教师手机号">
+                </div>
+            </div>
+          </div>
+
+        <div class="col-md-6" style="padding-left: 0px;margin-bottom: 15px">
+          <div class="input-group">
+
+            <input type="tel" class="form-control" readonly="readonly"  id="edit_teacher_name" placeholder="请输入教师姓名" value="123456">
+            <div class="input-group-addon">默认密码</div>
+
+          </div>
+
+        </div>
+
+        <!--<div class="input-group">-->
+          <!--<div class="col-md-7">-->
+            <!--<div class="input-group">-->
+              <!--<span class="input-group-addon">任职班主任</span>-->
+              <!--<select class="form-control" id="boss_select_grade" name="add_select_grade">-->
+                <!--<option value="请选择">请选择</option>-->
+                <!--<option value="0">一年级</option>-->
+                <!--<option value="1">二年级</option>-->
+                <!--<option value="2">三年级</option>-->
+                <!--<option value="3">四年级</option>-->
+                <!--<option value="4">五年级</option>-->
+                <!--<option value="5">六年级</option>-->
+                <!--<option value="6">七年级</option>-->
+                <!--<option value="7">八年级</option>-->
+                <!--<option value="8">九年级</option>-->
+                <!--<option value="9">高一</option>-->
+                <!--<option value="10">高二</option>-->
+                <!--<option value="11">高三</option>-->
+              <!--</select>-->
+
+            <!--</div>-->
+          <!--</div>-->
+
+
+          <!--<div class="col-md-5" style="padding-left: 0px;">-->
+            <!--<div class="input-group" >-->
+
+              <!--<select class="form-control" id="boss_select_class" name="boss_select_class" style="border-radius: 3px;">-->
+                <!--<option value="请选择">请选择</option>-->
+                <!--<option value="一班">一班</option>-->
+                <!--<option value="二班">二班</option>-->
+                <!--<option value="三班">三班</option>-->
+                <!--<option value="四班">四班</option>-->
+                <!--<option value="五班">五班</option>-->
+                <!--<option value="六班">六班</option>-->
+                <!--<option value="七班">七班</option>-->
+                <!--<option value="八班">八班</option>-->
+                <!--<option value="九班">九班</option>-->
+                <!--<option value="十班">十班</option>-->
+                <!--<option value="十一班">十一班</option>-->
+                <!--<option value="十二班">十二班</option>-->
+                <!--<option value="十三班">十三班</option>-->
+                <!--<option value="十四班">十四班</option>-->
+                <!--<option value="十五班">十五班</option>-->
+                <!--<option value="十六班">十六班</option>-->
+                <!--<option value="十七班">十七班</option>-->
+                <!--<option value="十八班">十八班</option>-->
+                <!--<option value="十九班">十九班</option>-->
+                <!--<option value="二十班">二十班</option>-->
+
+              <!--</select>-->
+
+
+            <!--</div>-->
+
+          <!--</div>-->
+        <!--</div>-->
+<!--<br>-->
+
+        <div class="input-group">
+          <div class="col-md-6">
+            <div class="input-group">
+  <span class="input-group-addon">
+    任职班主任
+    </span>
+              <select class="form-control" id="add_headmaster_grade" name="add_headmaster_grade">
+                <option value="请选择">请选择年级</option>
+                <option value="0">一年级</option>
+                <option value="1">二年级</option>
+                <option value="2">三年级</option>
+                <option value="3">四年级</option>
+                <option value="4">五年级</option>
+                <option value="5">六年级</option>
+                <option value="6">七年级</option>
+                <option value="7">八年级</option>
+                <option value="8">九年级</option>
+                <option value="9">高一</option>
+                <option value="10">高二</option>
+                <option value="11">高三</option>
+              </select>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-6" style="padding-left: 0px;">
+            <div class="input-group" >
+
+              <select class="form-control" id="add_headmaster_class" name="add_headmaster_class" style="border-radius: 3px;">
+                <option value="请选择">请选择班级</option>
+                <option value="一班">一班</option>
+                <option value="二班">二班</option>
+                <option value="三班">三班</option>
+                <option value="四班">四班</option>
+                <option value="五班">五班</option>
+                <option value="六班">六班</option>
+                <option value="七班">七班</option>
+                <option value="八班">八班</option>
+                <option value="九班">九班</option>
+                <option value="十班">十班</option>
+                <option value="十一班">十一班</option>
+                <option value="十二班">十二班</option>
+                <option value="十三班">十三班</option>
+                <option value="十四班">十四班</option>
+                <option value="十五班">十五班</option>
+                <option value="十六班">十六班</option>
+                <option value="十七班">十七班</option>
+                <option value="十八班">十八班</option>
+                <option value="十九班">十九班</option>
+                <option value="二十班">二十班</option>
+
+              </select>
+              <span class="input-group-addon">  <a class="btn btn-link add_headmaster_written" style="margin:0;border:0;padding:0;" onclick="on_add_headmaster();">
+                  <i class="glyphicon glyphicon-plus icon-white"></i>任职班主任
+                </a></span>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="input-group">
+
+          <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+            <div class="box-inner">
+              <div class="box-content">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th ><span style="display:none;" id="written_headmaster">已在班级</span></th>
+                    <!-- <th>操作</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="add_tb_headmaster">
+                  <!-- <tr class="active">
+                      <td>部门1</td>
+                      <td>
+                          <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                              <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                          </a>
+                      </td>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="input-group">
+          <div class="col-md-6">
+            <div class="input-group">
+<span class="input-group-addon">
+    任课班级
+    </span>
+              <select class="form-control" id="add_teacher_grade" name="add_teacher_grade">
+                <option value="请选择">请选择年级</option>
+                <option value="0">一年级</option>
+                <option value="1">二年级</option>
+                <option value="2">三年级</option>
+                <option value="3">四年级</option>
+                <option value="4">五年级</option>
+                <option value="5">六年级</option>
+                <option value="6">七年级</option>
+                <option value="7">八年级</option>
+                <option value="8">九年级</option>
+                <option value="9">高一</option>
+                <option value="10">高二</option>
+                <option value="11">高三</option>
+              </select>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-6" style="padding-left: 0px;">
+            <div class="input-group" >
+
+              <select class="form-control" id="add_teacher_class" name="add_teacher_class" style="border-radius: 3px;">
+                <option value="请选择">请选择班级</option>
+                <option value="一班">一班</option>
+                <option value="二班">二班</option>
+                <option value="三班">三班</option>
+                <option value="四班">四班</option>
+                <option value="五班">五班</option>
+                <option value="六班">六班</option>
+                <option value="七班">七班</option>
+                <option value="八班">八班</option>
+                <option value="九班">九班</option>
+                <option value="十班">十班</option>
+                <option value="十一班">十一班</option>
+                <option value="十二班">十二班</option>
+                <option value="十三班">十三班</option>
+                <option value="十四班">十四班</option>
+                <option value="十五班">十五班</option>
+                <option value="十六班">十六班</option>
+                <option value="十七班">十七班</option>
+                <option value="十八班">十八班</option>
+                <option value="十九班">十九班</option>
+                <option value="二十班">二十班</option>
+
+              </select>
+              <span class="input-group-addon">  <a class="btn btn-link" style="margin:0;border:0;padding:0;" onclick="on_add_class();">
+                  <i class="glyphicon glyphicon-plus icon-white"></i>任课班级
+                </a></span>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="input-group">
+
+          <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+            <div class="box-inner">
+              <div class="box-content">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th ><span style="display: none" id="written_class">已在班级</span></th>
+                    <!-- <th>操作</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="add_tb_class">
+                  <!-- <tr class="active">
+                      <td>部门1</td>
+                      <td>
+                          <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                              <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                          </a>
+                      </td>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+
+        <div class="input-group">
+
+            <div class="input-group col-md-12">
+
+              <div class="form-group">
+                <select id="add_teacher_department" class="form-control" style="border-radius: 4px;">
+                  <option value="请选择">请选择</option>
+                </select>
+              </div>
+        <span class="input-group-addon">
+                                <a class="btn btn-link" style="margin:0;border:0;padding:0;" onclick="on_add_department();">
+                                  <i class="glyphicon glyphicon-plus icon-white"></i>加入部门
+                                </a>
+                            </span>
+            </div>
+
+            <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+              <div class="box-inner">
+                <div class="box-content">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th><span id="written_department" style="display: none">已在部门</span></th>
+                      <!-- <th>操作</th> -->
+                    </tr>
+                    </thead>
+                    <tbody id="add_tb_department">
+                    <!-- <tr class="active">
+                        <td>部门1</td>
+                        <td>
+                            <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                                <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                            </a>
+                        </td>
+                    </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+</div>
+
+
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="add_teacher_submit">保存</button>
+      </div>
+  </div>
+</div>
+
+</div>
+
+
+
+<!-- Moda2 -->
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑教师</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">教师姓名</div>
+              <input type="text" class="form-control" id="edit_teacher_name" placeholder="请输入教师姓名">
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">手机号</div>
+              <input type="tel" class="form-control" id="edit_teacher_mobile" onblur="mobile_teacher_edit()" placeholder="请输入教师手机号">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" style="padding-left: 0px;margin-bottom: 15px">
+          <div class="input-group">
+
+            <input type="password" class="form-control" readonly="readonly"  id="edit_teacher_name" placeholder="请输入教师姓名" value="123456">
+              <span class="input-group-addon">  <a class="btn btn-link " style="margin: 0px; border: 0px; padding: 0px;" onclick="on_edit_headmaster();">
+                  <i class="glyphicon glyphicon-plus icon-white"></i>重置密码
+                </a></span>
+
+          </div>
+
+        </div>
+
+
+
+
+
+        <div class="input-group">
+          <div class="col-md-6">
+            <div class="input-group">
+  <span class="input-group-addon">
+    任职班主任
+    </span>
+              <select class="form-control" id="edit_headmaster_grade" name="edit_headmaster_grade">
+                <option value="请选择">请选择年级</option>
+                <option value="0">一年级</option>
+                <option value="1">二年级</option>
+                <option value="2">三年级</option>
+                <option value="3">四年级</option>
+                <option value="4">五年级</option>
+                <option value="5">六年级</option>
+                <option value="6">七年级</option>
+                <option value="7">八年级</option>
+                <option value="8">九年级</option>
+                <option value="9">高一</option>
+                <option value="10">高二</option>
+                <option value="11">高三</option>
+              </select>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-6" style="padding-left: 0px;">
+            <div class="input-group" >
+
+              <select class="form-control" id="edit_headmaster_class" name="edit_headmaster_class" style="border-radius: 3px;">
+                <option value="请选择">请选择班级</option>
+                <option value="一班">一班</option>
+                <option value="二班">二班</option>
+                <option value="三班">三班</option>
+                <option value="四班">四班</option>
+                <option value="五班">五班</option>
+                <option value="六班">六班</option>
+                <option value="七班">七班</option>
+                <option value="八班">八班</option>
+                <option value="九班">九班</option>
+                <option value="十班">十班</option>
+                <option value="十一班">十一班</option>
+                <option value="十二班">十二班</option>
+                <option value="十三班">十三班</option>
+                <option value="十四班">十四班</option>
+                <option value="十五班">十五班</option>
+                <option value="十六班">十六班</option>
+                <option value="十七班">十七班</option>
+                <option value="十八班">十八班</option>
+                <option value="十九班">十九班</option>
+                <option value="二十班">二十班</option>
+
+              </select>
+              <span class="input-group-addon">  <a class="btn btn-link headmaster_written" style="margin:0;border:0;padding:0;" onclick="on_edit_headmaster();">
+                  <i class="glyphicon glyphicon-plus icon-white"></i>任职班主任
+                </a></span>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="input-group">
+
+          <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+            <div class="box-inner">
+              <div class="box-content">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th ><span style="display:none;" id="edit_written_headmaster">已在班级</span></th>
+                    <!-- <th>操作</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="edit_tb_headmaster">
+                  <!-- <tr class="active">
+                      <td>部门1</td>
+                      <td>
+                          <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                              <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                          </a>
+                      </td>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="input-group">
+          <div class="col-md-6">
+            <div class="input-group">
+<span class="input-group-addon">
+    任课班级
+    </span>
+              <select class="form-control" id="edit_teacher_grade" name="edit_teacher_grade">
+                <option value="请选择">请选择年级</option>
+                <option value="0">一年级</option>
+                <option value="1">二年级</option>
+                <option value="2">三年级</option>
+                <option value="3">四年级</option>
+                <option value="4">五年级</option>
+                <option value="5">六年级</option>
+                <option value="6">七年级</option>
+                <option value="7">八年级</option>
+                <option value="8">九年级</option>
+                <option value="9">高一</option>
+                <option value="10">高二</option>
+                <option value="11">高三</option>
+              </select>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-6" style="padding-left: 0px;">
+            <div class="input-group" >
+
+              <select class="form-control" id="edit_teacher_class" name="edit_teacher_class" style="border-radius: 3px;">
+                <option value="请选择">请选择班级</option>
+                <option value="一班">一班</option>
+                <option value="二班">二班</option>
+                <option value="三班">三班</option>
+                <option value="四班">四班</option>
+                <option value="五班">五班</option>
+                <option value="六班">六班</option>
+                <option value="七班">七班</option>
+                <option value="八班">八班</option>
+                <option value="九班">九班</option>
+                <option value="十班">十班</option>
+                <option value="十一班">十一班</option>
+                <option value="十二班">十二班</option>
+                <option value="十三班">十三班</option>
+                <option value="十四班">十四班</option>
+                <option value="十五班">十五班</option>
+                <option value="十六班">十六班</option>
+                <option value="十七班">十七班</option>
+                <option value="十八班">十八班</option>
+                <option value="十九班">十九班</option>
+                <option value="二十班">二十班</option>
+
+              </select>
+              <span class="input-group-addon">  <a class="btn btn-link" style="margin:0;border:0;padding:0;" onclick="on_edit_class();">
+                  <i class="glyphicon glyphicon-plus icon-white"></i>任课班级
+                </a></span>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="input-group">
+
+          <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+            <div class="box-inner">
+              <div class="box-content">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th><span id="edit_written_class" style="display: none">已在班级</span></th>
+                    <!-- <th>操作</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="edit_tb_class">
+                  <!-- <tr class="active">
+                      <td>部门1</td>
+                      <td>
+                          <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                              <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                          </a>
+                      </td>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="input-group">
+
+          <div class="input-group col-md-12">
+
+            <div class="form-group">
+              <select id="edit_teacher_department" class="form-control" style="border-radius: 4px;">
+                <option value="请选择">请选择</option>
+
+              </select>
+            </div>
+<span class="input-group-addon">
+                                <a class="btn btn-link" style="margin:0;border:0;padding:0;" onclick="on_edit_department();">
+                                  <i class="glyphicon glyphicon-plus icon-white"></i>加入部门
+                                </a>
+                            </span>
+          </div>
+
+          <div class="box col-md-12" style="margin:0;padding:0;border:0;">
+            <div class="box-inner">
+              <div class="box-content">
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th><span id="edit_written_department" style="display: none">已在部门</span></th>
+                    <!-- <th>操作</th> -->
+                  </tr>
+                  </thead>
+                  <tbody id="edit_tb_department">
+                  <!-- <tr class="active">
+                      <td>部门1</td>
+                      <td>
+                          <a class="btn btn-link" style='color:OrangeRed;' onclick="alert(1);">
+                              <i class="glyphicon glyphicon-minus icon-white"></i>移出
+                          </a>
+                      </td>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="edit_teacher_submit">保存</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!-- Moda3 -->
+<div class="modal fade" id="delete_modal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">系统提示</h4>
+      </div>
+      <div class="modal-body text-center modal_box_one">
+        是否确定删除该教师信息？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default button_width" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary button_width" id="delete_teacher_submit">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input id="box_data" type="hidden"/>
+<!--编辑老师ID-->
+<input id="edit_teacher_input" type="hidden"/>
+
+<!--编辑时，原手机号-->
+<input id="edit_mobile" type="hidden"/>
+
+<!--编辑时，原姓名-->
+<input id="edit_name_input" type="hidden"/>
+
+</body>
+<script type="text/javascript">
+
+
+  $(function(){
+    var department_teacher=$.intercept_url("department_name");
+    var school_id=$.intercept_url("school_id");
+    //alert(department_teacher);
+    if(department_teacher=="全体教师"){
+      $("#add_teacher").show();
+      $.ajax({
+      url: '/users/queryallteacher',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          school_id:school_id
+        }),
+        success: function (data) {
+          //alert(JSON.stringify(data));
+          if(data.success==0){
+            var jsondata=JSON.parse(JSON.stringify(data));
+           //  alert(JSON.stringify(data));
+            var content=jsondata.data.Allteacher;
+            //    alert(JSON.stringify(content));
+            $("#box_data").val(JSON.stringify(content));
+            table_data();
+          }else if(data.success==1){
+            var jsondata=JSON.parse(JSON.stringify(data));
+          //  alert(JSON.stringify(data));
+            var content=jsondata.data;
+            //    alert(JSON.stringify(content));
+            $("#box_data").val(JSON.stringify(content));
+            table_data();
+          }
+          else {
+            alert("获取数据失败1");
+          }
+
+        },
+        error: function(){
+          alert("获取数据失败2");
+        }
+      });
+
+    }else{
+     // alert("部门");
+      $("#add_teacher").hide();
+      var school_id=$.intercept_url("school_id");
+      $.ajax({
+        url: '/users/querydeparteacher',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          department_name:department_teacher,
+          school_id:school_id
+        }),
+        success: function (data) {
+         // alert(data.success);
+          if(data.success==0){
+
+            var jsondata=JSON.parse(JSON.stringify(data));
+           //  alert(JSON.stringify(data));
+            var content=jsondata.data.Allteacher;
+            //    alert(JSON.stringify(content));
+            $("#box_data").val(JSON.stringify(content));
+            table_data();
+          }
+        else if(data.success==1){
+          var jsondata=JSON.parse(JSON.stringify(data));
+          // alert(JSON.stringify(data));
+      var content=jsondata.data;
+          //  alert(JSON.stringify(content));
+         $("#box_data").val(JSON.stringify(content));
+           table_data();
+        }
+          else {
+
+            alert("获取数据失败1");
+          }
+        },
+        error: function(){
+          alert("获取数据失败2");
+        }
+      });
+
+    }
+
+   // alert(school_id);
+    $.ajax({
+      url: '/users/'+school_id+'/querydepartment',
+      type: 'get',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+
+      }),
+      success: function (data) {
+        var jsondata=JSON.parse(JSON.stringify(data));
+        //alert(JSON.stringify(data));
+        //alert(JSON.stringify(jsondata.data.Department_Count));
+       var  department_count=jsondata.data.Department_Count;
+        var add_teacher_department= document.getElementById('add_teacher_department');
+        for(var i = 0; i < department_count.length;  i++) {
+          add_teacher_department.add(new Option(department_count[i].department_name,department_count[i].id));
+        }
+        var edit_teacher_department= document.getElementById('edit_teacher_department');
+        for(var i = 0; i < department_count.length;  i++) {
+          edit_teacher_department.add(new Option(department_count[i].department_name,department_count[i].id));
+        }
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+
+    $("#trial_pieces").click(function(){
+      var selects = $table.bootstrapTable('getSelections');
+      if(selects.length==0){
+        alert("请选择审件信息");
+        return
+      }
+
+      $.map(selects, function (row) {
+        parent.addTab('信息详情','/case_examine/case_examine_one?id='+row.id)
+        //  window.location.href='/case_examine/case_examine_one?id='+row.id;
+
+      })
+
+    })
+
+  });
+
+
+  $("#query_case").on('click',function(){
+    var  teacher_name=$.filterSpaces($("#teacher_name").val());
+    var  teacher_mobile=$.filterSpaces($("#teacher_mobile").val());
+//    if(teacher_mobile.length!=0){
+//      if($.cell_phone(teacher_mobile)==false){
+//        alert("输入手机格式不正确");
+//        return
+//      }
+//    }
+
+    if(teacher_name.length==0&&teacher_mobile.length==0){
+      alert("请输入查询条件");
+      return false
+    }
+    var department_teacher=$.intercept_url("department_name");
+    var school_id=$.intercept_url("school_id");
+   // alert(department_teacher);
+    if(department_teacher=="全体教师") {
+      $('#table').bootstrapTable('destroy');
+      var school_id = $.intercept_url("school_id");
+      $.ajax({
+        url: '/users/query_teacher',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          teacher_name: teacher_name,
+          phone: teacher_mobile,
+          school_id: school_id
+        }),
+        success: function (data) {
+          if (data.success == 0) {
+            var jsondata = JSON.parse(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+            var allteacher = jsondata.data.Allteacher;
+            $("#box_data").val(JSON.stringify(allteacher));
+            table_data()
+          }  else if(data.success == 1){
+            var jsondata = JSON.parse(JSON.stringify(data));
+           // alert(JSON.stringify(data));
+            var allteacher = jsondata.data;
+            $("#box_data").val(JSON.stringify(allteacher));
+            table_data()
+          }else {
+           // alert(data.desc)
+            alert("提交数据失败1");
+          }
+        },
+        error: function () {
+          alert("提交数据失败2");
+        }
+
+      })
+    }
+          else{
+      //alert(department_teacher);
+      $('#table').bootstrapTable('destroy');
+      var school_id=$.intercept_url("school_id");
+      $.ajax({
+        url: '/users/query_teacher_depart',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          teacher_name:teacher_name,
+          phone:teacher_mobile,
+          school_id:school_id,
+          department_name:department_teacher
+        }),
+        success: function(data){
+          if(data.success==0){
+            var jsondata=JSON.parse(JSON.stringify(data));
+           // alert(JSON.stringify(data));
+            var   allteacher=jsondata.data.Allteacher;
+            $("#box_data").val(JSON.stringify(allteacher));
+            table_data()
+          } else if(data.success == 1){
+            var jsondata = JSON.parse(JSON.stringify(data));
+           // alert(JSON.stringify(data));
+            var allteacher = jsondata.data;
+            $("#box_data").val(JSON.stringify(allteacher));
+            table_data()
+          }
+          else{
+           // alert(data.desc)
+            alert("提交数据失败1");
+          }
+        },
+        error: function(){
+          alert("提交数据失败2");
+        }
+
+      })
+
+    }
+
+  });
+
+
+  $("#add_teacher").on('click',function(){
+    $("#add_teacher_name").val("");
+    $("#add_teacher_mobile").val("");
+    $("#add_tb_headmaster").html("");
+    $("#add_tb_class").html("");
+    $("#add_tb_department").html("");
+    $("#add_headmaster_grade option[value='请选择']").attr('selected','selected');
+    $("#add_headmaster_class option[value='请选择']").attr('selected','selected');
+    $("#add_teacher_grade option[value='请选择']").attr('selected','selected');
+    $("#add_teacher_class option[value='请选择']").attr('selected','selected');
+    $("#add_teacher_department option[value='请选择']").attr('selected','selected');
+    $("#add_headmaster_grade option[value='请选择']").removeAttr('selected');
+    $("#add_headmaster_class option[value='请选择']").removeAttr('selected');
+    $("#add_teacher_grade option[value='请选择']").removeAttr('selected');
+    $("#add_teacher_class option[value='请选择']").removeAttr('selected');
+    $("#add_teacher_department option[value='请选择']").removeAttr('selected');
+$("#add_modal").modal('show');
+
+  })
+
+$("#add_teacher_submit").on('click',function(){
+
+  var department_teacher=$.intercept_url("department_name");
+  var add_teacher_name=$("#add_teacher_name").val();
+  var add_teacher_mobile=$("#add_teacher_mobile").val();
+  var boss_select_grade=$("#boss_select_grade option:selected").val();
+  var boss_select_class=$("#boss_select_class option:selected").val();
+  var add_teacher_department=$("#add_teacher_department").val();
+  if($.cell_phone(add_teacher_mobile)==false){
+    alert("输入手机格式不正确");
+    return
+  }
+
+//if(boss_select_grade=="请选择"||boss_select_class=="暂无班级"||boss_select_class=="请选择"){
+//var  boss_select_grade_a="";
+//  var boss_select_class_a="";
+//}else{
+//  var  boss_select_class_a=boss_select_grade+","+boss_select_class;
+//
+//}
+
+
+  var add_select_class_a
+  var root = $('#add_tb_headmaster')[0];
+  for( var i = 0; i < root.children.length; i++ ) {
+    add_select_class_a=root.children[i].getAttribute("name_grade_id")+","+root.children[i].getAttribute("name");
+    // headmasterOfTeacher.push(root.children[i].getAttribute("name"));
+    //  alert(JSON.stringify(departmentOfTeacher));
+  }
+
+
+  var departmentOfTeacher=[];
+  var root = $('#add_tb_department')[0];
+  for( var i = 0; i < root.children.length; i++ ) {
+    departmentOfTeacher.push(root.children[i].getAttribute("name"));
+    //  alert(JSON.stringify(departmentOfTeacher));
+
+  }
+
+
+var classOfTeacher=[];
+  var root = $('#add_tb_class')[0];
+  for( var i = 0; i < root.children.length; i++ ) {
+    var person = new Object();
+    person.type_grade = root.children[i].getAttribute("name_grade_id");
+
+    person.class = root.children[i].getAttribute("name");
+    classOfTeacher.push(person);
+    //  alert(JSON.stringify(departmentOfTeacher));
+  }
+
+
+//  alert(add_teacher_name);
+//  alert(add_teacher_mobile);
+//alert(add_select_class_a);
+// alert(JSON.stringify(departmentOfTeacher));
+//  alert(JSON.stringify(classOfTeacher));
+
+
+    var add_teacher_mobile=$("#add_teacher_mobile").val();
+
+    if(add_teacher_mobile.length!=0){
+      if($.cell_phone(add_teacher_mobile)==false){
+        alert("手机号格式错误");
+        return
+      }else {
+        var school_id=$.intercept_url("school_id");
+        $.ajax({
+          url: '/users/addteacher_check',
+          type: 'post',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            check_phone:add_teacher_mobile,
+            school_id:school_id
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("手机号码重复，请重新输入");
+              return
+            } else if(data.success==0){
+
+              var department_teacher=$.intercept_url("department_name");
+              if(department_teacher=="全体教师") {
+                var school_id=$.intercept_url("school_id");
+                $.ajax({
+                  url: '/users/addteacher_all',
+                  type: 'post',
+                  dataType: 'json',
+                  contentType: "application/json",
+                  data: JSON.stringify({
+                    teacher_name:add_teacher_name,
+                    phone:add_teacher_mobile,
+                    headmaster_class_id:add_select_class_a,//10,五班
+                    department_name:departmentOfTeacher,
+                    school_id:school_id,
+                    teacheringclass_list:classOfTeacher
+                  }),
+                  success: function (data) {
+                    if(data.success==0){
+
+                      var department_name_delete=[];
+                      department_name_delete.push(departmentOfTeacher);
+                     // alert(JSON.stringify(departmentOfTeacher));
+                      parent.removeAll3("删除，"+department_name_delete);
+                      department_list();
+                      $("#add_modal").modal('hide');
+                    }else {
+                   //alert("获取数据失败");
+                    }
+                  },
+                  error: function(){
+                  //  alert("获取数据失败");
+                  }
+                });
+
+              }else{
+               // alert(department_teacher);
+                alert("888888");
+                $.ajax({
+                  url: '/users/'+department_teacher+'/addteacher',
+                  type: 'post',
+                  dataType: 'json',
+                  contentType: "application/json",
+                  data: JSON.stringify({
+                    teacher_name:add_teacher_name,
+                    phone:add_teacher_mobile,
+                    headmaster_class_id:boss_select_class,
+                    department_name:departmentOfTeacher,
+                  }),
+                  success: function (data) {
+                    if(data.success==0){
+                      //alert(data.success);
+                      var department_name_delete
+                      department_name_delete.push(departmentOfTeacher)
+                      parent.removeAll(department_name_delete);
+                      department_list();
+                      $("#add_modal").modal('hide');
+                    }else {
+                      alert("获取数据失败11");
+                    }
+
+                  },
+                  error: function(){
+                    alert("获取数据失败22");
+                  }
+                });
+
+              }
+
+
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+      }
+
+    }else {
+      alert("请填写手机号");
+    }
+  })
+
+
+
+
+
+  $("#edit_teacher").on('click',function(){
+    $('#edit_tb_department').html("");
+    $('#edit_tb_class').html("");
+    $('#edit_tb_headmaster').html("");
+    var selects = $table.bootstrapTable('getSelections');
+    alert(JSON.stringify(selects));
+    if(selects.length==0){
+      alert("请选择操作对象");
+      return
+    }
+    $.map(selects, function (row) {
+$("#edit_teacher_name").val(row.teacher_name);
+      $("#edit_teacher_mobile").val(row.phone);
+$("#edit_teacher_input").val(row.id);
+  $("#edit_mobile").val(row.phone);
+      $("#edit_name_input").val(row.teacher_name);
+
+$("#edit_select_grade option[value='"+row.type_grade+"']").attr("selected", "selected");
+
+      //document.getElementById("edit_select_class").innerHTML = "";
+      $.ajax({
+        url: '/classes/querytype_Class',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          type_grade:row.type_grade,
+        }),
+        success: function (data) {
+
+          var jsondata=JSON.parse(JSON.stringify(data));
+          alert(JSON.stringify(data));
+          alert(JSON.stringify(jsondata.data.Classes));
+          var  Classes=jsondata.data.Classes;
+        //  alert($.key_value(jsondata.data.Classes));
+          if($.key_value(jsondata.data.Classes)>0){
+
+            var edit_select_class= document.getElementById('edit_headmaster_class');
+
+            for(var i = 0; i < Classes.length;  i++) {
+              edit_select_class.add(new Option(Classes[i].class,Classes[i].id));
+            }
+           $("#edit_headmaster_class option[value='"+row.class_id+"']").attr("selected", "selected");
+          }else{
+            var edit_select_class= document.getElementById('edit_select_class');
+           // edit_select_class.add(new Option("暂无班级","暂无班级"));
+          }
+        },
+        error: function(){
+          alert("连接服务器失败");
+        }
+      });
+
+      $("#edit_select_class option[value='"+row.class_id+"']").attr("selected", "selected");
+      $('#edit_tb_headmaster').html("");
+      var class_name=row.class_name;
+      var type_grade=row.type_grade;
+      alert("钱明一"+row.class_name)
+      if(class_name!="未担任班主任"){
+        $("#edit_written_headmaster").show();
+$(".headmaster_written").css('color','#999');
+      var class_name_a=class_name.split(' ')[0]+class_name.split(' ')[1];
+      alert("1111"+class_name_a);
+        var classHtml = '';
+          classHtml += '       <tr class="active" name="'+class_name.split(' ')[1]+'"  deletename="' +  class_name_a +'" name_grade="'+type_grade+'" name_grade_id="'+type_grade+'">';
+          classHtml += '            <td class="col-md-9">' +  class_name_a +'</td>';
+          classHtml += '            <td>';
+          classHtml += '                <a class="btn btn-link " style="color:Red;" onclick="on_delete_headmaster2(&quot;1&quot;,&quot;' + class_name_a + '&quot;);">';
+          classHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+          classHtml += '                </a>';
+          classHtml += '            </td>';
+          classHtml += '       </tr>';
+        $('#edit_tb_headmaster').append(classHtml);
+        }else {
+        $(".headmaster_written").css('color','#428bca');
+      }
+
+
+
+
+      var root = $('#edit_tb_department')[0];
+//      for( var i = 0; i < root.children.length; i++ ) {
+//        if( root.children[i].getAttribute("name") == department_text ) {
+//          return ;
+//        }
+//      }
+
+
+      if(row.department_list==""){
+      //  alert("1111");
+        $("#edit_written_department").hide();
+
+      }else{
+        //alert("2222");
+        var department_list=row.department_list.split(" ");
+      //  alert(department_list.length)
+
+          $("#edit_written_department").show();
+          var strHtml = '';
+          for(var i=0;i<department_list.length;i++){
+           // alert(department_list[i])
+
+            strHtml += '       <tr class="active" name="' + department_list[i] + '" name_grade="" name_grade_id="">';
+            strHtml += '            <td class="col-md-9">' + department_list[i] +'</td>';
+            strHtml += '            <td>';
+            strHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_department2(' + root.children.length + ',&quot;' + department_list[i] + '&quot;);">';
+            strHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除部门';
+            strHtml += '                </a>';
+            strHtml += '            </td>';
+            strHtml += '       </tr>';
+
+          }
+          $('#edit_tb_department').append(strHtml);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+var teacheringclass_list=row.teacheringclass_list;
+      if(teacheringclass_list.length>0){
+        $("#edit_written_class").show();
+      }
+//alert(JSON.stringify(teacheringclass_list));
+      var Html = '';
+      for(var i=0;i<teacheringclass_list.length;i++){
+       // alert(teacheringclass_list[i].type_grade_word)
+
+        Html += '       <tr class="active" name="' + teacheringclass_list[i].class + '" name_grade="'+teacheringclass_list[i].type_grade_word+'" name_grade_id="'+teacheringclass_list[i].type_grade_number+'">';
+        Html += '            <td class="col-md-9">' + teacheringclass_list[i].type_grade_word +teacheringclass_list[i].class+'</td>';
+        Html += '            <td>';
+        Html += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_class2(' + root.children.length + ',&quot;' + teacheringclass_list[i].class + '&quot;,&quot;' + teacheringclass_list[i].type_grade_word + '&quot;);">';
+        Html += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+        Html += '                </a>';
+        Html += '            </td>';
+        Html += '       </tr>';
+
+      }
+      $('#edit_tb_class').append(Html);
+    })
+
+    $("#edit_modal").modal('show');
+
+  })
+
+
+
+
+
+  $("#edit_teacher_submit").on('click',function(){
+//    var department_name=location.href.split("department_name=")[1];
+//    alert(decodeURI(department_name));
+//    var department_teacher=decodeURI(department_name);
+  var  edit_teacher_input=$("#edit_teacher_input").val();
+    var edit_teacher_name=$("#edit_teacher_name").val();
+    var edit_teacher_mobile=$("#edit_teacher_mobile").val();
+
+    //var edit_select_grade=$("#edit_select_grade option:selected").val();
+    //var edit_select_class=$("#edit_select_class option:selected").val();
+
+    var edit_teacher_department=$("#edit_teacher_department").val();
+    var edit_mobile_input=$("#edit_mobile").val();
+    var edit_name_input=$("#edit_name_input").val();
+
+    if($.cell_phone(edit_teacher_mobile)==false){
+      alert("输入手机格式不正确");
+      return
+    }
+
+//    if(edit_select_grade=="请选择"||edit_select_class=="暂无班级"||edit_select_class=="请选择"){
+//      var  edit_select_grade_a="";
+//      var edit_select_class_a="";
+//    }else{
+//      var  edit_select_class_a=edit_select_grade+","+edit_select_class;
+//    }
+    var edit_select_class_a
+    var headmasterOfTeacher=[];
+    var root = $('#edit_tb_headmaster')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+
+      edit_select_class_a=root.children[i].getAttribute("name_grade_id")+","+root.children[i].getAttribute("name");
+     // headmasterOfTeacher.push(root.children[i].getAttribute("name"));
+      //  alert(JSON.stringify(departmentOfTeacher));
+    }
+
+
+    var departmentOfTeacher=[];
+    var root = $('#edit_tb_department')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      departmentOfTeacher.push(root.children[i].getAttribute("name"));
+      //  alert(JSON.stringify(departmentOfTeacher));
+    }
+
+    var classOfTeacher=[];
+    var root = $('#edit_tb_class')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      var person = new Object();
+      person.type_grade = root.children[i].getAttribute("name_grade_id");
+      person.class = root.children[i].getAttribute("name");
+      classOfTeacher.push(person);
+      //  alert(JSON.stringify(departmentOfTeacher));
+    }
+    alert(edit_teacher_input);
+    alert(edit_teacher_name);
+    alert(edit_teacher_mobile);
+
+
+  alert("班主任"+edit_select_class_a);
+alert(departmentOfTeacher)
+    var edit_teacher_mobile=$("#edit_teacher_mobile").val();
+    if(edit_teacher_mobile.length!=0){
+      if($.cell_phone(edit_teacher_mobile)==false){
+        alert("手机号格式错误");
+        return
+      }else {
+        var school_id = $.intercept_url("school_id");
+        $.ajax({
+          url: '/users/updateteacher_check',
+          type: 'post',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            check_phone: edit_teacher_mobile,
+            school_id: school_id
+          }),
+          success: function (data) {
+            if (data.success == 1) {
+              alert("手机号码重复，请重新输入");
+              return
+            } else if (data.success == 0) {
+              $.ajax({
+                url: '/users/' + edit_teacher_input + '/modifyteacher_all',
+                type: 'post',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                  teacher_name: edit_teacher_name,
+                  old_name: edit_name_input,
+                  phone: edit_teacher_mobile,
+                  old_phone: edit_mobile_input,
+                  headmaster_class_id: edit_select_class_a,
+                  department_name: departmentOfTeacher,
+                  school_id: school_id,
+                  teacheringclass_list: classOfTeacher
+                }),
+                success: function (data) {
+                  if (data.success == 0) {
+                    department_list()
+                    $("#edit_modal").modal('hide');
+
+                  } else {
+//                    alert(data.desc);
+//                    alert("获取数据失败1");
+                  }
+
+                },
+                error: function () {
+                  alert("获取数据失败2");
+                }
+              });
+
+            }
+          }
+
+        });
+
+      }
+      }
+  })
+
+
+  $("#delete_teacher").on('click',function(){
+    var selects = $table.bootstrapTable('getSelections');
+    if(selects.length==0){
+      alert("请选择操作对象");
+      return
+    }else {
+      $("#delete_modal").modal('show');
+    }
+
+  })
+
+
+  $("#delete_teacher_submit").on('click',function(){
+    var department_teacher=$.intercept_url("department_name");
+    if(department_teacher=="全体教师"){
+      var selects = $table.bootstrapTable('getSelections');
+      var school_id=$.intercept_url("school_id");
+      $.map(selects, function (row) {
+        $.ajax({
+          url: '/users/'+row.id+'/deleteteacher',
+          type: 'delete',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            school_id:school_id
+          }),
+          success: function (data) {
+
+            if(data.success==0){
+             department_list()
+              $("#delete_modal").modal('hide');
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+
+            alert("获取数据失败");
+          }
+        })
+      })
+    }else {
+      var selects = $table.bootstrapTable('getSelections');
+      var school_id=$.intercept_url("school_id");
+      $.map(selects, function (row) {
+        $.ajax({
+          url: '/users/'+row.id+'/deleteteacher_depart',
+          type: 'post',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            school_id:school_id,
+            department_name: department_teacher
+          }),
+          success: function (data) {
+            if(data.success==0){
+              department_list()
+              $("#delete_modal").modal('hide');
+            }else {
+              alert("获取数据失败dele");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败dele");
+          }
+        })
+      })
+    }
+
+
+
+
+
+  })
+
+  function mobile_teacher(){
+    var add_teacher_mobile=$("#add_teacher_mobile").val();
+    var school_id=$.intercept_url("school_id");
+    if(add_teacher_mobile.length!=0){
+      if($.cell_phone(add_teacher_mobile)==false){
+        alert("手机号格式错误");
+        return
+      }else {
+        $.ajax({
+          url: '/users/addteacher_check',
+          type: 'post',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            check_phone:add_teacher_mobile,
+            school_id:school_id
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("填写的教师手机号已存在");
+            } else if(data.success==0){
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+      }
+
+    }else {
+      alert("请填写手机号");
+    }
+  }
+
+
+
+  function mobile_teacher_edit(){
+    var edit_teacher_mobile=$("#edit_teacher_mobile").val();
+    var school_id=$.intercept_url("school_id");
+    if(edit_teacher_mobile.length!=0){
+      if($.cell_phone(edit_teacher_mobile)==false){
+        alert("手机号格式错误");
+        return
+      }else {
+        $.ajax({
+          url: '/users/addteacher_check',
+          type: 'post',
+          dataType: 'json',
+          contentType: "application/json",
+          data: JSON.stringify({
+            check_phone:edit_teacher_mobile,
+            school_id:school_id
+          }),
+          success: function (data) {
+            if(data.success==1){
+              alert("填写的教师手机号已存在");
+            } else if(data.success==0){
+
+            }else {
+              alert("获取数据失败1");
+            }
+
+          },
+          error: function(){
+            alert("获取数据失败2");
+          }
+        });
+      }
+
+    }else {
+      alert("请填写手机号");
+    }
+  }
+
+
+function department_list(){
+  var school_id=$.intercept_url("school_id");
+  var department_teacher=$.intercept_url("department_name");
+  $('#table').bootstrapTable('destroy');
+  if(department_teacher=="全体教师"){
+    $.ajax({
+      url: '/users/queryallteacher',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        school_id:school_id
+      }),
+      success: function (data) {
+        if(data.success==0){
+          var jsondata=JSON.parse(JSON.stringify(data));
+       //   alert(JSON.stringify(data));
+          var content=jsondata.data.Allteacher;
+          //    alert(JSON.stringify(content));
+          $("#box_data").val(JSON.stringify(content));
+          table_data();
+        }else if(data.success==1){
+          var jsondata=JSON.parse(JSON.stringify(data));
+          //   alert(JSON.stringify(data));
+          var content=jsondata.data;
+          //    alert(JSON.stringify(content));
+          $("#box_data").val(JSON.stringify(content));
+          table_data();
+        }
+        else {
+          alert("获取数据失败");
+        }
+
+      },
+      error: function(){
+        alert("获取数据失败");
+      }
+    });
+  }else{
+
+    var school_id=$.intercept_url("school_id");
+    $.ajax({
+      url: '/users/querydeparteacher',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        department_name:department_teacher,
+        school_id:school_id
+      }),
+      success: function (data) {
+        if(data.success==0){
+          var jsondata=JSON.parse(JSON.stringify(data));
+          //alert(JSON.stringify(data));
+          var content=jsondata.data.Allteacher;
+           // alert(JSON.stringify(content));
+          $("#box_data").val(JSON.stringify(content));
+          table_data();
+        }else if(data.success==1){
+          var jsondata=JSON.parse(JSON.stringify(data));
+        //  alert(JSON.stringify(data));
+          var content=jsondata.data;
+         // alert(JSON.stringify(content));
+          $("#box_data").val(JSON.stringify(content));
+          table_data();
+
+        }else {
+          alert("获取数据失败1");
+        }
+      },
+      error: function(){
+        alert("获取数据失败2");
+      }
+    });
+  }
+}
+
+
+
+  function table_data() {
+    var table_data = JSON.parse($("#box_data").val());
+    // var  table_data=$("box_data").val();
+    $table = $('#table').bootstrapTable({
+
+      data: table_data,
+      // url: '/table/123',
+      // method: 'post',
+      dataType: "json",
+      //----选填----//
+      //设置高度
+      height: 610,
+
+      pagination: true,
+      pageSize: 13,
+      pageList: [5, 10, 15, 20],
+      sidePagination: "client",
+
+
+      pageNumber: 1,
+      sortable: true,
+      sortOrder: "desc",
+
+      clickToSelect: true,
+      striped: true,
+
+      //功能工具
+      singleSelect: false,
+
+      searchOnEnterKey: false,
+
+//成功时执行函数
+      //       onLoadSuccess:function(data){},
+      onLoadSuccess: function (aa, bb, cc) {
+
+      },
+
+      //错误时执行函数
+      onLoadError: function (status) {
+
+        alert("错误");
+      },
+      idField: undefined,
+      columns: [
+        //附加表头，
+
+        {
+          width:40,
+          formatter: function (value, row, index) {
+            return index + 1;
+          }
+        },
+
+        {
+          //单选
+          radio: true,
+
+          //多选
+          // checkbox:true,
+        },
+        {
+          title: '教师姓名',
+          width:140,
+          field: 'teacher_name',
+          align: 'center',
+          valign: 'middle',
+          //  rowspan: 2
+        },
+        {
+          width:140,
+          title: '手机号',
+          field: 'phone',
+          align: 'center',
+          valign: 'middle',
+
+
+        },
+
+        {
+          width:140,
+          title: '任职班主任',
+          field: 'class_name',
+          align: 'center',
+          valign: 'middle',
+          formatter: function (value, row, index) {
+            if (row.headmaster_status == -1) {
+              var e = '<span>-</span>';
+              return e
+            }
+            if (row.headmaster_status ==1) {
+              var e = '<span>'+row.class_name+'</span>'
+              return e
+            }
+            if (row.headmaster_status ==0) {
+              var e = '<span>'+row.class_name+'</span>'
+              return e
+            }
+
+          }
+        },
+        {
+          width:400,
+          title: '任课班级',
+          field: 'class_name_teachering',
+          align: 'center',
+          valign: 'middle',
+          formatter: function (value, row, index) {
+            if (row.class_name_teachering.length == 0) {
+              var e = '<span>-</span>';
+              return e
+            }
+            else {
+              var e = '<span>'+row.class_name_teachering+'</span>';
+              return e
+            }
+
+          }
+        },
+        {
+          title: '所属部门',
+          field: 'department_list',
+          align: 'center',
+          valign: 'middle',
+          formatter: function (value, row, index) {
+            if (row.department_list.length == 0) {
+              var e = '<span>-</span>';
+              return e
+            }
+            else {
+              var e = '<span>'+row.department_list+'</span>';
+              return e
+            }
+
+          }
+        },
+      ]
+
+    });
+  }
+
+
+    function  add_select_grade(val){
+      document.getElementById("boss_select_class").innerHTML = "";
+      $.ajax({
+        url: '/classes/querytype_Class',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+          type_grade:val,
+        }),
+        success: function (data) {
+          var jsondata=JSON.parse(JSON.stringify(data));
+        //  alert(JSON.stringify(data));
+         // alert(JSON.stringify(jsondata.data.Classes));
+          var  Classes=jsondata.data.Classes;
+//alert($.key_value(jsondata.data.Classes));
+          if($.key_value(jsondata.data.Classes)>0){
+            var boss_select_class= document.getElementById('boss_select_class');
+            for(var i = 0; i < Classes.length;  i++) {
+              boss_select_class.add(new Option(Classes[i].class,Classes[i].id));
+            }
+          }else{
+            var boss_select_class= document.getElementById('boss_select_class');
+            boss_select_class.add(new Option("暂无班级","暂无班级"));
+          }
+
+
+
+        },
+        error: function(){
+          alert("连接服务器失败");
+        }
+      });
+}
+
+
+  function  on_add_headmaster(){
+    var aaa=$('#add_headmaster_class').find("option:selected").text();
+    var bbb=$('#add_headmaster_class').find("option:selected").val();
+    var ccc=$('#add_headmaster_grade').find("option:selected").text();
+    var ddd=$('#add_headmaster_grade').find("option:selected").val();
+    add_one_headmaster(aaa, bbb, ccc,ddd);
+    $('#add_headmaster_grade option[value="请选择"]').attr('selected','selected');
+    $('#add_headmaster_class option[value="请选择"]').attr('selected','selected');
+    add_written_headmaster();
+  }
+
+  function add_one_headmaster(class_text,class_id,grade_text,grade_id) {
+
+    if(class_text.length == 0 ||grade_text.length == 0) {
+      return ;
+    }else if(class_text=="请选择班级"||grade_text=="请选择年级") {
+      return
+    }
+
+//获取集合
+    var root = $('#add_tb_headmaster')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if(root.children[i].getAttribute("name") == class_text&&root.children[i].getAttribute("name_grade")==grade_text ) {
+        return ;
+      }else if(root.children[i].getAttribute("name").length>1){
+        $('#add_headmaster_grade option[value="请选择"]').removeAttr('selected');
+        $('#add_headmaster_class option[value="请选择"]').removeAttr('selected');
+        return ;
+      }
+    }
+
+    var headmasterHtml = '';
+    headmasterHtml += '       <tr class="active" name="' + class_text + '" name_grade="'+ grade_text +'" name_grade_id="'+ grade_id +'">';
+    headmasterHtml += '            <td class="col-md-9">'+grade_text + class_text +'</td>';
+    headmasterHtml += '            <td>';
+    headmasterHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_headmaster(' + root.children.length + ',&quot;' + class_text + '&quot;,&quot;' + grade_text + '&quot;);">';
+    headmasterHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+    headmasterHtml += '                </a>';
+    headmasterHtml += '            </td>';
+    headmasterHtml += '       </tr>';
+
+    $('#add_tb_headmaster').append(headmasterHtml);
+    $(".add_headmaster_written").css('color','#999');
+    $('#add_headmaster_grade option[value="请选择"]').removeAttr('selected');
+    $('#add_headmaster_class option[value="请选择"]').removeAttr('selected');
+  }
+
+
+  function on_delete_headmaster(idx, text) {
+    $('#add_headmaster_grade option[value="请选择"]').removeAttr('selected');
+    $('#add_headmaster_class option[value="请选择"]').removeAttr('selected');
+    var root = $('#add_tb_headmaster')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children[i].getAttribute("name") == text && root.children[i].getAttribute("name_grade")) {
+        root.children[i].remove();
+        $(".add_headmaster_written").css('color','#428bca');
+       written_headmaster();
+      }
+    }
+    $('#edit_headmaster_grade option[value="请选择"]').attr('selected','selected');
+    $('#edit_headmaster_class option[value="请选择"]').attr('selected','selected');
+
+  }
+
+
+function  on_add_class(){
+  var aaa=$('#add_teacher_class').find("option:selected").text();
+  var bbb=$('#add_teacher_class').find("option:selected").val();
+  var ccc=$('#add_teacher_grade').find("option:selected").text();
+  var ddd=$('#add_teacher_grade').find("option:selected").val();
+  add_one_class(aaa, bbb, ccc,ddd);
+  $('#add_teacher_class option[value="请选择"]').attr('selected','selected');
+  $('#add_teacher_grade option[value="请选择"]').attr('selected','selected');
+  written_class()
+}
+
+  function add_one_class(class_text,class_id,grade_text,grade_id) {
+    if(class_text.length == 0 ||grade_text.length == 0) {
+      return ;
+    }else if(class_text=="请选择班级"||grade_text=="请选择年级") {
+      return
+    }
+//获取集合
+    var root = $('#add_tb_class')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if(root.children[i].getAttribute("name") == class_text&&root.children[i].getAttribute("name_grade")==grade_text ) {
+        return ;
+      }
+    }
+
+var strHtml = '';
+    strHtml += '       <tr class="active" name="' + class_text + '" name_grade="'+ grade_text +'" name_grade_id="'+ grade_id +'" deletename="'+grade_text+class_text+'">';
+    strHtml += '            <td class="col-md-9">'+grade_text + class_text +'</td>';
+    strHtml += '            <td>';
+    strHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_class(' + root.children.length + ',&quot;' +grade_text+class_text+ '&quot;);">';
+    strHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+    strHtml += '                </a>';
+    strHtml += '            </td>';
+    strHtml += '       </tr>';
+
+    $('#add_tb_class').append(strHtml);
+
+    $('#add_teacher_grade option[value="请选择"]').removeAttr('selected');
+    $('#add_teacher_class option[value="请选择"]').removeAttr('selected');
+  }
+
+
+  function on_delete_class(idx, text) {
+    $('#add_teacher_grade option[value="请选择"]').removeAttr('selected');
+    $('#add_teacher_class option[value="请选择"]').removeAttr('selected');
+    var root = $('#add_tb_class')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if(root.children[i].getAttribute("deletename") == text) {
+        root.children[i].remove();
+        written_class();
+      }
+    }
+    $('#add_teacher_class option[value="请选择"]').attr('selected','selected');
+    $('#add_teacher_grade option[value="请选择"]').attr('selected','selected');
+  }
+
+
+
+  function on_add_department() {
+    var aaa=$('#add_teacher_department').find("option:selected").text();
+    var bbb=$('#add_teacher_department').find("option:selected").val();
+    add_one_department(aaa, bbb);
+    $('#add_teacher_department option[value="请选择"]').attr('selected','selected');
+    written_department();
+  }
+
+
+  function add_one_department(department_text, department_id) {
+    if(department_text.length == 0 ) {
+      return ;
+    }else if(department_text=="请选择") {
+      return
+    }
+//获取集合
+    var root = $('#add_tb_department')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+
+      if( root.children[i].getAttribute("name") == department_text ) {
+        return ;
+      }
+    }
+
+    var strHtml = '';
+    strHtml += '       <tr class="active" name="' + department_text + '">';
+    strHtml += '            <td class="col-md-9">' + department_text +'</td>';
+    strHtml += '            <td>';
+    strHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_department(' + root.children.length + ',&quot;' + department_text + '&quot;);">';
+    strHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除部门';
+    strHtml += '                </a>';
+    strHtml += '            </td>';
+    strHtml += '       </tr>';
+
+    $('#add_tb_department').append(strHtml);
+    $('#add_teacher_department option[value="请选择"]').removeAttr('selected');
+  }
+
+  function on_delete_department(idx, text) {
+    $('#add_teacher_department option[value="请选择"]').removeAttr('selected');
+    var root = $('#add_tb_department')[0];
+
+    for( var i = 0; i < root.children.length; i++ ) {
+      if( root.children[i].getAttribute("name") == text ) {
+        root.children[i].remove();
+        written_department();
+      }
+    }
+    $('#add_teacher_department option[value="请选择"]').attr('selected','selected');
+  }
+
+
+
+  function  edit_select_grade(val){
+    document.getElementById("edit_select_class").innerHTML = "";
+    $.ajax({
+      url: '/classes/querytype_Class',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        type_grade:val,
+      }),
+      success: function (data) {
+        var jsondata=JSON.parse(JSON.stringify(data));
+        //alert(JSON.stringify(data));
+        //alert(JSON.stringify(jsondata.data.Classes));
+        var  Classes=jsondata.data.Classes;
+        //alert($.key_value(jsondata.data.Classes));
+        if($.key_value(jsondata.data.Classes)>0){
+          var boss_select_class= document.getElementById('edit_select_class');
+          for(var i = 0; i < Classes.length;  i++) {
+            boss_select_class.add(new Option(Classes[i].class,Classes[i].id));
+          }
+        }else{
+          var boss_select_class= document.getElementById('edit_select_class');
+          boss_select_class.add(new Option("暂无班级","暂无班级"));
+        }
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+    });
+  }
+
+
+
+
+
+  function on_edit_department() {
+    var aaa=$('#edit_teacher_department').find("option:selected").text();
+    var bbb=$('#edit_teacher_department').find("option:selected").val();
+    edit_one_department(aaa, bbb);
+    $('#edit_teacher_department option[value="请选择"]').attr('selected','selected');
+    edit_written_department();
+  }
+  function edit_one_department(department_text, department_id) {
+    if( department_text.length == 0 ) {
+      return ;
+    }
+    if( department_text=="请选择") {
+      return ;
+    }
+
+    var root = $('#edit_tb_department')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if( root.children[i].getAttribute("name") == department_text ) {
+        return ;
+      }
+    }
+    var strHtml = '';
+    strHtml += '       <tr class="active" name="' + department_text + '">';
+    strHtml += '            <td class="col-md-9">' + department_text +'</td>';
+    strHtml += '            <td>';
+    strHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_department2(' + root.children.length + ',&quot;' + department_text + '&quot;);">';
+    strHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除部门';
+    strHtml += '                </a>';
+    strHtml += '            </td>';
+    strHtml += '       </tr>';
+
+    $('#edit_tb_department').append(strHtml);
+    $('#edit_teacher_department option[value="请选择"]').removeAttr('selected');
+  }
+
+  function on_delete_department2(idx, text) {
+    var root = $('#edit_tb_department')[0];
+
+    for( var i = 0; i < root.children.length; i++ ) {
+
+      if( root.children[i].getAttribute("name") == text ) {
+        root.children[i].remove();
+        $('#edit_teacher_department option[value="请选择"]').removeAttr('selected');
+        edit_written_department()
+      }
+    }
+  }
+
+
+  function  on_edit_class(){
+    var aaa=$('#edit_teacher_class').find("option:selected").text();
+    var bbb=$('#edit_teacher_class').find("option:selected").val();
+    var ccc=$('#edit_teacher_grade').find("option:selected").text();
+    var ddd=$('#edit_teacher_grade').find("option:selected").val();
+    edit_one_class(aaa, bbb, ccc,ddd);
+    $('#edit_teacher_class option[value="请选择"]').attr('selected','selected');
+    $('#edit_teacher_grade option[value="请选择"]').attr('selected','selected');
+    edit_written_class()
+  }
+
+  function edit_one_class(class_text,class_id,grade_text,grade_id) {
+    if(class_text.length == 0 ||grade_text.length == 0) {
+      return ;
+    }else if(class_text=="请选择班级"||grade_text=="请选择年级") {
+      return
+    }
+//获取集合
+    var root = $('#edit_tb_class')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if(root.children[i].getAttribute("name") == class_text&&root.children[i].getAttribute("name_grade")==grade_text ) {
+        return ;
+      }
+    }
+
+    var editHtml = '';
+    editHtml += '       <tr class="active" name="' + class_text + '" name_grade="'+ grade_text +'" name_grade_id="'+ grade_id +'" deletename="'+grade_text+class_text+'">';
+    editHtml += '            <td class="col-md-9">'+grade_text + class_text +'</td>';
+    editHtml += '            <td>';
+    editHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_class2(' + root.children.length + ',&quot;' + class_text + '&quot;,&quot;' + grade_text +class_text +'&quot;);">';
+    editHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+    editHtml += '                </a>';
+    editHtml += '            </td>';
+    editHtml += '       </tr>';
+
+    $('#edit_tb_class').append(editHtml);
+    $('#edit_teacher_class option[value="请选择"]').removeAttr('selected');
+    $('#edit_teacher_grade option[value="请选择"]').removeAttr('selected');
+  }
+
+  function on_delete_class2(idx, text) {
+    $('#edit_teacher_grade option[value="请选择"]').removeAttr('selected');
+    $('#edit_teacher_class option[value="请选择"]').removeAttr('selected');
+    var root = $('#edit_tb_class')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children[i].getAttribute("name") == text && root.children[i].getAttribute("name_grade")) {
+        root.children[i].remove();
+        edit_written_class();
+      }
+    }
+    $('#edit_teacher_class option[value="请选择"]').attr('selected','selected');
+    $('#edit_teacher_grade option[value="请选择"]').attr('selected','selected');
+
+  }
+
+
+
+  function  on_edit_headmaster(){
+    var aaa=$('#edit_headmaster_class').find("option:selected").text();
+    var bbb=$('#edit_headmaster_class').find("option:selected").val();
+    var ccc=$('#edit_headmaster_grade').find("option:selected").text();
+    var ddd=$('#edit_headmaster_grade').find("option:selected").val();
+    edit_one_headmaster(aaa, bbb, ccc,ddd);
+    $('#edit_headmaster_grade option[value="请选择"]').attr('selected','selected');
+    $('#edit_headmaster_class option[value="请选择"]').attr('selected','selected');
+    edit_written_headmaster();
+  }
+
+  function edit_one_headmaster(class_text,class_id,grade_text,grade_id) {
+
+    if(class_text.length == 0 ||grade_text.length == 0) {
+      return ;
+    }else if(class_text=="请选择班级"||grade_text=="请选择年级") {
+      return
+    }
+
+//获取集合
+    var root = $('#edit_tb_headmaster')[0];
+    for( var i = 0; i < root.children.length; i++ ) {
+      if(root.children[i].getAttribute("name") == class_text&&root.children[i].getAttribute("name_grade")==grade_text ) {
+        return ;
+      }else if(root.children[i].getAttribute("name").length>1){
+        $('#edit_headmaster_grade option[value="请选择"]').removeAttr('selected');
+        $('#edit_headmaster_class option[value="请选择"]').removeAttr('selected');
+        return ;
+      }
+    }
+    var headmaster_m_id=grade_id+","+class_text;
+    alert(headmaster_m_id);
+    $.ajax({
+      url: '/classes/check_headmaster_yes',
+      type: 'post',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify({
+        headmaster_m_id :headmaster_m_id,
+      }),
+      success: function (data) {
+        var jsondata=JSON.parse(JSON.stringify(data));
+        //alert(JSON.stringify(data));
+        if(data.success==0){
+          var headmasterHtml = '';
+          headmasterHtml += '       <tr class="active" name="' + class_text + '" deletename="' +grade_text + class_text + '" name_grade="'+ grade_text +'" name_grade_id="'+ grade_id +'">';
+          headmasterHtml += '            <td class="col-md-9">'+grade_text + class_text +'</td>';
+          headmasterHtml += '            <td>';
+          headmasterHtml += '                <a class="btn btn-link" style="color:Red;" onclick="on_delete_headmaster(' + root.children.length + ',&quot;' + class_text + '&quot;,&quot;' + grade_text + '&quot;);">';
+          headmasterHtml += '                   <i class="glyphicon glyphicon-minus icon-white"></i>移除班级';
+          headmasterHtml += '                </a>';
+          headmasterHtml += '            </td>';
+          headmasterHtml += '       </tr>';
+
+          $('#edit_tb_headmaster').append(headmasterHtml);
+          $(".headmaster_written").css('color','#999');
+          $('#edit_headmaster_grade option[value="请选择"]').removeAttr('selected');
+          $('#edit_headmaster_class option[value="请选择"]').removeAttr('selected');
+        }else if(data.success==1){
+alert("该班级已经分配班主任");
+          return
+        }
+
+
+
+      },
+      error: function(){
+        alert("连接服务器失败");
+      }
+
+
+
+
+    })
+
+
+  }
+
+  function on_delete_headmaster2(idx, text) {
+    $('#edit_headmaster_grade option[value="请选择"]').removeAttr('selected');
+    $('#edit_headmaster_class option[value="请选择"]').removeAttr('selected');
+    var root = $('#edit_tb_headmaster')[0];
+    for (var i = 0; i < root.children.length; i++) {
+     // alert(text);
+      //alert(root.children[i].getAttribute("name"));
+      if (root.children[i].getAttribute("deletename") == text) {
+        root.children[i].remove();
+        $(".headmaster_written").css('color','#428bca');
+        edit_written_headmaster();
+      }
+    }
+    $('#edit_headmaster_grade option[value="请选择"]').attr('selected','selected');
+    $('#edit_headmaster_class option[value="请选择"]').attr('selected','selected');
+
+  }
+
+
+
+
+
+
+  function add_written_headmaster() {
+    $("#written_headmaster").hide();
+    var root = $('#add_tb_headmaster')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#written_headmaster").show();
+      }else {
+        $("#written_headmaster").hide();
+      }
+    }
+  }
+
+
+  function written_headmaster() {
+    $("#written_headmaster").hide();
+    var root = $('#add_tb_headmaster')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#written_headmaster").show();
+      }else {
+        $("#written_headmaster").hide();
+      }
+    }
+  }
+
+
+  function written_class() {
+    $("#written_class").hide();
+    var root = $('#add_tb_class')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#written_class").show();
+      }else {
+        $("#written_class").hide();
+      }
+    }
+  }
+
+
+  function written_department() {
+    $("#written_department").hide();
+    var root = $('#add_tb_department')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#written_department").show();
+      }else {
+        $("#written_department").hide();
+      }
+    }
+  }
+
+
+
+  function edit_written_headmaster() {
+    $("#edit_written_headmaster").hide();
+    var root = $('#edit_tb_headmaster')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#edit_written_headmaster").show();
+      }else {
+        $("#edit_written_headmaster").hide();
+      }
+    }
+  }
+
+
+  function edit_written_class() {
+    $("#edit_written_class").hide();
+    var root = $('#edit_tb_class')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#edit_written_class").show();
+      }else {
+        $("#edit_written_class").hide();
+      }
+    }
+  }
+
+
+  function edit_written_department() {
+    $("#edit_written_department").hide();
+    var root = $('#edit_tb_department')[0];
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children.length > 0) {
+        $("#edit_written_department").show();
+      }else {
+        $("#edit_written_department").hide();
+      }
+    }
+  }
+</script>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>意见反馈</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+
+    var g_pic_cnt = 0;
+
+    //
+    function pic_view(id) {
+
+        var url = '';
+        var urls = [];
+
+        $('#pic_container [name="pic_src"]').each(function(key, value) {
+
+            urls.push(value.src);
+
+            if( value.id == id ) {
+                url = value.src;
+            }
+        });           
+
+        wx.previewImage({
+          current: url,
+          urls: urls
+        });
+    }
+
+    //
+    $.ajax({
+        url: '/wxedu/jsconfig/get',
+        type: 'post',
+        data: {
+            corpId:"",
+            url: location.href.split('#')[0]
+        }
+    }).done(function(r) {
+
+        // alert('jsconfig/get done:' + JSON.stringify(r));
+
+        if( r.success != 0 ) {
+            return ;
+        }
+
+        // 开始配置微信JS-SDK
+        wx.config({
+            debug: false,
+            appId: r.data.appId,
+            timestamp: r.data.timestamp,
+            nonceStr: r.data.nonceStr,
+            signature: r.data.signature,
+            jsApiList: [
+                'checkJsApi',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'pauseVoice',
+                'stopVoice',
+                'onVoicePlayEnd',
+                'uploadVoice',
+                'downloadVoice'
+            ]
+        });
+
+        // 调用微信API
+        wx.ready(function() {
+
+            // alert('wx.ready');
+
+            //
+            $('#pic_add')[0].style.visibility="visible";
+            $('#pic_del')[0].style.visibility="visible";
+
+            //
+            $('#pic_add').on('click', function() {
+
+                disp_del_mark(false);
+
+                wx.chooseImage({
+
+                    success: function(res) {
+
+                        // alert('wx.chooseImage success:' + JSON.stringify(res.localIds));
+
+                        function upload_medu_image(serverId, i) {
+
+                            // alert('upload_medu_image [' + i + '] : ' + serverId);
+
+                            $.ajax({
+                                url: '/wxedu/upload/image',
+                                type: 'post',
+                                data: {
+                                    corpId:"",
+                                    media_id: serverId
+                                }
+                            }).done(function(r) {
+
+                                // alert('upload_medu_image [' + i +'] done:' + JSON.stringify(r));
+
+                                if( r.success == 0 ) {
+                                    var strHtml = '';
+                                    strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+                                    strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + r.data.pic_url + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + r.data.pic_url + '">';
+                                    strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+                                    strHtml += '</li>';
+
+                                    $('#pic_add').before(strHtml);
+
+                                    g_pic_cnt++;
+                                };
+                            });
+                        };
+
+                        $.showLoading("正在上传图片...");
+
+                        var localIds = res.localIds;
+                        var localId_idx = 0;
+                        function upload_wx_image() {
+
+                            // alert("call upload_wx_image() " + localId_idx);
+
+                            wx.uploadImage({
+
+                                localId:localIds[localId_idx],
+                                success: function (res) {
+                                    localId_idx++;
+                                    // alert('已传 res:' + JSON.stringify(res));
+
+                                    upload_medu_image(res.serverId, localId_idx);
+
+                                    if (localId_idx < localIds.length) {
+                                        upload_wx_image();
+                                    } else {
+                                        $.hideLoading();
+                                    }
+                                },
+                                fail: function (res) {
+                                    alert('上传失败：' + JSON.stringify(res));
+                                }
+                            });
+                        };
+
+                        if( localIds.length > 0 ) {
+                            upload_wx_image();
+                        }
+                    }
+                });
+            });
+        });
+    });
+    </script>
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="weui_tab">
+        <div class="weui_tab_bd">
+
+            <div class="weui_cells_title">问题和意见</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea id="content" class="weui_textarea" placeholder="请简要描述您的问题和意见" maxlength="200" rows="8" onchange="on_text_area_input(this)" onkeydown="on_text_area_input(this)" onkeyup="on_text_area_input(this)"></textarea>
+                        <div class="weui_textarea_counter"><span id="char_cnt">0</span>/200</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">图片（选填，提供问题截图）</div>
+            <div class="weui_cells" >
+                <div class="weui_cell">
+                    <ul id='pic_container' class="weui_uploader_files">
+                        <li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);visibility:hidden;"></li>
+                        <!-- <li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);"></li> -->
+                        <li id='pic_del' onclick='on_pic_del()' class="uploader_file " style="background-image:url(../common/pic_del.png);visibility:hidden;"></li>
+                        <!-- <li id='pic_del' onclick='on_pic_del()' class="uploader_file " style="background-image:url(../common/pic_del.png);"></li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="weui_cells_title">联系电话</div>
+            <div class="weui_cells" >
+                <div class="weui_cell">
+                    <input id="tel" class="weui_input" type="tel" placeholder="选填，便于我们与您联系">
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        
+        </div>
+
+        <div class="weui_tabbar">
+            <div class="weui_tabbar_item">
+                <a id="notify_no_view" href="javascript:commit();" class="weui_btn weui_btn_primary" style="margin:10px;">提交</a>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    function on_text_area_input(obj) {
+        obj.value = String(obj.value).substring(0,200);
+        $("#char_cnt").html(obj.value.length);
+    }
+
+    function commit() {
+
+        var pics = [];
+        $('#pic_container [name="pic_src"]').each(function(key, value) {
+            pics.push(value.alt);
+        });
+
+        var req_json = {
+            description:$("#content").val(),
+            pics:pics,
+            tel:$("#tel").val(),
+        };
+
+        // alert("req_json:" + JSON.stringify(req_json));
+
+        $.ajax({
+          dataType:'json',
+          contentType: "application/json",
+          type: 'post', // 提交方式 get/post
+          url: '/api/v1/personal_info/feedback', // 需要提交的 url
+          data: JSON.stringify(req_json),
+          async: false,
+          beforeSend: function(XHR) {
+          },
+          success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+            // alert("data:" + JSON.stringify(data));
+            if( typeof data == "object" ) {
+                if( data.success == 0 ) {
+                    window.location = "./my_info_feedback_result.html";
+                } else {
+                    debug_trace("personal_info/feedback success [" + data.success + "] desc" + data.desc);
+                    // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，无法取得数据'));
+                }
+            } else {
+                debug_trace("personal_info/feedback error");
+                // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，格式错误'));
+            }
+          },
+          error:function(XHR, ErrText, Exception) {
+            debug_trace("personal_info/feedback failure.");
+            // window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得任务数据失败，服务器连接错误'));
+          }
+        });
+    }
+
+    function disp_del_mark(isShow) {
+        $('#pic_container [name="pic_del_mark"]').each(function(key, value) { 
+            // console.log("key[" + key +"] value.id[" + value.id + "]");
+            if( isShow ) {
+                value.style.display= "inline";
+            } else {
+                value.style.display= "none";
+            }
+        });           
+    }
+
+    function is_disp_del_mark() {
+        var node = $('#pic_container [name="pic_del_mark"]:first');
+
+        if( node.length > 0 ) {
+            // console.log("key[" + key +"] value.id[" + value.id + "]");
+            if( node[0].style.display == "inline" ) {
+                return true;
+            }
+
+            return false;
+        };           
+
+        return false;
+    }
+
+
+    //删除图片
+    function on_pic_del() {
+        if( is_disp_del_mark() ) {
+            disp_del_mark(false);
+        } else {
+            disp_del_mark(true);
+        }
+    }
+
+
+    //删除
+    function on_pic_del_mark(container_id) {
+        var node = $('#' + container_id)[0];
+        node.parentNode.removeChild(node); 
+    }    
+</script>
+
+</html>
+
+
+
+

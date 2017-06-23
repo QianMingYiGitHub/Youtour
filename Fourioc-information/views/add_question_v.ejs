@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>无标题文档</title>
+
+
+  <script type="text/javascript" src="../javascripts/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="../javascripts/kindeditor.js"></script>
+  <script type="text/javascript" src="../javascripts/zh_CN.js"></script>
+  <script type="text/javascript" src="../javascripts/youtu.js"></script>
+  <style type="text/css">
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+      word-wrap: break-word;
+      margin: 0px;
+      padding: 0px;
+    }
+    .top_title{
+      width:100%;
+      height:40px;
+      background-color:#428bca;
+
+    }
+    .btnClose{
+      float:right;
+      color:#FFF;
+      font-weight:bold;
+      line-height:40px;
+      margin-right:5px;
+      text-decoration:none;
+    }
+    i{
+      color:#F00;
+      margin-right:4px;
+    }
+    select{
+      width:120px;
+      height:30px;
+    }
+    .explain{
+      width:100%;
+      float:left;
+      margin-left:4px;
+
+    }
+    textarea{
+      float:left;
+    }
+    .title{
+      float:left;
+
+    }
+
+    .questions_box{
+      margin-top:15px;
+    }
+    .radio_box{
+
+
+    }
+
+
+    .radio_input{
+      float:left;
+      margin:4px;
+
+    }
+    .add_input_button{
+      margin-left:15px;
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="top_title">
+  <div class="btnClose">
+    <a href="javascript:void(0);" id="btnClose" class="btnClose">关闭</a>
+
+  </div>
+
+</div>
+<p class="explain">请在下方输入你要上传试题的内容：</p>
+<span class="title"><i>*</i>题干：</span><textarea name="content" >KindEditor</textarea>
+<div class="questions_box">
+  <span class="title"><i>*</i>题型：</span>
+  <select name="sel"  onchange="radiobutton(this.options[this.options.selectedIndex].value)">
+    <option value="0" >单项选择题</option>
+    <option value="1" >多项选择题</option>
+    <option value="2" >判断题</option>
+  </select>
+  </span>
+</div>
+<div class="radio_box">
+
+  <span class="title"><i>*</i>答案：</span>
+  <div id="InputsWrapper">
+    <div class='radio_input'><input type='radio' name="mytext[]"/>A</div>
+    <div class='radio_input'><input type='radio' name="mytext[]"/>B</div>
+    <div class='radio_input'><input type='radio' name="mytext[]"/>C</div>
+    <div class='radio_input'><input type='radio' name="mytext[]"/>D</div>
+  </div>
+
+
+
+  <a href="#" id="AddMoreFileBox" class="add_input_button">添加</a></span></p>
+
+  <a href="#" id="removebutton" class="btn btn-info">删除</a></span></p>
+</div>
+
+
+<script>
+
+
+
+  var abc=['I','H','G','F','E'];
+  $(document).ready(function() {
+    $("#btnClose").click(function () {
+      parent.$("#bg,#bgiframe").remove();
+    })
+
+    var abc2 = new Array();
+
+    var MaxInputs       = 9; //maximum input boxes allowed
+    var MinInputs =2;
+    var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
+    var AddButton       = $("#AddMoreFileBox"); //Add button ID
+
+    var x = InputsWrapper.length; //initlal text box count
+    var FieldCount=1; //to keep track of text box added
+
+    $(AddButton).click(function (){   //on add input button click
+      var letter=abc.pop();
+      alert(letter);
+      var MaxInputs=$(".radio_input").size();
+      if(MaxInputs <= 8) //max input box allowed
+      {
+        FieldCount++; //text box added increment
+        //add input box
+        $(InputsWrapper).append("<div class='radio_input'><input type='radio' name='mytext[]' id='field_"+ FieldCount +"' value='Text "+ FieldCount +"'/>"+letter+"</div>");
+        x++; //text box increment
+      }
+      else{
+        alert("最多添加5个");
+
+      }
+      return false;
+    });
+
+
+
+
+
+
+
+    $("#removebutton").click(function (){
+
+      var minInput=$(".radio_input").size();
+      //alert($(".radio_input").size());
+      if(minInput > 2)
+      {
+        //
+        var removeletter=$(".radio_input").eq(-1).text();
+      //  alert(removeletter);
+        abc.push(removeletter);
+        //删除最后一个
+        $(".radio_input").eq(-1).remove();
+
+
+      }
+      else{
+        alert("不能在删除了");
+
+      }
+      return false;
+    });
+
+
+
+
+
+
+
+
+
+
+
+ });
+
+  function radiobutton(id){
+
+    alert(id);
+
+  }
+
+
+
+
+
+
+
+
+
+  var editor;
+  KindEditor.ready(function(K) {
+    editor = K.create('textarea[name="content"]', {
+      allowFileManager : true,
+      width : '400px',
+      height: '170px',
+      items:[
+        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+        'flash', 'media', 'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+        'anchor', 'link', 'unlink', '|', 'about'
+      ]
+    });
+    K('input[name=getHtml]').click(function(e) {
+      alert(editor.html());
+    });
+    K('input[name=isEmpty]').click(function(e) {
+      alert(editor.isEmpty());
+    });
+    K('input[name=getText]').click(function(e) {
+      alert(editor.text());
+    });
+    K('input[name=selectedHtml]').click(function(e) {
+      alert(editor.selectedHtml());
+    });
+    K('input[name=setHtml]').click(function(e) {
+      editor.html('<h3>Hello KindEditor</h3>');
+    });
+    K('input[name=setText]').click(function(e) {
+      editor.text('<h3>Hello KindEditor</h3>');
+    });
+    K('input[name=insertHtml]').click(function(e) {
+      editor.insertHtml('<div style="width: 100%; text-align: center;"><img  src="http://img.lanrentuku.com/img/allimg/1303/13644449834851.jpg"></img></div>');
+    });
+    K('input[name=appendHtml]').click(function(e) {
+      editor.appendHtml('<strong>添加HTML</strong>');
+    });
+    K('input[name=clear]').click(function(e) {
+      editor.html('');
+    });
+
+  });
+</script>
+</body>
+</html>

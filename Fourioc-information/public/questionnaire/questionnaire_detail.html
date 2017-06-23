@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+
+        .media_desc { /*copy from weui_media_desc*/
+            color: #999;
+            font-size: 13px;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /*-webkit-line-clamp: 2;*/
+        }
+
+        .media_desc_1 { /*copy from media_desc*/
+            /*color: #999;*/
+            /*font-size: 13px;*/
+            /*line-height: 1.2;*/
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /*-webkit-line-clamp: 2;*/
+        }
+    </style>
+
+    <script>
+        // alert('questionnaire_detail.html');
+
+        var corp_id = null;
+        var user_id = null;
+        var questionnaire_id = null;
+        var identity = null;
+        var type = null;
+        var sid = null;
+
+        var json_obj = null;
+        var json_obj_my_answer = null;
+        var pic_cnt = 0;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "questionnaire_id" ) {
+                    questionnaire_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "type" ) {
+                    type = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "sid" ) {
+                    sid = paramObj[i]["value"];
+                }
+            }
+
+            if(!questionnaire_id || !type || !user_id || !corp_id || !identity ) {
+                debug_trace("" + ((!questionnaire_id) ? "questionnaire_id" :"") + ((!type) ? " type" :"") + ((!user_id) ? " user_id" :"" + ((!corp_id) ? " corp_id" :"") + ((!identity) ? " identity" :"") + " 参数错误"));
+            }
+        }
+
+        $(function(){
+
+            var req_json = {
+              corpId:corp_id,
+              userid:user_id,
+              identity:parseInt(identity),
+              ext:sid,
+              questionnairId:questionnaire_id,
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/info', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj = data;
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+
+            //format date_time
+            if( json_obj ) {
+                json_obj.data.editTime = format_date_time(json_obj.data.editTime);
+                json_obj.data.endTime = format_date_time(json_obj.data.endTime);
+            }
+        });
+
+        //
+        // alert("call /wxedu/jsconfig/get");
+        $.ajax({
+            url: '/wxedu/jsconfig/get', // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+            }
+        }).done(function(r) {
+
+            // 返回了数字签名对象
+            console.log(r);
+
+            // 开始配置微信JS-SDK
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+        });
+
+    </script>  
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="weui_tab_bd" >
+
+        <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+                        <img id="create_person_pic" class="weui_media_appmsg_thumb" src="" alt="head">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 id="create_person_name" class="weui_media_title"></h4>
+                        <p class="weui_media_desc ">
+                            <span id="edit_time"></span>
+                        </p>
+                   </div>
+                   <a id="copy_questionnaire" href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary" style="display:none">复制问卷</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui_cells" >
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="title" class="weui_textarea" rows="1" readonly></textarea>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" maxlength="200" rows="8" readonly></textarea>
+                    <ul id='pic_container' class="weui_uploader_files">
+                    </ul>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label">问卷类型</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label id="questionnaire_type" class="weui_label weui_input"></label>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label">查看权限</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label id="questionnaire_permission" class="weui_label weui_input"></label>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label">题目数量</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label id="question_cnt" class="weui_label weui_input"></label>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd ">
+                    <label class="weui_label"><i class="weui_icon_waiting_circle"></i>&nbsp;截止时间</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <label id="stop_time" class="weui_label weui_input"></label>
+                </div>
+            </div>
+        </div>
+
+        <div id="person_cell" class="weui_cells" style="display:none;" >
+            <div class="weui_cells_access">
+                <a id="person" class="weui_cell open-popup" data-target="#person_list_container">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>参与人</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="already_view_person_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="person_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <br><br><br><br>
+    </div>
+
+    <div id="footer" class="weui_tabbar">
+<!-- NO.1
+        <div class="weui_tabbar_item" >
+            <a id="start_answer" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:10px;">开始答题</a>
+        </div>
+ -->
+<!-- NO.2
+        <div class="weui_tabbar_item" >
+            <a id="start_answer" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:10px;">开始答题</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="view_result" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">查看结果</a>
+        </div>
+ -->
+
+<!-- NO.3
+        <div class="weui_tabbar_item" >
+            <a id="start_answer" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:5px;font-size:small;">开始答题</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="view_result" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:5px;font-size:small;">查看结果</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="notify_no_view" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:5px;font-size:small;">提醒未阅</a>
+        </div>
+ -->
+<!-- NO.4
+        <div class="weui_tabbar_item" >
+            <a id="start_answer" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:1px;font-size:xx-small;">开始答题</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="view_result" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:1px;font-size:xx-small;">查看结果</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="notify_no_view" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:1px;font-size:xx-small;">提醒未阅</a>
+        </div>
+        <div class="weui_tabbar_item" >
+            <a id="close_questionnaire" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:1px;font-size:xx-small;">关闭问卷</a>
+        </div>
+ -->
+
+    </div>
+  
+
+    <div id="leader_list_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                    <div class="weui-col-30">
+                        <a href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                    </div>
+                    <div class="weui-col-50"></div>
+                </div>
+
+                <div id="leader_list" style="margin-top:10px;">
+    <!-- 
+                    <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                    </div>                    
+                    <div class="weui_cells " >
+                        <label class="weui_cell weui_check_label">
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>               
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <div id="person_list_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row" style="margin-top:10px;padding:5px;">
+
+                    <div class="weui-col-30">
+                        <a href="javascript:;" class="close-popup weui_btn weui_btn_mini weui_btn_primary">返回</a>
+                    </div>
+                    <div class="weui-col-50"></div>
+                </div>
+
+                <div id="person_list" style="margin-top:10px;">
+    <!-- 
+                    <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                    </div>                    
+                    <div class="weui_cells " >
+                        <label class="weui_cell weui_check_label">
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>               
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="my_answer_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+        <div class="bd weui_tab_bd" >
+
+            <div class="weui_cells_title" >共&nbsp;<span id="question_cnt"></span>&nbsp;题</div>
+            <!-- <div style="height:5px;width:100%;background-color:white;border-style:none;"></div> -->
+        
+            <div id="question_container">
+    <!-- 
+                <div id="dan" name="0">
+                    <div class="weui_cells_title">
+                        <p>
+                        aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffffgggggggggghhhhhhhhhhiiiiiiiiii
+                        </p>
+                    </div>
+
+                    <div class="weui_cells weui_cells_radio">
+                        <label class="weui_cell weui_check_label" for="x11">
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>选项1</p>
+
+                                <div class="weui_progress_bar">
+                                    <div class="weui_progress_inner_bar js_progress" style="width: 50%;"></div>
+                                </div>
+
+                                <p>选项1111</p>
+                            </div>
+                            <div class="weui_cell_ft">
+                                <input type="radio" class="weui_check" name="radio1" id="x11" disabled>
+                                <span class="weui_icon_checked"></span>
+                            </div>
+                        </label>
+
+                        <label class="weui_cell weui_check_label" for="x12">
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>选项2</p>
+                            </div>
+                            <div class="weui_cell_ft">
+                                <input type="radio" name="radio1" class="weui_check" id="x12" checked="checked" disabled>
+                                <span class="weui_icon_checked"></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+     -->
+    <!-- 
+                <div id="duo" name="1">
+                    <div class="weui_cells_title">
+                        2 多 （最少选 1 题，最多选 2 题）
+                        <br> 
+                        aaaaaaaaaaaaaaa
+                        aaaaaaaaaaaaaaa
+                    </div>
+
+                    <div class="weui_cells weui_cells_checkbox">
+                        <label class="weui_cell weui_check_label" for="s11">
+                            <div class="weui_cell_hd">
+                                <input type="checkbox" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                                <i class="weui_icon_checked"></i>
+                            </div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>选项1</p>
+                            </div>
+                        </label>
+                        <label class="weui_cell weui_check_label" for="s12">
+                            <div class="weui_cell_hd">
+                                <input type="checkbox" name="checkbox1" class="weui_check" id="s12">
+                                <i class="weui_icon_checked"></i>
+                            </div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>选项2</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+     -->
+    <!-- 
+                <div id="wen" name="2">
+                    <div class="weui_cells_title">
+                        3 问
+                        <br> 
+                        aaaaaaaaaaaaaaa
+                        aaaaaaaaaaaaaaa
+                    </div>
+
+                    <div class="weui_cells weui_cells_checkbox">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <textarea id="content" class="weui_textarea" style="padding-left:15px;padding-right:30px;" placeholder="请输入回答..." maxlength="200" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+     -->            
+            </div>
+
+
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+            <div class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a href="javascript:;" class="weui_btn weui_btn_warn close-popup" style="margin:10px;">关闭</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    
+
+
+    <script>
+        //
+        function pic_view(id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#pic_container img').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == id ) {
+                    url = value.src;
+                }
+            });
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+        function init_my_answer_field() {
+
+            //
+            if( !json_obj_my_answer ) {
+                return ;
+            }
+
+            $("#question_cnt").html(json_obj_my_answer.data.questionnair.question.length);
+
+            var root = $("#question_container");
+            if( !root ) {
+                return ;
+            }
+
+            for( var i = 0; i < json_obj_my_answer.data.questionnair.question.length; i++ ) {
+
+                var strHtml = '';
+                var q = json_obj_my_answer.data.questionnair.question[i];
+                //alert('q.pics:' + JSON.stringify(q.pics));
+
+                if( q.mode == 1 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '单选</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_radio" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+                        strHtml += '        <label class="weui_cell weui_check_label" onclick="javascript:view_detail(' + i + ',' + j + ')" disabled>';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 2 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '多选</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+
+                    for( var j = 0; j < q.optionList.length; j++ ) {
+
+                        var o = q.optionList[j];
+                        strHtml += '        <label class="weui_cell weui_check_label" onclick="javascript:view_detail(' + i + ',' + j + ')" disabled>';
+                        strHtml += '            <div class="weui_cell_bd weui_cell_primary">';
+                        strHtml += '                <p>' + decodeURI(decodeURI(o.optionName)) + '</p>';
+                        strHtml += '            </div>';
+                        strHtml += '        </label>';
+                    }
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                } else if( q.mode == 3 ) {
+
+                    strHtml = '';
+                    strHtml += '    <div class="weui_panel weui_panel_access" id="' + q.id + '" name="' + q.mode + '">';
+                    strHtml += '        <div class="weui_panel_bd">';
+                    strHtml += '            <div class="weui_media_box weui_media_text" style="background-color:#EFEFF4;">';
+                    strHtml += '                <p class="media_desc">' + (i+1) + '&nbsp;&nbsp' + '问答</p>' + '<br>';
+                    strHtml += '                <p class="media_desc">' + decodeURI(decodeURI(q.description)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '        <ul id="pic_container_' + i + '" class="weui_cell weui_uploader_files" style="background-color:#EFEFF4;">';
+                    q.pics.forEach(function(v, j) {
+                        strHtml += '        <li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                        strHtml += '            <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;pic_container_' + i + '&quot;, &quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                        strHtml += '        </li>';
+                        pic_cnt++;
+                    });
+                    strHtml += '        </ul>';
+                    strHtml += '        <div class="weui_cells weui_cells_checkbox" style="margin-top:0px;padding-top:0px;border-top:0px">';
+                    strHtml += '            <div class="weui_cell_bd weui_cell_primary" style="padding-left:15px;padding-right:30px;">';
+                    // strHtml += '                <pre>' + decodeURI(decodeURI(q.optionList[0].writeContent)) + '</pre>';
+                    strHtml += '                <p class="media_desc_1">' + decodeURI(decodeURI(q.optionList[0].writeContent)) + '</p>';
+                    strHtml += '            </div>';
+                    strHtml += '        </div>';
+                    strHtml += '    </div>';
+                }
+    
+                if( strHtml.length > 0 ) {
+                    // console.log(strHtml);
+                    root.append(strHtml);
+                }
+            }
+        }
+
+
+
+        function get_my_answer() {
+            var req_json = {
+              corpId:corp_id,
+              userid:user_id,
+              identity:parseInt(identity),
+              ext:sid,
+              questionnairId:questionnaire_id,
+            };
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/questionnair/myquestion/get', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        json_obj_my_answer = data;
+                        // alert(JSON.stringify(json_obj_my_answer.data.questionnair.question));
+                        init_my_answer_field();
+                    } else {
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，' + data.desc));
+                    }
+                } else {
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得问卷数据失败，服务器连接错误'));
+              }
+            });
+        };
+
+
+        function init_data_field() {
+
+            if( json_obj == null ) {
+                return ;
+            }
+
+            $("#create_person_name").text(json_obj.data.createPerson.name);
+            $("#edit_time").text(json_obj.data.editTime);
+            $("#create_person_pic").attr("src",json_obj.data.createPerson.headPic);
+            $("#title").html(decodeURI(decodeURI(json_obj.data.title)));
+            $("#content").html(decodeURI(decodeURI(json_obj.data.summary)));
+            $("#questionnaire_type").text((json_obj.data.anonymous==1) ? "匿名问卷" : "非匿名问卷" );
+            $("#questionnaire_permission").text((json_obj.data.permission==1) ? "参与人可查看结果" : "参与人不可查看结果" );
+            $("#question_cnt").text(json_obj.data.questionNum + " 题");
+
+            $("#stop_time").html('' + json_obj.data.endTime);
+
+            //
+            $("#already_view_person_cnt").text(json_obj.data.joinNum);
+            $("#person_cnt").text(json_obj.data.users.length);
+
+            //
+            // alert(JSON.stringify(json_obj.data.pics));
+            json_obj.data.pics.forEach(function(v, i) {
+
+                var strHtml = '';
+                strHtml += '<li id="pic_idx_' + pic_cnt + '" class="uploader_file" style="position:relative;">';
+                strHtml += '    <img id="img_id_' + pic_cnt + '" class="uploader_file" src="' + v + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + pic_cnt + '&quot;)">';
+                strHtml += '</li>';
+
+                $('#pic_container').append(strHtml);
+
+                pic_cnt++;
+            });            
+        }
+
+        $(document).ready(function(){
+            
+            //
+            switch(parseInt(type)) {
+                case 0 :
+                    $(document).attr("title","问卷草稿");
+                    break;
+                case 1 :
+                    $(document).attr("title","已发布问卷");
+                    break;
+                case 2 :
+                    $(document).attr("title","已关闭问卷");
+                    break;
+                case 3 :
+                    $(document).attr("title","未参与问卷");
+                    break;
+                case 4 :
+                    $(document).attr("title","已参与问卷");
+                    break;
+                default :
+                    debug_trace("无效type[" + type + "]");
+                    break;
+            }
+
+            //
+            if( json_obj ) {
+
+                if( json_obj.data.createPerson.id == user_id ) {
+                    $('#person_cell').show();
+                    $('#copy_questionnaire').show();
+                }
+
+                //
+                var is_answer_question = false;
+                var is_my_answer = false;
+                var is_view_result = false;
+                var is_notify_no_view = false;
+                var is_close_questionnaire = false;
+                var button_cnt = 0;
+
+                //
+                if( json_obj.data.status == 1 //1：已发布，2：已关闭
+                    && json_obj.data.isTimeOut == false //0：未超时，1：超时
+                    && json_obj.data.isJoiner == true //是否参与人
+                    && json_obj.data.isAnswered == false //是否已经答题
+                   ) {
+                    is_answer_question = true;
+                    button_cnt++;
+                } else {
+                    is_answer_question = false;
+                }
+
+                //
+                if( json_obj.data.isJoiner == true //是否参与人
+                    && json_obj.data.isAnswered == true //是否已经答题
+                   ) {
+                    is_my_answer = true;
+                    button_cnt++;
+                } else {
+                    is_my_answer = false;
+                }
+
+                //
+                if( (json_obj.data.permission == 1 //参与人可查看结果 0：不可查看，1：可查看
+                    && json_obj.data.isJoiner == true //是否参与人
+                    && json_obj.data.isAnswered == true) //是否已经答题
+                    || (json_obj.data.createPerson.id == user_id) //创建者id
+                   ) {
+                    is_view_result = true;
+                    button_cnt++;
+                } else {
+                    is_view_result = false;
+                }
+
+                //
+                if( json_obj.data.createPerson.id == user_id //创建者id
+                    && json_obj.data.status == 1 //1：已发布，2：已关闭
+                    && json_obj.data.isTimeOut == false //0：未超时，1：超时
+                   ) {
+                    is_notify_no_view = true;
+                    button_cnt++;
+                } else {
+                    is_notify_no_view = false;
+                }
+
+                //
+                if( json_obj.data.createPerson.id == user_id //创建者id
+                    && json_obj.data.status == 1 //1：已发布，2：已关闭
+                    && json_obj.data.isTimeOut == false //0：未超时，1：超时
+                   ) {
+                    is_close_questionnaire = true;
+                    button_cnt++;
+                } else {
+                    is_close_questionnaire = false;
+                }
+
+                //
+                var root = $("#footer");
+                var strHtml;
+                var color_flag = 1;
+
+                if( is_answer_question ) {
+                    strHtml =  '<div class="weui_tabbar_item" >';
+                    strHtml += '    <a id="answer_question" href="javascript:;" ';
+                    if(color_flag==1) {
+                        strHtml += '    class="weui_btn weui_btn_primary"';
+                        color_flag = 0;
+                    } else {
+                        strHtml += '    class="weui_btn weui_btn_warn"';
+                        color_flag = 1;
+                    }
+                    strHtml += '    >开始答题</a>';
+                    strHtml += '</div>';
+                    root.append(strHtml);                    
+                }
+
+                if( is_my_answer ) {
+                    strHtml =  '<div class="weui_tabbar_item" >';
+                    strHtml += '    <a id="my_answer" href="javascript:get_my_answer();" ';
+                    if(color_flag==1) {
+                        strHtml += '    class="weui_btn weui_btn_primary open-popup" data-target="#my_answer_container"';
+                        color_flag = 0;
+                    } else {
+                        strHtml += '    class="weui_btn weui_btn_warn open-popup" data-target="#my_answer_container"';
+                        color_flag = 1;
+                    }
+                    strHtml += '    >我的答题</a>';
+                    strHtml += '</div>';
+                    root.append(strHtml);                    
+                }
+
+                if( is_view_result ) {
+                    strHtml =  '<div class="weui_tabbar_item" >';
+                    strHtml += '    <a id="view_result" href="javascript:;" ';
+                    if(color_flag==1) {
+                        strHtml += '    class="weui_btn weui_btn_primary"';
+                        color_flag = 0;
+                    } else {
+                        strHtml += '    class="weui_btn weui_btn_warn"';
+                        color_flag = 1;
+                    }
+                    strHtml += '    >查看结果</a>';
+                    strHtml += '</div>';
+                    root.append(strHtml);                    
+                }
+
+                if( is_notify_no_view ) {
+                    strHtml =  '<div class="weui_tabbar_item" >';
+                    strHtml += '    <a id="notify_no_view" href="javascript:;" ';
+                    if(color_flag==1) {
+                        strHtml += '    class="weui_btn weui_btn_primary"';
+                        color_flag = 0;
+                    } else {
+                        strHtml += '    class="weui_btn weui_btn_warn"';
+                        color_flag = 1;
+                    }
+                    strHtml += '    >未阅提醒</a>';
+                    strHtml += '</div>';
+                    root.append(strHtml);                    
+                }
+
+                if( is_close_questionnaire ) {
+                    strHtml =  '<div class="weui_tabbar_item" >';
+                    strHtml += '    <a id="close_questionnaire" href="javascript:;" ';
+                    if(color_flag==1) {
+                        strHtml += '    class="weui_btn weui_btn_primary"';
+                        color_flag = 0;
+                    } else {
+                        strHtml += '    class="weui_btn weui_btn_warn"';
+                        color_flag = 1;
+                    }
+                    strHtml += '    >关闭问卷</a>';
+                    strHtml += '</div>';
+                    root.append(strHtml);                    
+                }
+
+                $('#footer a').each(function(key, value) { 
+                
+                    // console.log("key[" + key +"] value[" + value.id + "]");
+
+                    if( button_cnt==1 || button_cnt==2 ) {
+                        $("#"+value.id).css("margin","10px");
+                    } else if( button_cnt==3 ) {
+                        $("#"+value.id).css("margin","5px");
+                        $("#"+value.id).css("font-size","small");
+                    } else if( button_cnt==4 ) {
+                        $("#"+value.id).css("margin","1px");
+                        $("#"+value.id).css("font-size","small");
+                    }
+                });
+            }
+
+            //
+            // alert("call init_data_field() " + JSON.stringify(json_obj));
+            init_data_field();
+
+            //
+            $("#person").click(function(){
+                //init contacts list
+                var root = $("#person_list");
+                root.empty();
+
+                if( json_obj == null ) {
+                    return ;
+                }
+
+                for(var unionIdx = 0; unionIdx < 1; unionIdx++) {
+
+                    var strHtml = '';
+
+                    // strHtml += '<div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">';
+                    // strHtml += '    <div class="weui-col-50"><h3>' + '1年' + (unionIdx+1) + '班</h3></div>';
+                    // strHtml += '</div>';                   
+
+                    //list形式
+                    // strHtml += '<div class="weui_cells">';
+                    // for( var personIdx = 0; personIdx < json_obj.data.users.length; personIdx++) {
+                    //     strHtml += '    <label class="weui_cell weui_check_label">';
+                    //     strHtml += '        <img src="' + json_obj.data.users[personIdx].headPic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+                    //     strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+                    //     strHtml += '            <p>' + json_obj.data.users[personIdx].name + '</p>';
+                    //     strHtml += '        </div>';
+                    //     strHtml += '    </label>';
+                    // }
+                    // strHtml += '</div>';
+                    // strHtml += '';
+
+                    //排列形式
+                    strHtml += '    <div class="weui_cells" style="padding:10px" >';
+                    for( var personIdx = 0; personIdx < json_obj.data.users.length; personIdx++) {
+
+                        strHtml += '    <a href="javascript:;" class="weui_tabbar_item" style="float:left;margin:5px">';
+                        strHtml += '        <div>';                
+                        strHtml += '            <img src="' + json_obj.data.users[personIdx].headPic + '" alt="headPic" style="height:3rem;width:3rem;">';
+                        strHtml += '        </div>';
+                        strHtml += '        <p class="weui_tabbar_label" style="font-size:small;">' + json_obj.data.users[personIdx].name + '</p>';
+                        strHtml += '    </a>';
+                    }          
+                    strHtml += '    </div>';
+
+
+                    root.append(strHtml);
+                }
+
+                if( json_obj.data.joinNum == json_obj.data.users.length ) {
+                    $('#notify_no_view_container').hide();
+                } else {
+                    $('#notify_no_view_container').show();
+                }
+            });
+
+
+            $("#notify_no_view").click(function(){
+
+                //
+                var req_json = {
+                    corpId:corp_id,
+                    userid:user_id,
+                    questionnairId:questionnaire_id
+                }
+
+                $.ajax({
+                  dataType:'json',
+                  contentType: "application/json",
+                  type: 'post', // 提交方式 get/post
+                  url: '/wxqyh/questionnair/notify', // 需要提交的 url
+                  data: JSON.stringify(req_json),
+                  async: false,
+                  beforeSend: function(XHR) {
+                  },
+                  success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( typeof data == "object" ) {
+                        if( data.success == 0 ) {
+                            $.toast("通知成功");
+                            // setTimeout(function() {
+                            //     window.location = './activity_list.html?user_id=' + user_id + '&type=1' + '&corp_id=' + corp_id;
+                            // }, 2000);
+                        } else {
+                            $.toast("通知失败，" + data.desc, "forbidden");
+                        }
+                    } else {
+                        $.toast("通知失败，格式错误", "forbidden");
+                    }
+                  },
+                  error:function(XHR, ErrText, Exception) {
+                    $.toast("通知失败，服务器连接错误", "forbidden");
+                  }
+                });
+            });
+
+
+            $("#close_questionnaire").click(function(){
+
+                $.confirm("确定要关闭吗?", "", 
+                function() {
+                    //
+                    var req_json = {
+                      corpId:corp_id,
+                      userid:user_id,
+                      questionnairId:questionnaire_id,
+                    };
+                    $.ajax({
+                      dataType:'json',
+                      contentType: "application/json",
+                      type: 'post', // 提交方式 get/post
+                      url: '/wxqyh/questionnair/close', // 需要提交的 url
+                      data: JSON.stringify(req_json),
+                      async: false,
+                      beforeSend: function(XHR) {
+                      },
+                      success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                        if( typeof data == "object" ) {
+                            if( data.success == 0 ) {
+                                $.toast("关闭成功");
+                                setTimeout(function() {
+                                    window.location = './questionnaire_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&type=1' ;
+                                }, 2000);
+                            } else {
+                                $.toast("关闭失败，" + data.desc, "forbidden");
+                            }
+                        } else {
+                            $.toast("关闭失败，格式错误", "forbidden");
+                        }
+                      },
+                      error:function(XHR, ErrText, Exception) {
+                        $.toast("关闭失败，服务器连接错误", "forbidden");
+                      }
+                    });
+                }, 
+                function() {
+                  //取消操作
+                });
+            });
+
+            $("#answer_question").click(function(){
+                window.location = './questionnaire_answer_question.html?corp_id=' + corp_id + '&user_id=' + user_id + '&identity=' + identity + '&sid=' + sid + '&questionnaire_id=' + questionnaire_id;
+            });
+
+            $("#view_result").click(function(){
+                window.location = './questionnaire_view_result.html?corp_id=' + corp_id + '&user_id=' + user_id + '&identity=' + identity + '&sid=' + sid + '&questionnaire_id=' + questionnaire_id;
+            });
+
+            $("#copy_questionnaire").click(function(){
+                window.location = "./questionnaire_edit.html?" + "&corp_id=" + corp_id + "&user_id=" + user_id + "&identity=" + identity + "&questionnaire_id=" + questionnaire_id + "&sid=" + sid + "&is_copy=1";
+            });
+
+        });
+
+    </script>
+
+
+
+</body>
+</html>

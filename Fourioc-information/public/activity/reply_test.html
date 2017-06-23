@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+
+<style>
+.media_desc {
+    color: #999;
+    font-size: 13px;
+    line-height: 1.2;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /*-webkit-line-clamp: 5;*/
+}
+
+.media_desc_1 {
+    color: #999;
+    font-size: 13px;
+    line-height: 1.2;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /*-webkit-line-clamp: 5;*/
+    text-align: right;
+}
+</style>
+
+
+<script>
+// $(document).ready(function(){
+//   $("div").mouseup(function(){
+//     $(this).after("<p style='color:green;'>释放鼠标按钮。</p>");
+//   });
+//   $("div").mousedown(function(){
+//     $(this).after("<p style='color:purple;'>按下鼠标按钮。</p>");
+//   });
+//  });
+
+  function jQuery_isTagName(e, whitelists) {
+        e = $.event.fix(e);
+        var target = e.target || e.srcElement;
+        if (whitelists && $.inArray(target.tagName.toString().toUpperCase(), whitelists) == -1) {
+          return false;
+        }
+        return true;
+  }
+
+  window.onload = function() {
+
+    $(document).bind("contextmenu",function(e){
+        if (jQuery_isTagName(e, ['LI'])) {
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    });
+  }
+
+  function whichElement(e){  
+      if(e.which==3) {  
+        $('#bbb').after("<p>" + e.currentTarget.id + "长按" + "</p>");
+      }
+  }  
+</script>
+</head>
+<body>
+
+
+  <div class="weui_panel weui_panel_access">
+    <div class="weui_panel_hd">回复 (10)</div>
+    <div class="weui_panel_bd">
+      <div class="weui_media_box weui_media_appmsg">
+        <div class="weui_media_hd">
+            <!-- <div class="weui_cell"> -->
+                <ul id='pic_container' class="weui_uploader_files">
+                  <li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);" onmousedown="whichElement(event)"></li>
+                </ul>
+            <!-- </div> -->
+        </div>
+        <div class="weui_media_bd">
+          <!-- <h4 class="weui_media_title ">标题一</h4> -->
+          <h2 class="weui_media_title">永不上线</h2>
+          <p class="media_desc_1">2016.01.01</p>
+          <p class="media_desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+          <a href="" class="media_desc_1">删除</a>
+        </div>
+      </div>
+      <div class="weui_media_box weui_media_appmsg">
+        <div class="weui_media_hd">
+          <img id="img_2" class="weui_media_appmsg_thumb" src="../common/pic_del.png" alt="" onmousedown="whichElement(event)">
+        </div>
+        <div class="weui_media_bd">
+          <h1 class="weui_media_title">永不上线</h1>
+          <p class="weui_media_desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p id="bbb">bbb</p>
+
+
+<!-- <div id="msgBox">
+    <form>
+        <h2>来 , 说说你在做什么 , 想什么</h2>
+
+        <div>
+            <input id="userName" class="f-text" value="" />
+            <p id="face"><img src="img/face1.gif" class="current" /><img src="img/face2.gif" /><img src="img/face3.gif" /><img src="img/face4.gif" /><img src="img/face5.gif" /><img src="img/face6.gif" /><img src="img/face7.gif" /><img src="img/face8.gif" /></p>
+        </div>
+        <div><textarea id="conBox" class="f-text"></textarea></div>
+        <div class="tr">
+            <p>
+                <span class="countTxt">还能输入</span><strong class="maxNum">140</strong><span>个字</span>
+
+                <input id="sendBtn" type="button" value="" title="快捷键 Ctrl+Enter" />
+            </p>
+        </div>
+    </form>
+    <div class="list">
+        <h3><span>大家在说</span></h3>
+        <ul>
+            <li>
+
+                <div class="userPic"><img src="img/face.gif" /></div>
+                <div class="content">
+                    <div class="userName"><a href="javascript:;">永不上线</a>:</div>
+                    <div class="msgInfo">新增删除广播功能。</div>
+                    <div class="times"><span>07月05日 15:14</span><a class="del" href="javascript:;">删除</a></div>
+                </div>
+
+            </li>
+            <li>
+                <div class="userPic"><img src="img/face1.gif" /></div>
+                <div class="content">
+                    <div class="userName"><a href="javascript:;">永不上线</a>:</div>
+                    <div class="msgInfo">新增Ctrl+Enter快捷键发送广播。</div>
+                    <div class="times"><span>07月05日 12:20</span><a class="del" href="javascript:;">删除</a></div>
+
+                </div>
+            </li>
+        </ul>
+    </div>  
+</div>
+ -->
+</body>
+</html>

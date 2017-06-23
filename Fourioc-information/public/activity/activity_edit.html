@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+    </style>
+
+    <script>
+        var corp_id = null;
+        var user_id = null;
+        var identity = null;
+        var activity_id = null;
+        var iscopy = null;
+
+        var json_obj_detail = null;
+        var json_obj_class = null;
+
+        var teacher_array = new Array();
+        var staff_array = new Array();
+        var parents_array = new Array();
+
+        var selected_leader_array = new Array();
+        var selected_partner_array = new Array();
+
+        var select_person_kind = 0; //0-null, 1-leader, 2-partner
+        var g_pic_cnt = 0;
+
+        {
+            var paramObj = parseURL(document.URL);
+            for( var i = 0; i < paramObj.length; i++ ) {
+                if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "activity_id" ) {
+                    activity_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "iscopy" ) {
+                    iscopy = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                }
+            }
+
+            if(!corp_id || !user_id ||!identity) {
+                debug_trace("" + ((!user_id) ? "user_id" :"") + ((!corp_id) ? " corp_id" :"") + ((!identity) ? " identity" :"") + " 参数错误");
+            }
+        }
+
+//         function get_staff_info(){
+
+//             var req_json = {
+//                 corpId:corp_id,
+//             }
+//             var ret = false;
+
+//             $.ajax({
+//               dataType:'json',
+//               contentType: "application/json",
+//               type: 'post', // 提交方式 get/post
+//               url: '/wxqyh/school/staff/all', // 需要提交的 url
+//               data: JSON.stringify(req_json),
+//               async: false,
+//               beforeSend: function(XHR) {
+//               },
+//               success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+//                 if( typeof data == "object" ) {
+//                     if( data.success == 0 ) {
+//                         staff_array = data.data.staff;
+//                         ret = true;
+//                     } else {
+//                         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得职工数据失败，' + data.desc));
+// }
+//                 } else {
+//                     window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得职工数据失败，格式错误'));
+//                 }
+//               },
+//               error:function(XHR, ErrText, Exception) {
+//                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得职工数据失败，服务器连接错误'));
+//               }
+//             });
+
+//             return ret;
+//         };
+
+
+//         function get_teacher_info(class_id){
+
+//             var req_json = {
+//                 corpId:corp_id,
+//                 id:class_id
+//             }
+//             var ret = false;
+
+//             $.ajax({
+//               dataType:'json',
+//               contentType: "application/json",
+//               type: 'post', // 提交方式 get/post
+//               url: '/wxqyh/class/getteacher', // 需要提交的 url
+//               data: JSON.stringify(req_json),
+//               async: false,
+//               beforeSend: function(XHR) {
+//               },
+//               success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+//                 if( typeof data == "object" ) {
+//                     if( data.success == 0 ) {
+//                         for( var i = 0; i < data.data.teacher.length; i++) {
+//                             console.log("" + i + " id: " + data.data.teacher[i].id + " name: " + data.data.teacher[i].name);
+//                         }
+
+//                         teacher_array[teacher_array.length] = data.data;
+//                         ret = true;
+//                     } else {
+//                         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得教师数据失败，' + data.desc));
+//                     }
+//                 } else {
+//                     window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得教师数据失败，格式错误'));
+//                 }
+//               },
+//               error:function(XHR, ErrText, Exception) {
+//                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得教师数据失败，服务器连接错误'));
+//               }
+//             });
+
+//             return ret;
+//         };
+
+
+//         function get_parents_info(class_id){
+
+//             var req_json = {
+//                 corpId:corp_id,
+//                 id:class_id
+//             }
+//             var ret = false;
+
+//             $.ajax({
+//               dataType:'json',
+//               contentType: "application/json",
+//               type: 'post', // 提交方式 get/post
+//               url: '/wxqyh/class/getparent', // 需要提交的 url
+//               data: JSON.stringify(req_json),
+//               async: false,
+//               beforeSend: function(XHR) {
+//               },
+//               success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+//                 if( typeof data == "object" ) {
+//                     if( data.success == 0 ) {
+//                         for( var i = 0; i < data.data.parent.length; i++) {
+//                             console.log("" + i + " userid: " + data.data.parent[i].userid + " sid: " + data.data.parent[i].sid + " name: " + data.data.parent[i].name);
+//                         }
+
+//                         parents_array[parents_array.length] = data;
+//                         ret = true;
+//                     } else {
+//                         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，' + data.desc));
+//                     }
+//                 } else {
+//                     window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，格式错误'));
+//                 }
+//               },
+//               error:function(XHR, ErrText, Exception) {
+//                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，服务器连接错误'));
+//               }
+//             });
+
+//             return ret;
+//         };
+
+//         function get_class_info(){
+//             var req_json = {
+//                 corpId:corp_id,
+//                 id:user_id
+//             }
+
+//             $.ajax({
+//               dataType:'json',
+//               contentType: "application/json",
+//               type: 'post', // 提交方式 get/post
+//               url: '/wxqyh/class/get', // 需要提交的 url
+//               data: JSON.stringify(req_json),
+//               async: false,
+//               beforeSend: function(XHR) {
+//               },
+//               success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+//                 if( typeof data == "object" ) {
+//                     if( data.success == 0 ) {
+//                         json_obj_class = data;
+
+//                         //取老师
+//                         var ret = true;
+//                         for( var i = 0; i < json_obj_class.data.class.length && ret; i++ ) {
+//                             ret = get_teacher_info(json_obj_class.data.class[i].id);
+//                         }
+
+//                         //取家长
+//                         var ret = true;
+//                         for( var i = 0; i < json_obj_class.data.class.length && ret; i++ ) {
+//                             ret = get_parents_info(json_obj_class.data.class[i].id);
+//                         }
+//                     } else {
+//                         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，' + data.desc));
+//                     }
+//                 } else {
+//                     window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，格式错误'));
+//                 }
+//               },
+//               error:function(XHR, ErrText, Exception) {
+//                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，服务器连接错误'));
+//               }
+//             });
+//         };
+
+//         function get_activity_info() {
+//             var req_json = {
+//               corpId:corp_id,
+//               id:activity_id,
+//               userid:user_id,
+//               identity:parseInt(identity)
+//             };
+
+//             $.ajax({
+//               dataType:'json',
+//               contentType: "application/json",
+//               type: 'post', // 提交方式 get/post
+//               url: '/wxqyh/activity/detail', // 需要提交的 url
+//               data: JSON.stringify(req_json),
+//               async: false,
+//               beforeSend: function(XHR) {
+//               },
+//               success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+//                 if( typeof data == "object" ) {
+//                     if( data.success == 0 ) {
+//                         json_obj_detail = data;
+//                         // alert('data:' + JSON.stringify(json_obj_detail.data));
+//                     } else {
+//                         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动通知数据失败，' + data.desc));
+//                     }
+//                 } else {
+//                     window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动通知数据失败，格式错误'));
+//                 }
+//               },
+//               error:function(XHR, ErrText, Exception) {
+//                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得活动通知数据失败，服务器连接错误'));
+//               }
+//             });
+
+//             //format date_time
+//             if( json_obj_detail ) {
+
+//                 json_obj_detail.data.activity.editTime = format_date_time(json_obj_detail.data.activity.editTime);
+//                 json_obj_detail.data.activity.beginTime = format_date_time(json_obj_detail.data.activity.beginTime);
+//                 json_obj_detail.data.activity.endTime = format_date_time(json_obj_detail.data.activity.endTime);
+//             }
+//         };
+
+//         function on_text_area_input(obj) {
+//             obj.value = String(obj.value).substring(0,200);
+//             $("#char_cnt").html(obj.value.length);
+//         }
+
+//         //
+//         if( user_id && corp_id ) {
+//             //全体教职工
+//             get_staff_info();
+//             //班级老师、家长
+//             get_class_info();
+//         }
+
+//         //
+//         if( activity_id && corp_id ) {
+//             get_activity_info();
+//         }
+
+//         //
+//         function pic_view(id) {
+
+//             var url = '';
+//             var urls = [];
+
+//             $('#pic_container [name="pic_src"]').each(function(key, value) {
+
+//                 urls.push(value.src);
+
+//                 if( value.id == id ) {
+//                     url = value.src;
+//                 }
+//             });           
+
+//             wx.previewImage({
+//               current: url,
+//               urls: urls
+//             });
+//         }
+
+//         //
+//         // alert('jsconfig/get done: start');
+//         $.ajax({
+//             url: '/wxedu/jsconfig/get',
+//             type: 'post',
+//             data: {
+//                 corpId:corp_id,
+//                 url: location.href.split('#')[0]
+//             }
+//         }).done(function(r) {
+
+//             // alert('jsconfig/get done:' + JSON.stringify(r));
+
+//             if( r.success != 0 ) {
+//                 return ;
+//             }
+
+//             // 开始配置微信JS-SDK
+//             // alert('wx.config start');
+//             wx.config({
+//                 debug: false,
+//                 appId: r.data.appId,
+//                 timestamp: r.data.timestamp,
+//                 nonceStr: r.data.nonceStr,
+//                 signature: r.data.signature,
+//                 jsApiList: [
+//                     'checkJsApi',
+//                     'chooseImage',
+//                     'previewImage',
+//                     'uploadImage',
+//                     'downloadImage',
+//                     'getNetworkType',
+//                     'startRecord',
+//                     'stopRecord',
+//                     'onVoiceRecordEnd',
+//                     'playVoice',
+//                     'pauseVoice',
+//                     'stopVoice',
+//                     'onVoicePlayEnd',
+//                     'uploadVoice',
+//                     'downloadVoice'
+//                 ]
+//             });
+//             // alert('wx.config end');
+
+//             // 调用微信API
+//             wx.ready(function() {
+
+//                 // alert('wx.ready');
+
+//                 //
+//                 $('#pic_add')[0].style.visibility="visible";
+//                 $('#pic_del')[0].style.visibility="visible";
+
+//                 //
+//                 $('#pic_add').on('click', function() {
+
+//                     disp_del_mark(false);
+
+//                     wx.chooseImage({
+
+//                         success: function(res) {
+
+//                             // alert('wx.chooseImage success:' + JSON.stringify(res.localIds));
+
+//                             function upload_medu_image(serverId, i) {
+
+//                                 // alert('upload_medu_image [' + i + '] : ' + serverId);
+
+//                                 $.ajax({
+//                                     url: '/wxedu/upload/image',
+//                                     type: 'post',
+//                                     data: {
+//                                         corpId:corp_id,
+//                                         media_id: serverId
+//                                     }
+//                                 }).done(function(r) {
+
+//                                     // alert('upload_medu_image [' + i +'] done:' + JSON.stringify(r));
+
+//                                     if( r.success == 0 ) {
+//                                         var strHtml = '';
+//                                         strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+//                                         strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + r.data.pic_url + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + r.data.pic_url + '">';
+//                                         strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+//                                         strHtml += '</li>';
+
+//                                         $('#pic_add').before(strHtml);
+
+//                                         g_pic_cnt++;
+//                                     };
+//                                 });
+//                             };
+
+//                             $.showLoading("正在上传图片...");
+
+//                             var localIds = res.localIds;
+//                             var localId_idx = 0;
+//                             function upload_wx_image() {
+
+//                                 // alert("call upload_wx_image() " + localId_idx);
+
+//                                 wx.uploadImage({
+
+//                                     localId:localIds[localId_idx],
+//                                     success: function (res) {
+//                                         localId_idx++;
+//                                         // alert('已传 res:' + JSON.stringify(res));
+
+//                                         upload_medu_image(res.serverId, localId_idx);
+
+//                                         if (localId_idx < localIds.length) {
+//                                             upload_wx_image();
+//                                         } else {
+//                                             $.hideLoading();
+//                                         }
+//                                     },
+//                                     fail: function (res) {
+//                                         alert('上传失败：' + JSON.stringify(res));
+//                                     }
+//                                 });
+//                             };
+
+//                             if( localIds.length > 0 ) {
+//                                 upload_wx_image();
+//                             }
+//                         }
+//                     });
+//                 });
+//             });
+//         });
+
+    </script>  
+
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="bd weui_tab_bd" >
+        <div class="weui_cells" style="margin-top:0;border-top:0;padding-top:0;">
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">标题</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="title" class="weui_input" placeholder="请输入活动标题" maxlength="20" onchange="this.value=this.value.substring(0, 20)" onkeydown="this.value=this.value.substring(0, 20)" onkeyup="this.value=this.value.substring(0, 20)"/>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">内容</label>
+                    <div class="weui_textarea_counter" style="text-align:left">
+                        <span id="char_cnt">0</span>/200
+                    </div>
+                    <br><br><br><br><br><br>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" placeholder="请输入活动内容" maxlength="200" rows="8" onchange="on_text_area_input(this)" onkeydown="on_text_area_input(this)" onkeyup="on_text_area_input(this)"></textarea>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <ul id='pic_container' class="weui_uploader_files">
+                    <li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);visibility:hidden;"></li>
+                    <li id='pic_del' onclick='on_pic_del()' class="uploader_file " style="background-image:url(../common/pic_del.png);visibility:hidden;"></li>
+                </ul>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">开始时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                  <input id="start_time" class="weui_input" type="text" value="">
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">截止时间</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                  <input id="stop_time" class="weui_input" type="text" value="">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="weui_cells">
+            <div class="weui_cells_access">
+                <a id="select_leader" class="weui_cell open-popup" data-target="#leader_list_container">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>选择负责人</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="leader_selected_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="leader_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="weui_cells">
+            <div class="weui_cells_access">
+                <a id="select_parents" class="weui_cell open-popup" data-target="#partner_list_container">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>选择相关人</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="partner_selected_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="partner_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+
+    <div class="weui_tabbar">
+        <div class="weui_tabbar_item">
+            <a id="save_draft" href="javascript:;" class="weui_btn weui_btn_primary" style="margin:10px;">存为草稿</a>
+        </div>
+        <div class="weui_tabbar_item">
+            <a id="publish" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">立即发布</a>
+        </div>
+    </div>
+
+
+    <div id="leader_list_container") class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div id="leader_list_content">
+    <!--                 <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>
+                    </div>                    
+                    <div class="weui_cells weui_cells_checkbox" >
+                        <label class="weui_cell weui_check_label" for="c0p0">
+                            <div class="weui_cell_hd">
+                                <input id="c0p0" type="checkbox" class="weui_check" checked>
+                                <i class="weui_icon_checked"></i>                            
+                            </div>
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+                
+            </div>
+
+            <div class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a id="select_leader_cancel" href="javascript:;" class="weui_btn weui_btn_primary close-popup" style="margin:10px;">取消</a>
+                </div>
+                <div class="weui_tabbar_item">
+                    <a id="select_leader_save" href="javascript:;" class="weui_btn weui_btn_warn close-popup" style="margin:10px;">保存</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="partner_list_container" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div id="partner_list_content">
+    <!--                 <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                        <div class="weui-col-50"><h3>x年x班</h3></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>
+                        <div class="weui-col-20"><a href="javascript:on_select_all(0,false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>
+                    </div>                    
+                    <div class="weui_cells weui_cells_checkbox" >
+                        <label class="weui_cell weui_check_label" for="c0p0">
+                            <div class="weui_cell_hd">
+                                <input id="c0p0" type="checkbox" class="weui_check" checked>
+                                <i class="weui_icon_checked"></i>                            
+                            </div>
+                            <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;
+                            <div class="weui_cell_bd weui_cell_primary">                            
+                                <p>名字0000000000</p>
+                            </div>
+                        </label>
+                    </div>
+     -->
+                </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+                
+            </div>
+
+            <div class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a id="select_person_cancel" href="javascript:;" class="weui_btn weui_btn_primary close-popup" style="margin:10px;">取消</a>
+                </div>
+                <div class="weui_tabbar_item">
+                    <a id="select_partner_save" href="javascript:;" class="weui_btn weui_btn_warn close-popup" style="margin:10px;">保存</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        // function init_field() {
+
+        //     //
+        //     var parents_cnt = 0;
+        //     for( var i = 0; i < parents_array.length; i++ ) {
+        //         parents_cnt += parents_array[i].data.parent.length;
+        //     }
+        //     var staff_cnt = staff_array.length;
+
+        //     $("#leader_cnt").text(parents_cnt + staff_cnt);
+        //     $("#partner_cnt").text(parents_cnt + staff_cnt);
+
+
+        //     //
+        //     if( !json_obj_detail ) {
+
+        //         $(document).attr("title","新建活动");
+
+        //         var start = new Date();
+        //         $("#start_time").val(format_date_time(start));
+
+        //         var stop = new Date(start.valueOf() + 1*24*60*60*1000); 
+        //         $("#stop_time").val(format_date_time(stop));
+
+        //         //init count
+        //         $("#leader_selected_cnt").text(0);
+        //         $("#partner_selected_cnt").text(0);
+
+        //     } else {
+
+        //         $(document).attr("title","编辑活动");
+
+        //         $("#title").val(decodeURI(decodeURI(json_obj_detail.data.activity.title)));
+        //         $("#content").html(decodeURI(decodeURI(json_obj_detail.data.activity.content)));
+        //         $("#char_cnt").html($("#content").html().length);
+        //         $("#start_time").val(json_obj_detail.data.activity.beginTime);
+        //         $("#stop_time").val(json_obj_detail.data.activity.endTime);
+
+        //         //init count
+        //         $("#leader_selected_cnt").text(json_obj_detail.data.activity.leader.length);
+        //         $("#partner_selected_cnt").text(json_obj_detail.data.activity.partner.length);
+
+        //         //
+        //         // alert('pics:' + JSON.stringify(json_obj_detail.data.activity.pics));
+        //         for( var i = 0; i < json_obj_detail.data.activity.pics.length; i++ ) {
+        //             var strHtml = '';
+        //             strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+        //             strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + json_obj_detail.data.activity.pics[i] + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + json_obj_detail.data.activity.pics[i] + '">';
+        //             strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+        //             strHtml += '</li>';
+
+        //             $('#pic_add').before(strHtml);
+
+        //             g_pic_cnt++;
+        //         };
+
+        //         //
+        //         selected_leader_array.length = 0;
+        //         for( var i = 0; i < json_obj_detail.data.activity.leader.length; i++ ) {
+
+        //             selected_leader_array[selected_leader_array.length] = {
+        //                 userid:json_obj_detail.data.activity.leader[i].id,
+        //                 sid:json_obj_detail.data.activity.leader[i].ext1,
+        //                 identity:json_obj_detail.data.activity.leader[i].identity
+        //             };
+        //         }
+
+        //         //
+        //         selected_partner_array.length = 0;
+        //         for( var i = 0; i < json_obj_detail.data.activity.partner.length; i++ ) {
+
+        //             selected_partner_array[selected_partner_array.length] = {
+        //                 userid:json_obj_detail.data.activity.partner[i].id,
+        //                 sid:json_obj_detail.data.activity.partner[i].ext1,
+        //                 identity:json_obj_detail.data.activity.partner[i].identity,
+        //             };
+        //         }
+        //     }
+        // }
+
+        function check_valid_draft_data() {
+            //
+            if( del_space($("#title").val()).length == 0 ) {
+
+                $.toast("请输入活动标题", "forbidden");
+                return false;
+            }
+
+            return true;
+        }
+
+        function check_valid_publish_data() {
+
+            //
+            if( del_space($("#title").val()).length == 0 ) {
+
+                $.toast("请输入活动标题", "forbidden");
+                return false;
+            }
+
+            //
+            if( del_space($("#content").val()).length == 0 ) {
+
+                $.toast("请输入活动内容", "forbidden");
+                return false;
+            }
+
+            //
+            var now = new Date();
+            var start = new Date($("#start_time").val().replace(/-/g,"/"));
+            if( start < now ) {
+
+                $.toast("开始时间不能早于当前时间", "forbidden");
+                return false;
+            }
+            var stop = new Date($("#stop_time").val().replace(/-/g,"/"));
+            if( stop < now ) {
+
+                $.toast("截止时间不能早于当前时间", "forbidden");
+                return false;
+            }
+            if( stop <= start ) {
+                $.toast("截止时间不能早于开始时间", "forbidden");
+                return false;
+            }
+
+            //
+            // if( selected_leader_array.length == 0 ) {
+
+            //     $.toast("请选择负责人", "forbidden");
+            //     return false;                
+            // }
+
+            // //
+            // if( selected_partner_array.length == 0 ) {
+
+            //     $.toast("请选择相关人", "forbidden");
+            //     return false;                
+            // }
+
+            return true;
+        }
+
+
+        $(document).ready(function(){
+
+            //
+            activity_id=1;
+            if( activity_id ) {
+                $(document).attr("title","新建活动");
+            } else {
+                $(document).attr("title","活动草稿");                
+            }
+
+            //
+           // init_field();
+
+            // init datetime
+            $("#start_time").datetimePicker({
+            });
+
+            $("#stop_time").datetimePicker({
+            });
+
+            //
+            // function init_select_person(){
+
+            //     if( !json_obj_class ) {
+            //         return ;
+            //     }
+
+            //     //init contacts list
+            //     var root = null;
+            //     var flag = null;
+            //     if( select_person_kind == 1 ) {
+            //         root = $("#leader_list_content");
+            //         flag = 'l';
+            //     } else if( select_person_kind == 2 ) {
+            //         root = $("#partner_list_content");
+            //         flag = 'p';
+            //     }
+            //     // var root = document.getElementById("partner_list_content");
+            //     // root.empty();
+            //     if( root[0].children.length > 0 ) {
+            //         return ;
+            //     }
+
+            //     //全体教职工
+            //     {
+            //         var unionIdx = 0;
+            //         var strHtml = '';
+
+            //         strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+            //         strHtml += '    <div class="weui-col-40"><h4>' + '全体教职工' + '</h4></div>';
+            //         strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + unionIdx + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+            //         strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + unionIdx + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+            //         strHtml += '</div>';                    
+            //         strHtml += '<div class="weui_cells weui_cells_checkbox" id="' + flag + unionIdx + '">';
+
+            //         var selected_person_cnt = 0;
+            //         if( json_obj_detail ) {
+            //             if( select_person_kind == 1 ) {
+            //                 selected_person_cnt = json_obj_detail.data.activity.leader.length;
+            //             } else if( select_person_kind == 2 ) {
+            //                 selected_person_cnt = json_obj_detail.data.activity.partner.length;
+            //             }
+            //         }
+
+            //         for( var personIdx = 0; personIdx < staff_array.length; personIdx++) {
+
+            //             var is_checked = false;
+            //             if( json_obj_detail ) {
+
+            //                 for( var i = 0; i < selected_person_cnt; i++ ) {
+
+            //                     if( select_person_kind == 1 ) {
+            //                         if( json_obj_detail.data.activity.leader[i].id == staff_array[personIdx].userid && json_obj_detail.data.activity.leader[i].ext1 == 0 ) {
+
+            //                             is_checked = true;
+            //                             break;
+            //                         }
+            //                     } else if( select_person_kind == 2 ) {
+            //                         if( json_obj_detail.data.activity.partner[i].id == staff_array[personIdx].userid && json_obj_detail.data.activity.partner[i].ext1 == 0 ) {
+
+            //                             is_checked = true;
+            //                             break;
+            //                         }
+            //                     }
+            //                 }
+            //             }
+
+            //             strHtml += '    <label class="weui_cell weui_check_label" for="' + flag +"\u007f" + staff_array[personIdx].userid+"\u007f"+0+"\u007f"+2+'">'
+            //             strHtml += '        <div class="weui_cell_hd">';
+            //             strHtml += '            <input type="checkbox" class="weui_check" id="' + flag +"\u007f" + staff_array[personIdx].userid+"\u007f"+0+"\u007f"+2+'"';
+            //             if( is_checked) {
+            //                 strHtml += '        checked';
+            //             }
+            //             strHtml += '            >';
+            //             strHtml += '            <i class="weui_icon_checked"></i>';                            
+            //             strHtml += '        </div>';
+            //             strHtml += '        <img src="' + staff_array[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+            //             strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+            //             strHtml += '            <p>' + staff_array[personIdx].name + '</p>';
+            //             strHtml += '        </div>';
+            //             strHtml += '    </label>';
+            //         }
+
+            //         strHtml += '</div>';
+            //         strHtml += '';
+
+            //         console.log(strHtml);
+            //         root.append(strHtml);
+            //     }
+
+
+            //     //班级家长
+            //     for(var unionIdx = 0; unionIdx < json_obj_class.data.class.length; unionIdx++) {
+
+            //         var strHtml = '';
+
+            //         strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+            //         strHtml += '    <div class="weui-col-40"><h4>' + json_obj_class.data.class[unionIdx].name + '</h4></div>';
+            //         strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + (unionIdx+1) + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+            //         strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(&quot;' + flag + '&quot;,' + (unionIdx+1) + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+            //         strHtml += '</div>';                    
+            //         strHtml += '<div class="weui_cells weui_cells_checkbox" id="' + flag + (unionIdx+1) + '">';
+
+            //         for( var personIdx = 0; personIdx < parents_array[unionIdx].data.parent.length; personIdx++) {
+
+            //             var is_checked = false;
+            //             if( json_obj_detail ) {
+
+            //                 var person_cnt = 0;
+            //                 if( select_person_kind == 1 ) {
+            //                     person_cnt = json_obj_detail.data.activity.leader.length;
+            //                 } else if( select_person_kind == 2 ) {
+            //                     person_cnt = json_obj_detail.data.activity.partner.length;
+            //                 }
+
+            //                 for( var i = 0; i < person_cnt; i++ ) {
+
+            //                     if( select_person_kind == 1 ) {
+            //                         if( json_obj_detail.data.activity.leader[i].ext1 == parents_array[unionIdx].data.parent[personIdx].sid && 
+            //                             json_obj_detail.data.activity.leader[i].id == parents_array[unionIdx].data.parent[personIdx].userid) {
+
+            //                             is_checked = true;
+            //                             break;
+            //                         }
+            //                     } else if( select_person_kind == 2 ) {
+            //                         if( json_obj_detail.data.activity.partner[i].ext1 == parents_array[unionIdx].data.parent[personIdx].sid && 
+            //                             json_obj_detail.data.activity.partner[i].id == parents_array[unionIdx].data.parent[personIdx].userid) {
+
+            //                             is_checked = true;
+            //                             break;
+            //                         }
+            //                     }
+
+            //                 }
+            //             }
+
+            //             var str_array = [
+            //                         '   <label class="weui_cell weui_check_label" for="',
+            //                                 flag, "\u007f",
+            //                                 parents_array[unionIdx].data.parent[personIdx].userid, "\u007f",
+            //                                 parents_array[unionIdx].data.parent[personIdx].sid, "\u007f",
+            //                                 1,  '">'
+            //                             ].join('');
+            //             strHtml += str_array;
+
+            //             strHtml += '        <div class="weui_cell_hd">';
+            //             str_array = [
+            //                         '            <input type="checkbox" class="weui_check" id="',
+            //                                     flag, "\u007f",
+            //                                     parents_array[unionIdx].data.parent[personIdx].userid, "\u007f",
+            //                                     parents_array[unionIdx].data.parent[personIdx].sid, "\u007f",
+            //                                     1, '"'
+            //                         ].join('');
+            //             strHtml += str_array;
+            //             if( is_checked) { strHtml += '        checked'; }
+            //             strHtml += '        >';
+            //             strHtml += '            <i class="weui_icon_checked"></i>';                            
+            //             strHtml += '        </div>';
+            //             strHtml += '        <img src="' + parents_array[unionIdx].data.parent[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+            //             strHtml += '        <div class="weui_cell_bd weui_cell_primary">';                            
+            //             strHtml += '            <p>' + parents_array[unionIdx].data.parent[personIdx].bakname + '</p>';
+            //             strHtml += '        </div>';
+            //             strHtml += '    </label>';
+            //         }
+
+            //         strHtml += '</div>';
+            //         strHtml += '';
+
+            //         console.log(strHtml);
+            //         root.append(strHtml);
+            //     }
+            // };
+
+            //
+            $("#select_leader").click(function(){
+                select_person_kind = 1;
+                init_select_person();
+            });
+
+            //
+            $("#select_parents").click(function(){
+                select_person_kind = 2;
+                init_select_person();
+            });
+
+            $("#select_leader_cancel").click(function(){
+
+                $('#leader_list_content input').each(function(key, value) { 
+                    console.log("key[" + key +"] value.id[" + value.id + "]");
+                    value.checked = false;
+                });
+
+                //
+                for( var i = 0; i < selected_leader_array.length; i++ ) {
+                    var id = "l"+"\u007f"+selected_leader_array[i].userid+"\u007f"+selected_leader_array[i].sid+"\u007f"+selected_leader_array[i].identity;
+                    document.getElementById(id).checked = true;
+                }
+
+                select_person_kind = 0;
+            });
+
+            $("#select_person_cancel").click(function(){
+
+                $('#partner_list_content input').each(function(key, value) { 
+                    console.log("key[" + key +"] value.id[" + value.id + "]");
+                    value.checked = false;
+                });
+
+                //
+                for( var i = 0; i < selected_partner_array.length; i++ ) {
+                    var id = "p"+"\u007f"+selected_partner_array[i].userid+"\u007f"+selected_partner_array[i].sid+"\u007f"+selected_partner_array[i].identity;
+                    document.getElementById(id).checked = true;
+                }
+
+                select_person_kind = 0;
+            });
+
+            $("#select_leader_save").click(function(){
+
+                selected_leader_array.length = 0;
+
+                $('#leader_list_content input').each(function(key, value) { 
+                
+                    // console.log("key[" + key +"] value[" + value.id + "]");
+                    if( value.checked ) {
+                        var id = value.id.split('\u007f');
+
+                        selected_leader_array[selected_leader_array.length] = {userid:id[1],sid:id[2],identity:id[3]};
+                        console.log("idx[" + (selected_leader_array.length-1) +"] id[" + selected_leader_array[selected_leader_array.length-1].userid+"\u007f"+ selected_leader_array[selected_leader_array.length-1].sid + "]");
+                    }
+                });
+
+                $("#leader_selected_cnt").text(selected_leader_array.length);
+
+                select_person_kind = 0;
+            });              
+
+            $("#select_partner_save").click(function(){
+
+                selected_partner_array.length = 0;
+
+                $('#partner_list_content input').each(function(key, value) { 
+                
+                    // console.log("key[" + key +"] value[" + value.id + "]");
+                    if( value.checked ) {
+                        var id = value.id.split('\u007f');
+
+                        selected_partner_array[selected_partner_array.length] = {userid:id[1],sid:id[2],identity:id[3]};
+                        console.log("idx[" + (selected_partner_array.length-1) +"] id[" + selected_partner_array[selected_partner_array.length-1].userid+"\u007f"+ selected_partner_array[selected_partner_array.length-1].sid + "]");
+                    }
+                });
+
+                $("#partner_selected_cnt").text(selected_partner_array.length);
+
+                select_person_kind = 0;
+            });              
+
+            $("#save_draft").click(function(){
+              
+                if( check_valid_draft_data() ) {
+                    
+                    if( on_commit(0) ) {
+
+                        $.toast("保存草稿成功");
+                        setTimeout(function() {
+                            window.location = './activity_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&type=0';
+                         }, 2000);
+                    }
+                }
+            });
+
+            $("#publish").click(function(){
+
+                if( check_valid_publish_data() ) {
+
+                    if( on_commit(1) ) {
+
+                        $.toast("发布成功");
+                        setTimeout(function() {
+                            window.location = './activity_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&type=1';
+                        }, 2000);
+                    }
+                }
+            });
+
+        });
+
+        function on_select_all(flag, idx, is_checked) {
+
+            $('#' + flag + idx + ' input').each(function(key, value) { 
+                // console.log("key[" + key +"] value[" + value.id + "]");
+                value.checked = is_checked;
+            });
+        }
+
+        function collectJsonData(state) {
+            
+            var pics = [];
+            $('#pic_container [name="pic_src"]').each(function(key, value) {
+                pics.push(value.alt);
+            });
+           
+            var activity_json = {
+                corpId:corp_id,
+                activity:{
+                   // id:(activity_id && (!iscopy))?activity_id:"",
+                    createPerson:user_id,
+                    activityType:$("#activity_type").val(),
+                    title:encodeURI(encodeURI($("#title").val())),
+                    content:encodeURI(encodeURI($("#content").val())),
+                    voice:[],
+                    pics:pics,
+                    attachment:[],
+                    leader:[],
+                    partner:[],
+                    class:[],
+                    beginTime:$("#start_time").val(),
+                    endTime:$("#stop_time").val(),
+                    // isNotifyBeforeBegin:false,
+                    // isNotifyBeforeEnd:false,
+                    priority:$("#priority").val(),
+                    state:state
+                }
+            };
+           
+            for(var i = 0; i < selected_leader_array.length; i++) {
+                activity_json.activity.leader.push({id:selected_leader_array[i].userid, identity:selected_leader_array[i].identity, ext:selected_leader_array[i].sid});
+            }
+
+            for(var i = 0; i < selected_partner_array.length; i++) {
+                activity_json.activity.partner.push({id:selected_partner_array[i].userid, identity:selected_partner_array[i].identity, ext:selected_partner_array[i].sid});
+            }
+            alert(6)
+            console.log("collectJsonData() ************* json str:" + JSON.stringify(activity_json));
+
+            return JSON.stringify(activity_json);
+        }
+
+        function on_commit(state) {
+          
+            var ret = false;
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_addactivity', // 需要提交的 url
+              data: collectJsonData(state),
+              async: false,
+              beforeSend: function(XHR) {
+                  //console.log('beforeSubmit');
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( data.success == 0 ) {
+                        ret = true;
+                    } else {
+                        ret = false;
+                        setTimeout(function() {
+                          window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，无法保存数据'));
+                        }, 2000);
+                    }
+              },
+              error:function(XHR, ErrText, Exception) {
+                    ret = false;
+                    setTimeout(function() {
+                      window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，服务器连接错误'));
+                    }, 2000);
+              }
+            });
+
+            return ret;
+        }
+
+        function disp_del_mark(isShow) {
+            $('#pic_container [name="pic_del_mark"]').each(function(key, value) { 
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if( isShow ) {
+                    value.style.display= "inline";
+                } else {
+                    value.style.display= "none";
+                }
+            });           
+        }
+
+        function is_disp_del_mark() {
+            var node = $('#pic_container [name="pic_del_mark"]:first');
+
+            if( node.length > 0 ) {
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if( node[0].style.display == "inline" ) {
+                    return true;
+                }
+
+                return false;
+            };           
+
+            return false;
+        }
+
+
+        //删除图片
+        function on_pic_del() {
+            if( is_disp_del_mark() ) {
+                disp_del_mark(false);
+            } else {
+                disp_del_mark(true);
+            }
+        }
+
+
+        //删除
+        function on_pic_del_mark(container_id) {
+            var node = $('#' + container_id)[0];
+            node.parentNode.removeChild(node); 
+        }
+
+    </script>
+
+
+
+</body>
+</html>

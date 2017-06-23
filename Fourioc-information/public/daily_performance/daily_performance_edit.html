@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../jquery_weui/weui.min.css">
+    <link rel="stylesheet" href="../jquery_weui/jquery-weui.css">
+    <link rel="stylesheet" href="../jquery_weui/demos.css">
+
+    <script src="../common/common_func.js"></script>
+    <link rel="stylesheet" href="../common/common_style.css">
+
+    <script src="../jquery_weui/jquery-2.1.4.js"></script>
+    <script src="../jquery_weui/jquery-weui.js"></script>
+    <script src="../javascripts/zepto.min.js"></script>
+    <script src="../weixin_sdk/jweixin-1.0.0.js"></script>
+
+    <style>
+        .uploader_file { /*copy from weui_uploader_file*/
+            float: left;
+            margin-right: 9px;
+            margin-bottom: 9px;
+            /*width: 148px;*/
+            width: 64px;
+            /*height: 119px;*/
+            height: 51px;
+            background: no-repeat 50%;
+            background-size: cover;
+        }
+        .weui_uploader_file{
+            position: relative;
+            background-size: contain;
+            height: 59px;
+            background-size: cover;
+            background-size: 90%;
+        }
+        .file{
+            position: relative;
+            display: inline-block;
+            background-image: url(../common/pic_add.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            border-radius: 4px;
+            padding: 8px 12px;
+            overflow: hidden;
+            color: #fff;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+            /* margin-top: 6px; */
+            height: 50px;
+            width: 50px;
+        }
+        .file_delete{
+            height: 59px;
+            width: 74px;
+            margin-bottom: 7px;
+        }
+    </style>
+
+    <script>
+        var user_id = null;
+        var identity = null;
+        var corp_id = null;
+
+        var json_obj_detail = null;
+        var json_obj_class = null;
+        var parents_array = new Array();
+        var selected_parents_array = new Array();
+        var g_pic_cnt = 0;
+var  class_list_json=null;
+        var count_num=null;
+        var photo_url_list="";
+        {
+           // alert(document.URL);
+            var paramObj = parseURL(document.URL);
+
+            for( var i = 0; i < paramObj.length; i++ ) {
+               // alert(paramObj[i]["key"]+","+paramObj[i]["value"]);
+                if( paramObj[i]["key"] == "user_id" ) {
+                    user_id = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "identity" ) {
+                    identity = paramObj[i]["value"];
+                } else if( paramObj[i]["key"] == "corp_id" ) {
+                    corp_id = paramObj[i]["value"];
+                }
+            }
+
+            if(!user_id || !identity || !corp_id) {
+                debug_trace("" + ((!user_id) ? "user_id" :"") + ((!identity) ? " identity" :"") + ((!corp_id) ? " corp_id" :"") + " 参数错误");
+            }
+        }
+
+
+
+
+        $.ajax({
+            url: '/wxallrequest_class/teacher_getparentinfo',
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                userid:user_id,
+                corpid:corp_id
+            }),
+            success: function (data) {
+              //  alert("33333");
+                if(data.success==0){
+                    class_list_json=data;
+                    //var jsondata=JSON.parse(JSON.stringify(data))
+                   // alert(JSON.stringify(data));
+                    count_num=class_list_json.data.count;
+
+$("#parents_cnt").html(count_num);
+                }
+                else if(data.success==1){
+
+                }
+                else if(data.success==2){
+
+                }
+                else {
+                    alert("获取数据失败1");
+                }
+
+            },
+            error: function(){
+                alert("获取数据失败2");
+            }
+        });
+
+
+
+        function get_parents_info(class_id){
+
+            var req_json = {
+                corpId:corp_id,
+                id:class_id
+            }
+            var ret = false;
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxqyh/class/getparent', // 需要提交的 url
+              data: JSON.stringify(req_json),
+              async: false,
+              beforeSend: function(XHR) {
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                if( typeof data == "object" ) {
+                    if( data.success == 0 ) {
+                        for( var i = 0; i < data.data.parent.length; i++) {
+                            console.log("" + i + " userid: " + data.data.parent[i].userid + " sid: " + data.data.parent[i].sid + " name: " + data.data.parent[i].bakname);
+                        }
+
+                        parents_array[parents_array.length] = data;
+                        ret = true;
+                    } else {
+                        debug_trace("getparent success [" + data.success + "]");
+                        window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，无法取得数据'));
+                    }
+                } else {
+                    debug_trace("getparent format error");
+                    window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，格式错误'));
+                }
+              },
+              error:function(XHR, ErrText, Exception) {
+                debug_trace("getparent failure. user_id[" + user_id + "], type[" + type +"]");
+                window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得家长数据失败，服务器连接错误'));
+              }
+            });
+
+            return ret;
+        };
+
+        // function get_class_info(){
+        //     var req_json = {
+        //         corpId:corp_id,
+        //         id:user_id
+        //     }
+
+        //     $.ajax({
+        //       dataType:'json',
+        //       contentType: "application/json",
+        //       type: 'post', // 提交方式 get/post
+        //       url: '/wxqyh/class/get', // 需要提交的 url
+        //       data: JSON.stringify(req_json),
+        //       async: false,
+        //       beforeSend: function(XHR) {
+        //       },
+        //       success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+        //         if( typeof data == "object" ) {
+        //             if( data.success == 0 ) {
+        //                 json_obj_class = data;
+
+        //                 var ret = true;
+        //                 for( var i = 0; i < json_obj_class.data.class.length && ret; i++ ) {
+        //                     ret = get_parents_info(json_obj_class.data.class[i].id);
+        //                 }
+        //             } else {
+        //                 debug_trace("get_class_info success [" + data.success + "] user_id[" + user_id + "]");
+        //                 window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，无法取得数据'));
+        //             }
+        //         } else {
+        //             debug_trace("get_class_info format error");
+        //             window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，格式错误'));
+        //         }
+        //       },
+        //       error:function(XHR, ErrText, Exception) {
+        //         debug_trace("get_class_info failure. user_id[" + user_id + "], type[" + type +"]");
+        //         window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('取得班级数据失败，服务器连接错误'));
+        //       }
+        //     });
+        // };
+
+        function on_text_area_input(obj) {
+            obj.value = String(obj.value).substring(0,200);
+            $("#char_cnt").html(obj.value.length);
+        }
+
+        //
+        if( user_id && corp_id ) {
+            get_class_info();
+        }
+
+        //
+        function pic_view(id) {
+
+            var url = '';
+            var urls = [];
+
+            $('#pic_container [name="pic_src"]').each(function(key, value) {
+
+                urls.push(value.src);
+
+                if( value.id == id ) {
+                    url = value.src;
+                }
+            });           
+
+            wx.previewImage({
+              current: url,
+              urls: urls
+            });
+        }
+
+
+
+        $('#pic_add').on('click', function() {
+            $.ajax({
+                url: '/wxedu/upload/image',
+                type: 'post',
+                data: {
+                    corpId:corp_id,
+                    media_id: serverId
+                }
+            })
+        })
+
+
+        //
+        // alert('jsconfig/get done: start');
+        $.ajax({
+            url: '/wxedu/jsconfig/get',
+            type: 'post',
+            data: {
+                corpId:corp_id,
+                url: location.href.split('#')[0]
+            }
+        }).done(function(r) {
+
+            // alert('jsconfig/get done:' + JSON.stringify(r));
+
+            if( r.success != 0 ) {
+                return ;
+            }
+
+            // 开始配置微信JS-SDK
+            // alert('wx.config start');
+            wx.config({
+                debug: false,
+                appId: r.data.appId,
+                timestamp: r.data.timestamp,
+                nonceStr: r.data.nonceStr,
+                signature: r.data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'chooseImage',
+                    'previewImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'getNetworkType',
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice'
+                ]
+            });
+            alert('wx.config end');
+
+            // 调用微信API
+            wx.ready(function() {
+
+                 alert('wx.ready');
+
+                //
+                $('#pic_add')[0].style.visibility="visible";
+                $('#pic_del')[0].style.visibility="visible";
+                //
+                $('#pic_add').on('click', function() {
+
+                    disp_del_mark(false);
+
+                    wx.chooseImage({
+
+                        success: function(res) {
+
+                            // alert('wx.chooseImage success:' + JSON.stringify(res.localIds));
+
+                            function upload_medu_image(serverId, i) {
+
+                                // alert('upload_medu_image [' + i + '] : ' + serverId);
+
+                                $.ajax({
+                                    url: '/wxedu/upload/image',
+                                    type: 'post',
+                                    data: {
+                                        corpId:corp_id,
+                                        media_id: serverId
+                                    }
+                                }).done(function(r) {
+
+                                    // alert('upload_medu_image [' + i +'] done:' + JSON.stringify(r));
+
+                                    if( r.success == 0 ) {
+                                        var strHtml = '';
+                                        strHtml += '<li id="pic_idx_' + g_pic_cnt + '" class="uploader_file " style="position:relative;">';
+                                        strHtml += '    <img id="img_id_' + g_pic_cnt + '" name="pic_src" class="uploader_file " src="' + r.data.pic_url + '" style="position:relative;top:0px;left:0px;" onclick="pic_view(&quot;' + 'img_id_' + g_pic_cnt + '&quot;)" alt="' + r.data.pic_url + '">';
+                                        strHtml += '    <img name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:-5px;left:-5px;width:30px;display:none;" onclick="on_pic_del_mark(&quot;pic_idx_' + g_pic_cnt + '&quot;)">';
+                                        strHtml += '</li>';
+
+                                        $('#pic_add').before(strHtml);
+
+                                        g_pic_cnt++;
+                                    };
+                                });
+                            };
+
+                            $.showLoading("正在上传图片...");
+
+                            var localIds = res.localIds;
+                            var localId_idx = 0;
+                            function upload_wx_image() {
+
+                                // alert("call upload_wx_image() " + localId_idx);
+
+                                wx.uploadImage({
+
+                                    localId:localIds[localId_idx],
+                                    success: function (res) {
+                                        localId_idx++;
+                                        // alert('已传 res:' + JSON.stringify(res));
+
+                                        upload_medu_image(res.serverId, localId_idx);
+
+                                        if (localId_idx < localIds.length) {
+                                            upload_wx_image();
+                                        } else {
+                                            $.hideLoading();
+                                        }
+                                    },
+                                    fail: function (res) {
+                                        alert('上传失败：' + JSON.stringify(res));
+                                    }
+                                });
+                            };
+
+                            if( localIds.length > 0 ) {
+                                upload_wx_image();
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>  
+
+
+</head>
+
+<body ontouchstart bgcolor="#EFEFF4">
+
+    <div class="bd weui_tab_bd" >
+        <div class="weui_cells" style="margin-top:0;border-top:0;padding-top:0;">
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">评价</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a name="0" class="star_pic" href="javascript:;"></a>
+                    <a name="1" class="star_pic" href="javascript:;"></a>
+                    <a name="2" class="star_pic" href="javascript:;"></a>
+                    <a name="3" class="star_pic" href="javascript:;"></a>
+                    <a name="4" class="star_pic" href="javascript:;"></a>
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">评语</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea id="content" class="weui_textarea" placeholder="请输入评语内容" maxlength="200" rows="8" onchange="on_text_area_input(this)" onkeydown="on_text_area_input(this)" onkeyup="on_text_area_input(this)"></textarea>
+                    <div class="weui_textarea_counter"><span id="char_cnt">0</span>/200</div>
+                </div>
+            </div>
+
+            <!--<div class="weui_cell">-->
+                <!--<ul id='pic_container' class="weui_uploader_files">-->
+                    <!--<li id='pic_add' class="uploader_file " style="background-image:url(../common/pic_add.png);"></li>-->
+                    <!--<li id='pic_del' onclick='on_pic_del()' class="uploader_file " style="background-image:url(../common/pic_del.png);"></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+
+
+
+
+            <div class="container">
+                <!--<div class="weui_cells_title">上传</div>-->
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <div class="weui_uploader">
+                                <div class="weui_uploader_hd weui_cell">
+                                    <div class="weui_cell_bd weui_cell_primary">图片上传</div>
+                                    <div class="weui_cell_ft js_counter">0/5</div>
+                                </div>
+                                <div class="weui_uploader_bd">
+                                    <ul class="weui_uploader_files">
+                                        <!-- 预览图插入到这 -->
+                                    </ul>
+                                    <div class="file">
+                                        <input class="weui_uploader_input js_file file" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>
+                                    </div>
+
+                                    <!--<button id="delete_img">删除</button>-->
+<img src="../common/pic_del.png" id="delete_img" class="file_delete">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_dialog_alert" style="display: none;">
+                <div class="weui_mask"></div>
+                <div class="weui_dialog">
+                    <div class="weui_dialog_hd"><strong class="weui_dialog_title">警告</strong></div>
+                    <div class="weui_dialog_bd">弹窗内容，告知当前页面信息等</div>
+                    <div class="weui_dialog_ft">
+                        <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="weui_cells" >
+            <div class="weui_cells_access">
+                <a id="select_parents" class="weui_cell open-popup" data-target="#contacts_list">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>选择家长</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <span id="selected_cnt"></span>
+                        &nbsp;/&nbsp;
+                        <span id="parents_cnt"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="weui_tabbar">
+        <div class="weui_tabbar_item">
+            <a id="publish" href="javascript:;" class="weui_btn weui_btn_warn" style="margin:10px;">立即发布</a>
+        </div>
+    </div>
+
+
+
+    <div id="contacts_list" class='weui-popup-container'>
+        <div class="weui-popup-modal">
+
+            <div class="weui_tab_bd">
+                <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">
+                    <!--<div class="weui-col-50"><h3>x年x班</h3></div>-->
+                    <div class="weui-cell weui-cell_select weui-col-50">
+                        <div class="weui-cell__bd">
+                            <select style="width: 120px;margin-top: 7px;height: 25px;" class="weui-select weui-col-50" name="select1" id="select1" onchange="class_list(this.options[this.options.selectedIndex].value)">
+
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="weui-col-20" style="margin-top: 6px"><a href="javascript:on_select_all(0,true);" id="checkall" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>
+                    <div class="weui-col-20" style="margin-top: 6px"><a href="javascript:on_select_all(0,false);" id="delcheckall" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>
+                </div>
+                <div id="parents_list">
+
+
+                    <!--<div class="weui_cells weui_cells_checkbox" >-->
+                        <!--<label class="weui_cell weui_check_label" for="c0p0">-->
+                            <!--<div class="weui_cell_hd">-->
+                                <!--<input id="c0p0" type="checkbox" class="weui_check" checked>-->
+                                <!--<i class="weui_icon_checked"></i>-->
+                            <!--</div>-->
+                            <!--<img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;-->
+                            <!--<div class="weui_cell_bd weui_cell_primary">-->
+                                <!--<p>名字0000000000</p>-->
+                            <!--</div>-->
+                        <!--</label>-->
+                    <!--</div>-->
+
+                </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+                
+            </div>
+
+            <div class="weui_tabbar">
+                <div class="weui_tabbar_item">
+                    <a id="select_parant_cancel" href="javascript:;" class="weui_btn weui_btn_primary close-popup" style="margin:10px;">取消</a>
+                </div>
+                <div class="weui_tabbar_item">
+                    <a id="select_parant_save" href="javascript:;" class="weui_btn weui_btn_warn close-popup" style="margin:10px;">保存</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        //star_共几颗
+        function star_count() {
+
+            var start_count = 0;
+
+            for( var i = 0; i < 5; i++ ) {
+
+               console.log($(".star_pic").eq(i).css("backgroundPosition"));
+
+               if($(".star_pic").eq(i).css("backgroundPosition") == "0px 0px")
+               {
+                    start_count++;
+               } else {
+                    break;
+               }
+            }
+alert(start_count);
+            return start_count;
+        }
+
+        //star_显示当前第几颗
+        function star_current(idx) {
+
+            // console.log($(".star_pic").eq(1).css("backgroundPosition"));
+
+            var is_sigle = (idx==0) && ($(".star_pic").eq(1).css("backgroundPosition") == "0px -20px");
+            console.log(is_sigle);
+
+            $(".star_pic").each(function(index,data) {
+
+                if(index==0 && is_sigle) {
+                    if($(data).css("backgroundPosition") == "0px 0px" ) {
+                        $(data).css({ "backgroundPosition":"0px -20px" });
+                    } else {
+                        $(data).css({ "backgroundPosition":"0px 0px" });
+                    }
+                } else {
+                    if(index <= idx) {
+                        $(data).css({ "backgroundPosition":"0px 0px" });
+                    } else {
+                        $(data).css({ "backgroundPosition":"0px -20px" });
+                    }
+                }
+            })
+        }
+
+        function init_field() {
+
+            //
+            var parents_cnt = 0;
+            for( var i = 0; i < parents_array.length; i++ ) {
+                parents_cnt += parents_array[i].data.parent.length;        
+            }
+
+            $("#parents_cnt").text(parents_cnt);
+
+
+            $(document).attr("title","新建评语");
+
+            //init parents count
+            $("#selected_cnt").text(0);
+        }
+
+        function check_valid_publish_data() {
+
+            //
+            if( del_space($("#content").val()).length == 0 ) {
+
+                $.toast("请输入评语内容", "forbidden");
+                return false;
+            }
+
+            //
+            // if( selected_parents_array.length == 0 ) {
+
+            //     $.toast("请选择家长", "forbidden");//先去掉家长
+            //     return false;                
+            // }
+
+            return true;
+        }
+
+        $(document).ready(function(){
+
+            // $(".star_pic").css({ "float":"left", "width":"26px", "height":"20px", "background":"url(star.png) 0 -20px no-repeat"});
+
+            $(".star_pic").each(function(index,data) { 
+
+                $(data).css({ "float":"left", "width":"26px", "height":"20px", "background":"url(star.png) 0px -20px no-repeat"}); 
+
+                data.onclick = function(){
+                    star_current(parseInt(this.name));
+                }
+
+            })
+
+
+            //
+            init_field();
+            //
+            $("#select_parents").click(function(){
+
+//alert(user_id);
+//                alert(corp_id)
+//
+//alert(class_list_json);
+
+
+
+
+
+
+
+//                if( !json_obj_class ) {
+//                    return ;
+//                }
+//
+//                //init contacts list
+               var root = $("#parents_list");
+//
+//                if( root[0].children.length > 0 ) {
+//                    return ;
+//                }
+//alert(class_list_json.data.head_class[0].class_parent[0].name);
+                for(var a=0; a<class_list_json.data.head_class.length; a++){
+                    for(var i=0; i<class_list_json.data.head_class[a].class_parent.length; i++){
+                    var strHtml = '';
+                        strHtml +=' <div class="weui_cells weui_cells_checkbox" >'
+                        strHtml +='    <label style="height:44px" class="weui_cell weui_check_label" for="'+i+a+'">'
+                        strHtml +='   <div class="weui_cell_hd">'
+                        strHtml +='   <input id="'+i+a+'" name="list" type="checkbox" class="weui_check" value="'+class_list_json.data.head_class[a].class_parent[i].phone+'">'
+                        strHtml +='  <i class="weui_icon_checked"></i>'
+                        strHtml +='    </div>'
+                        strHtml +='    <img src="'+class_list_json.data.head_class[a].class_parent[i].avatar+'" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;'
+                        strHtml +='  <div class="weui_cell_bd weui_cell_primary">'
+                        strHtml +='      <p>'+class_list_json.data.head_class[a].class_parent[i].name+'</p>'
+                        strHtml +=' </div>'
+                        strHtml +='  </label>'
+                        strHtml +=' </div>'
+
+                        root.append(strHtml);
+                    }
+
+                }
+
+//                for(var i=0; i<class_list_json.data.head.class_parent.length; i++){
+//                    var strHtml = '';
+//                    strHtml +=' <div class="weui_cells weui_cells_checkbox" >'
+//                    strHtml +='    <label class="weui_cell weui_check_label" for="'+i+'">'
+//                    strHtml +='   <div class="weui_cell_hd">'
+//                    strHtml +='   <input id="'+i+'" name="list" type="checkbox" class="weui_check" value="'+class_list_json.data.head.class_parent[i].name+'">'
+//                    strHtml +='  <i class="weui_icon_checked"></i>'
+//                    strHtml +='    </div>'
+//                    strHtml +='    <img src="../img/headImg.jpg" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;'
+//                    strHtml +='  <div class="weui_cell_bd weui_cell_primary">'
+//                    strHtml +='      <p>'+class_list_json.data.head.class_parent[i].name+'</p>'
+//                    strHtml +=' </div>'
+//                    strHtml +='  </label>'
+//                    strHtml +=' </div>'
+//
+//                    root.append(strHtml);
+//                }
+
+
+                $("#select1").html("");
+
+                   // $("#select1").append("<option value='"+a+"'>"+class_list_json.data.head.class_name+"</option");
+
+
+
+
+                for(var a=0; a<class_list_json.data.head_class.length; a++){
+//                    alert(a);
+//                    alert(class_list_json.data.head_class[a].class_name);
+
+$("#select1").append("<option value='"+a+"'>"+class_list_json.data.head_class[a].class_name+"</option");
+                }
+
+
+
+
+
+
+
+
+
+
+
+//                for(var unionIdx = 0; unionIdx < json.data.head.class_parent.length; unionIdx++) {
+//                    alert("222");
+////alert(json.data.head.class_parent[unionIdx].name);
+//                    var strHtml = '';
+//
+//                    strHtml += '<div class="weui-row weui-no-gutter" style="margin-top:20px;margin-left:20px;margin-right:20px;margin-bottom:5px;">';
+//                    strHtml += '    <div class="weui-col-40"><h4>' + json.data.head.class_parent[unionIdx].name + '</h4></div>';
+//                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(' + unionIdx + ',true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>';
+//                    strHtml += '    <div class="weui-col-30"><a href="javascript:on_select_all(' + unionIdx + ',false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>';
+//                    strHtml += '</div>';
+//                    strHtml += '<div class="weui_cells weui_cells_checkbox" id="c' + unionIdx + '">';
+//
+//                    for( var personIdx = 0; personIdx < parents_array[unionIdx].data.parent.length; personIdx++) {
+//
+//                        var is_checked = false;
+//                        if( json_obj_detail ) {
+//
+//                            for( var i = 0; i < json_obj_detail.data.parent.length; i++ ) {
+//
+//                                if( json_obj_detail.data.parent[i].sid == parents_array[unionIdx].data.parent[personIdx].sid &&
+//                                    json_obj_detail.data.parent[i].id == parents_array[unionIdx].data.parent[personIdx].userid) {
+//
+//                                    is_checked = true;
+//                                    break;
+//                                }
+//                            }
+//                        }
+//
+//                        strHtml += '    <label class="weui_cell weui_check_label" for="' + parents_array[unionIdx].data.parent[personIdx].userid+"|"+parents_array[unionIdx].data.parent[personIdx].sid + '">'
+//                        strHtml += '        <div class="weui_cell_hd">';
+//                        strHtml += '            <input type="checkbox" class="weui_check" id="' + parents_array[unionIdx].data.parent[personIdx].userid+"|"+parents_array[unionIdx].data.parent[personIdx].sid + '"';
+//                        if( is_checked) {
+//                            strHtml += '        checked';
+//                        }
+//                        strHtml += '            >';
+//                        strHtml += '            <i class="weui_icon_checked"></i>';
+//                        strHtml += '        </div>';
+//                        strHtml += '        <img src="' + parents_array[unionIdx].data.parent[personIdx].pic + '" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\">&nbsp;&nbsp;';
+//                        strHtml += '        <div class="weui_cell_bd weui_cell_primary">';
+//                        strHtml += '            <p>' + parents_array[unionIdx].data.parent[personIdx].bakname + '</p>';
+//                        strHtml += '        </div>';
+//                        strHtml += '    </label>';
+//                    }
+//
+//                    strHtml += '</div>';
+//                    strHtml += '';
+//
+//                    console.log(strHtml);
+//                    root.append(strHtml);
+//                }
+            });
+
+            $("#select_parant_cancel").click(function(){
+
+                $('#parents_list input').each(function(key, value) { 
+                    console.log("key[" + key +"] value.id[" + value.id + "]");
+                    value.checked = false;
+                });
+
+                for( var i = 0; i < selected_parents_array.length; i++ ) {
+
+                    // $('"#' + String(selected_parents_array[i]) + '"')[0].checked = true;
+                    document.getElementById(selected_parents_array[i].userid+"|"+selected_parents_array[i].sid).checked = true;
+                }
+            });
+
+
+
+
+
+            $("#select_parant_save").click(function(){
+
+                selected_parents_array.length = 0;
+//                $(":checkbox").each(function(){
+//                    if ($(this).is(':checked')) {
+//                        alert($(this.val()));
+//                    } else {
+//                    }
+//                });
+
+
+                $("input:checkbox[name='list']:checked").each(function() { // 遍历name=test的多选框
+                 //  alert($(this).val());
+                    selected_parents_array.push($(this).val());
+                    $(this).val();
+                });
+//alert(selected_parents_array);
+
+
+                $('#parents_list input').each(function(key, value) {
+//alert($(this.value));
+//                    if( value.checked ) {
+//                        alert(value)
+//                    }
+
+
+
+//                    // console.log("key[" + key +"] value[" + value.id + "]");
+//                    if( value.checked ) {
+//                        var id = value.id.split('|');
+//                        selected_parents_array[selected_parents_array.length] = {userid:id[0],sid:id[1]};
+//                        console.log("idx[" + (selected_parents_array.length-1) +"] id[" + selected_parents_array[selected_parents_array.length-1].userid+"|"+ selected_parents_array[selected_parents_array.length-1].sid + "]");
+//                    }
+                });
+
+                $("#selected_cnt").text(selected_parents_array.length);
+
+            });              
+
+            $("#publish").click(function(){
+
+                if( check_valid_publish_data() ) {
+
+                    if( on_commit(1) ) {
+
+                        $.toast("发布成功");
+                        setTimeout(function() {
+                            window.location = './daily_performance_list.html?corp_id=' + corp_id + '&user_id=' + user_id + '&identity=' + identity + '&type=' + 1;
+                        }, 2000);
+                    } else {
+
+                        $.toast("发布失败", "forbidden");
+                    }
+                }
+            });
+
+        });
+
+        function on_select_all(idx, is_checked) {
+
+            $('#c' + idx + ' input').each(function(key, value) { 
+                // console.log("key[" + key +"] value[" + value.id + "]");
+                value.checked = is_checked;
+            });
+        }
+
+        function collectJsonData(state) {
+alert("1111111"+selected_parents_array);
+            var pics = [];
+            $('#pic_container [name="pic_src"]').each(function(key, value) {
+                pics.push(value.alt);
+            });
+
+            var daily_performance_json = {
+                corpId:corp_id,
+                rate:{
+                    id:"",
+                    createPerson:user_id,
+                    star:star_count(),
+                    content:encodeURI(encodeURI($("#content").val())),
+                    voice:[],
+                    pics:pics,
+                    parent:[],
+                    state:state,
+                    editTime:new Date(),
+                    photo_url_list:photo_url_list,
+                    parent_list:selected_parents_array
+                }
+            };
+
+            for(var i = 0; i < selected_parents_array.length; i++) {
+                daily_performance_json.rate.parent.push({id:selected_parents_array[i].userid,sid:selected_parents_array[i].sid});
+            }
+            
+            console.log("collectJsonData() ************* json str:" + JSON.stringify(daily_performance_json));
+
+            return JSON.stringify(daily_performance_json);
+        }
+
+        function on_commit(state) {//提交按钮
+alert("触发函数")
+            var ret = false;
+
+            $.ajax({
+              dataType:'json',
+              contentType: "application/json",
+              type: 'post', // 提交方式 get/post
+              url: '/wxallrequest_class/teacher_addcomment', // 需要提交的 url
+              data: collectJsonData(state),
+              async: false,
+              beforeSend: function(XHR) {
+                  //console.log('beforeSubmit');
+              },
+              success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                    if( data.success == 0 ) {
+                      ret = true;
+                    } else {
+                      debug_trace('提交失败！ data.success[' + data.success + '] data.desc[' + data.desc + ']');
+                      ret = false;
+                      window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，无法保存数据'));
+                    }
+              },
+              error:function(XHR, ErrText, Exception) {
+                  debug_trace('提交失败！' + ErrText);
+                  ret = false;
+                  window.location = '../common/invalid.html?msg=' + encodeURI(encodeURI('提交数据失败，服务器连接错误'));
+              }
+            });
+
+            return ret;
+        }
+
+        function disp_del_mark(isShow) {
+            $('#pic_container [name="pic_del_mark"]').each(function(key, value) { 
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if(isShow) {
+                    alert(isShow);
+                    value.style.display= "inline";
+                } else {
+                    value.style.display= "none";
+                }
+            });           
+        }
+
+        function is_disp_del_mark() {
+            var node = $('#pic_container [name="pic_del_mark"]:first');
+
+            if( node.length > 0 ) {
+                // console.log("key[" + key +"] value.id[" + value.id + "]");
+                if( node[0].style.display == "inline" ) {
+                    return true;
+                }
+
+                return false;
+            };           
+
+            return false;
+        }
+
+
+        //删除图片
+        function on_pic_del() {
+            if( is_disp_del_mark() ) {
+                disp_del_mark(false);
+            } else {
+                disp_del_mark(true);
+            }
+        }
+
+
+        //删除
+        function on_pic_del_mark(container_id) {
+            var node = $('#' + container_id)[0];
+            node.parentNode.removeChild(node); 
+        }
+
+
+
+        function class_list(index){
+
+           // alert(index);
+            $("#parents_list").html("");
+            var root = $("#parents_list");
+
+                for(var i=0; i<class_list_json.data.head_class[index].class_parent.length; i++)
+                {
+
+                    //  alert(json.data.head.class_parent[i].name);
+                    var strHtml = '';
+//                    strHtml +=' <div class="weui-row weui-no-gutter" style="margin-left:20px;margin-right:20px;">';
+//                    strHtml +=' <div class="weui-col-50"><h3>x年x班</h3></div>';
+//                    strHtml +='  <div class="weui-col-20"><a href="javascript:on_select_all(0,true);" class="weui_btn weui_btn_mini weui_btn_default">&nbsp;&nbsp;全选&nbsp;&nbsp;</a></div>'
+//                    strHtml +='   <div class="weui-col-20"><a href="javascript:on_select_all(0,false);" class="weui_btn weui_btn_mini weui_btn_default">全不选</a></div>'
+//                    strHtml +=' </div>'
+                    strHtml +=' <div class="weui_cells weui_cells_checkbox" >'
+                    strHtml +='    <label style="height:44px" class="weui_cell weui_check_label" for="'+i+index+'">'
+                    strHtml +='   <div class="weui_cell_hd">'
+                    strHtml +='   <input id="'+i+index+'" name="list" type="checkbox" class="weui_check" value="'+class_list_json.data.head_class[index].class_parent[i].phone+'">'
+                    strHtml +='  <i class="weui_icon_checked"></i>'
+                    strHtml +='    </div>'
+                    strHtml +='    <img src="'+class_list_json.data.head_class[a].class_parent[i].avatar+'" style="width: 2rem;" onerror="this.onerror=null; this.src=\"../img/headImg.jpg\"">&nbsp;&nbsp;'
+                    strHtml +='  <div class="weui_cell_bd weui_cell_primary">'
+                    strHtml +='      <p>'+class_list_json.data.head_class[index].class_parent[i].name+'</p>'
+                    strHtml +=' </div>'
+                    strHtml +='  </label>'
+                    strHtml +=' </div>'
+
+                    root.append(strHtml);
+                }
+
+
+        }
+
+    </script>
+
+    <script>
+        $(function () {
+var num_num=0
+
+            //声明变量删除ID号
+            var delete_num=0;
+
+            // 允许上传的图片类型
+            var allowTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+            // 1024KB，也就是 1MB
+            var maxSize = 1024 * 1024;
+            // 图片最大宽度
+            var maxWidth = 300;
+            // 最大上传图片数量
+            var maxCount = 10;
+            $('.js_file').on('change', function (event) {
+                var files = event.target.files;
+
+                // 如果没有选中文件，直接返回
+                if (files.length === 0) {
+                    return;
+                }
+
+                for (var i = 0, len = files.length; i < len; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+
+                    // 如果类型不在允许的类型范围内
+                    if (allowTypes.indexOf(file.type) === -1) {
+                        $.weui.alert({text: '该类型不允许上传'});
+                        continue;
+                    }
+
+                    if (file.size > maxSize) {
+                        $.weui.alert({text: '图片太大，不允许上传'});
+                        continue;
+                    }
+
+                    if ($('.weui_uploader_file').length >= maxCount) {
+                        $.weui.alert({text: '最多只能上传' + maxCount + '张图片'});
+                        return;
+                    }
+
+                    reader.onload = function (e) {
+                        var img = new Image();
+                        img.onload = function () {
+                            // 不要超出最大宽度
+                            var w = Math.min(maxWidth, img.width);
+                            // 高度按比例计算
+                            var h = img.height * (w / img.width);
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext('2d');
+                            // 设置 canvas 的宽度和高度
+                            canvas.width = w;
+                            canvas.height = h;
+                            ctx.drawImage(img, 0, 0, w, h);
+
+                            var base64 = canvas.toDataURL('image/png');
+                          //  alert(base64);
+                            var formData = new FormData();
+                           // alert(formData);
+                            formData.append("imgData",canvas.toDataURL('image/png'));
+                            $.ajax({
+                                url: '/wxedu/upload/image',
+                                type: 'post',
+                                async: false,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                data:formData,
+                                success: function (data) {
+                                    var jsondata=JSON.parse(JSON.stringify(data));
+                                   //  alert(JSON.stringify(data));
+                                   // alert(jsondata.data.url);
+                                    num_num++
+
+                                   if(num_num>1){
+                                       photo_url_list+="||"+jsondata.data.url;
+                                   }else {
+                                       photo_url_list+=jsondata.data.url
+                                   }
+                                 //alert(photo_url_list)
+                                },
+                                error: function(){
+                                    alert("获取数据失败");
+                                }
+                            })
+
+                            delete_num++;
+
+                            var $preview = $('<li id="'+delete_num+'" class="weui_uploader_file weui_uploader_status" style="background-image:url(' + base64 + ')"><img id="pic_container_img" name="pic_del_mark" src="../common/pic_del_mark.png" style="position:absolute;top:0px;left:0px;width:30px; display:none " onclick="on_pic_del_mark(&quot;' + delete_num + '&quot;)">   <div class="weui_uploader_status_content">0%</div><span style="display:none;">' + base64 + '</span></li>');
+                            $('.weui_uploader_files').append($preview);
+                            var num = $('.weui_uploader_file').length;
+                            $('.js_counter').text(num + '/' + maxCount);
+
+                            var progress = 0;
+                            //进度
+                            function uploading() {
+
+                                $preview.find('.weui_uploader_status_content').text(++progress + '%');
+
+                                if (progress < 100) {
+                                    setTimeout(uploading, 30);
+                                }
+                                else {
+                                    // 如果是失败，塞一个失败图标
+                                    //$preview.find('.weui_uploader_status_content').html('<i class="weui_icon_warn"></i>');
+                                    $preview.removeClass('weui_uploader_status').find('.weui_uploader_status_content').remove();
+                                }
+                            }
+                            setTimeout(uploading, 30);
+                        };
+
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            $("#submit").on('click',function(){
+
+                //alert($("span").eq(0).html());
+                //alert($("span").eq(1).html());
+                //alert($("span").eq(2).html());
+
+                var imgData=$("span").eq(0).html();
+                var formData = new FormData();
+                var aaa= formData.append("imgData",imgData);
+//alert(aaa);
+                $.ajsx({
+                    url:'/api/v1/lib/images/upload',
+                    type: "post",
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data:aaa,
+                    success: function(data){
+                    }
+
+
+
+                })
+
+
+            });
+        });
+        //@ sourceURL=pen.js
+
+
+
+        function on_pic_del_mark(id) {
+            var node = $('#' + id)[0];
+            node.parentNode.removeChild(node);
+
+
+        }
+
+
+
+$("#delete_img").on('click',function(){
+
+    $(".weui_uploader_file img").each(function(){
+        $(this).show();
+    })
+
+
+})
+
+        $("#checkall").click(function() {
+          //  alert("11111111");
+            $(".weui_check").each(function() {
+                $(this).prop("checked", true);
+            });
+        });
+
+        $("#delcheckall").click(function() {
+            $(".weui_check").each(function() {
+                $(this).prop("checked", false);
+            });
+        });
+
+    </script>
+
+
+</body>
+</html>
